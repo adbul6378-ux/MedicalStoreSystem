@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Attendance</title>
+
+<style>
+/* =========================
+   RESET
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+    background:#eef6ff;
+    color:#102d5c;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:255px;
+    height:100vh;
+    background:linear-gradient(180deg,#061d3c,#052957);
+    color:white;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo-area{
+    height:105px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#f9b62d,#fff0a5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#08254b;
+    font-size:30px;
+}
+
+.logo-text h2{
+    font-family:Georgia,serif;
+    font-size:18px;
+    line-height:21px;
+}
+
+.logo-text p{
+    font-size:10px;
+    color:#d7e5f9;
+    margin-top:5px;
+}
+
+.menu{
+    padding:14px 10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#e5efff;
+    text-decoration:none;
+    padding:11px 14px;
+    margin:3px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.09);
+}
+
+.menu a.active{
+    background:linear-gradient(90deg,#0865d8,#147ee8);
+    box-shadow:0 5px 14px rgba(0,110,230,.25);
+    color:white;
+    font-weight:600;
+}
+
+.menu-icon{
+    width:22px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-bottom{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:170px;
+    background:
+      linear-gradient(transparent,rgba(3,25,53,.9)),
+      linear-gradient(135deg,#123e66,#09284d);
+    padding:90px 22px 15px;
+}
+
+.quote{
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:20px;
+}
+
+/* =========================
+   MAIN
+========================= */
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:68px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    gap:25px;
+    border-bottom:1px solid #dce9f7;
+}
+
+.hamburger{
+    font-size:25px;
+    color:#092e61;
+    cursor:pointer;
+}
+
+.search{
+    width:440px;
+    height:39px;
+    background:#edf5fd;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    color:#7590b1;
+}
+
+.search input{
+    border:none;
+    outline:none;
+    background:transparent;
+    width:100%;
+    padding-left:12px;
+    color:#193e70;
+}
+
+.top-spacer{
+    flex:1;
+}
+
+.notification{
+    position:relative;
+    font-size:21px;
+    color:#062c61;
+}
+
+.notification span{
+    position:absolute;
+    top:-7px;
+    right:-7px;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:#e7292f;
+    color:white;
+    font-size:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+}
+
+.profile-img{
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#d6e6f8,#8ba6c3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.profile-info strong{
+    font-size:12px;
+    display:block;
+}
+
+.profile-info small{
+    font-size:9px;
+    color:#7790ad;
+}
+
+/* =========================
+   CONTENT
+========================= */
+.content{
+    padding:18px 16px 25px;
+}
+
+.page-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 295px;
+    gap:18px;
+}
+
+/* =========================
+   BANNER
+========================= */
+.banner{
+    height:98px;
+    border-radius:10px;
+    overflow:hidden;
+    background:
+      linear-gradient(90deg,rgba(4,35,73,.96),rgba(8,47,87,.55)),
+      linear-gradient(135deg,#315b77,#98b79e);
+    display:flex;
+    align-items:center;
+    padding:20px;
+    color:white;
+    position:relative;
+}
+
+.banner-icon{
+    width:56px;
+    height:56px;
+    border-radius:13px;
+    background:#e7f3ff;
+    color:#1470d7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    margin-right:14px;
+}
+
+.banner h1{
+    font-family:Georgia,serif;
+    font-size:25px;
+}
+
+.banner p{
+    font-size:12px;
+    margin-top:4px;
+}
+
+.banner-quote{
+    margin-left:auto;
+    max-width:180px;
+    text-align:center;
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:13px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:16px;
+}
+
+.card{
+    background:white;
+    border:1px solid #e0edf9;
+    border-radius:11px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+}
+
+.stat-card{
+    padding:15px;
+    min-height:120px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.stat-icon{
+    width:53px;
+    height:53px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:23px;
+}
+
+.blue{
+    background:#e0f0ff;
+    color:#1478e5;
+}
+
+.green{
+    background:#dff8ed;
+    color:#079c6d;
+}
+
+.purple{
+    background:#eee5ff;
+    color:#6438d5;
+}
+
+.red{
+    background:#ffe2e3;
+    color:#e52f38;
+}
+
+.stat-info{
+    flex:1;
+}
+
+.stat-info p{
+    color:#174680;
+    font-size:12px;
+}
+
+.stat-info h2{
+    font-size:25px;
+    color:#092e68;
+    margin:4px 0;
+}
+
+.stat-info small{
+    font-size:9px;
+    color:#5578a5;
+}
+
+.stat-info small.up{
+    color:#059c6a;
+}
+
+.stat-arrow{
+    color:#7897bb;
+}
+
+/* =========================
+   CHART SECTION
+========================= */
+.charts{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:12px;
+    margin-top:13px;
+}
+
+.chart-card{
+    padding:17px;
+    min-height:245px;
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-weight:700;
+    font-size:14px;
+    color:#0b2e62;
+}
+
+.legend{
+    display:flex;
+    gap:15px;
+    font-size:10px;
+    font-weight:400;
+}
+
+.dot{
+    display:inline-block;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    margin-right:4px;
+}
+
+.present-dot{background:#159b72}
+.absent-dot{background:#ed343b}
+.late-dot{background:#f4a928}
+
+/* BAR CHART */
+.bar-chart{
+    height:165px;
+    margin-top:15px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-around;
+    border-bottom:1px solid #d9e6f3;
+    position:relative;
+}
+
+.bar-group{
+    width:11%;
+    height:145px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:3px;
+}
+
+.bar{
+    width:14px;
+    border-radius:4px 4px 0 0;
+}
+
+.bar.present{height:100px;background:#25a57e}
+.bar.absent{height:43px;background:#ee767b}
+.bar.late{height:27px;background:#f4b432}
+
+.day{
+    position:absolute;
+    bottom:-20px;
+    font-size:9px;
+    color:#54739c;
+}
+
+.bar-group .day{
+    position:static;
+    align-self:flex-end;
+    margin-bottom:-21px;
+}
+
+/* DONUT */
+.donut-area{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin-top:17px;
+}
+
+.donut{
+    width:158px;
+    height:158px;
+    border-radius:50%;
+    background:conic-gradient(
+        #37ae9e 0deg 135deg,
+        #4e21bc 135deg 190deg,
+        #8a44a7 190deg 220deg,
+        #e99b26 220deg 275deg,
+        #ef7275 275deg 330deg,
+        #2c70bd 330deg 360deg
+    );
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.donut::after{
+    content:"";
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    background:white;
+    position:absolute;
+}
+
+.donut-text{
+    position:absolute;
+    z-index:2;
+    text-align:center;
+}
+
+.donut-text strong{
+    display:block;
+    font-size:21px;
+    color:#082d68;
+}
+
+.donut-text small{
+    font-size:9px;
+    color:#6a83a2;
+}
+
+.class-list{
+    font-size:10px;
+    min-width:145px;
+}
+
+.class-list div{
+    display:flex;
+    justify-content:space-between;
+    margin:9px 0;
+}
+
+.class-name::before{
+    content:"";
+    display:inline-block;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#36aa9e;
+    margin-right:7px;
+}
+
+/* =========================
+   TABLE
+========================= */
+.table-card{
+    margin-top:14px;
+    overflow:hidden;
+}
+
+.table-header{
+    padding:15px 17px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid #e0ebf7;
+}
+
+.table-header h3{
+    font-size:14px;
+    margin-right:auto;
+}
+
+.select,
+.table-search{
+    height:31px;
+    border:1px solid #d9e7f5;
+    border-radius:7px;
+    background:white;
+    color:#385a85;
+    padding:0 10px;
+    outline:none;
+    font-size:10px;
+}
+
+.table-search{
+    width:210px;
+}
+
+.apply{
+    height:31px;
+    border:none;
+    border-radius:7px;
+    padding:0 18px;
+    background:#0872df;
+    color:white;
+    cursor:pointer;
+    font-size:11px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:10px;
+}
+
+thead{
+    background:#f7fbff;
+}
+
+th{
+    color:#173f72;
+    font-size:9px;
+    padding:10px 7px;
+    text-align:left;
+}
+
+td{
+    padding:8px 7px;
+    border-top:1px solid #edf3f9;
+    color:#345b89;
+}
+
+.student{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:500;
+    color:#214d82;
+}
+
+.student-photo{
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#d6e4f2,#8ba1b8);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:12px;
+}
+
+.status-btn{
+    border:none;
+    width:23px;
+    height:23px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.status-btn.present{
+    background:#c8f1e2;
+    color:#07926b;
+}
+
+.status-btn.absent{
+    background:#ffd4d7;
+    color:#e63139;
+}
+
+.status-btn.late{
+    background:#ffe8c4;
+    color:#dc8a0a;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:9px;
+}
+
+.status.present{
+    background:#d8f5eb;
+    color:#07926b;
+}
+
+.status.absent{
+    background:#ffdfe1;
+    color:#e5323a;
+}
+
+.status.late{
+    background:#fff0d9;
+    color:#d88605;
+}
+
+.more{
+    cursor:pointer;
+    font-size:17px;
+    color:#4b73a1;
+}
+
+.pagination{
+    padding:13px 17px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:10px;
+    color:#58789f;
+}
+
+.pages{
+    display:flex;
+    gap:5px;
+}
+
+.page-btn{
+    width:28px;
+    height:28px;
+    border:1px solid #e0ebf6;
+    background:white;
+    border-radius:6px;
+    cursor:pointer;
+    color:#365d8b;
+}
+
+.page-btn.active{
+    background:#0872df;
+    color:white;
+    border-color:#0872df;
+}
+
+/* =========================
+   RIGHT SIDEBAR
+========================= */
+.right{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+.right-card{
+    background:white;
+    border:1px solid #e0edf9;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+    padding:15px;
+}
+
+.right-title{
+    display:flex;
+    gap:9px;
+    align-items:center;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:13px;
+}
+
+.date-input{
+    width:100%;
+    height:33px;
+    border:1px solid #dce9f6;
+    border-radius:7px;
+    padding:0 9px;
+    color:#234d82;
+    margin-bottom:12px;
+}
+
+.calendar-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:bold;
+    font-size:12px;
+    margin:7px 0 12px;
+}
+
+.calendar{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+    text-align:center;
+    font-size:9px;
+}
+
+.calendar div{
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:5px;
+    color:#375d8b;
+}
+
+.calendar .week{
+    font-weight:bold;
+    color:#173f72;
+}
+
+.calendar .selected{
+    background:#0a70da;
+    color:white;
+}
+
+.quick button{
+    width:100%;
+    height:38px;
+    border:1px solid #d9e8f5;
+    border-radius:7px;
+    margin-bottom:9px;
+    cursor:pointer;
+    text-align:left;
+    padding:0 12px;
+    font-size:10px;
+    font-weight:600;
+}
+
+.quick .mark{
+    background:#328be5;
+    color:white;
+}
+
+.quick .report{
+    background:#d8f5ee;
+    color:#078d6a;
+}
+
+.quick .download{
+    background:#eee5ff;
+    color:#6033c6;
+}
+
+.quick .summary{
+    background:#fff0dc;
+    color:#b36a08;
+}
+
+.summary-content{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.small-donut{
+    width:91px;
+    height:91px;
+    border-radius:50%;
+    background:conic-gradient(#2ba78f 0 96.6%,#e83940 96.6% 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+.small-donut::after{
+    content:"";
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:white;
+    position:absolute;
+}
+
+.small-donut span{
+    z-index:2;
+    font-size:13px;
+    font-weight:bold;
+    color:#092f69;
+}
+
+.summary-list{
+    flex:1;
+    font-size:9px;
+}
+
+.summary-list div{
+    display:flex;
+    justify-content:space-between;
+    margin:8px 0;
+}
+
+.recent-item{
+    padding:9px 0;
+    border-bottom:1px solid #edf3f9;
+    font-size:9px;
+    display:flex;
+    gap:8px;
+}
+
+.activity-icon{
+    width:22px;
+    height:22px;
+    background:#e5f2ff;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#0872df;
+}
+
+.recent-item small{
+    display:block;
+    color:#7890ab;
+    margin-top:3px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:1100px){
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .page-grid{
+        grid-template-columns:1fr;
+    }
+
+    .right{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+    .sidebar{
+        left:-255px;
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .topbar{
+        padding:0 12px;
+    }
+
+    .search{
+        width:230px;
+    }
+
+    .stats,
+    .charts,
+    .right{
+        grid-template-columns:1fr;
+    }
+
+    .table-card{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:850px;
+    }
+
+    .banner-quote{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo-area">
+        <div class="logo">📖</div>
+        <div class="logo-text">
+            <h2>Al-Hidayah<br>Public School</h2>
+            <p>Learn • Grow • Succeed</p>
+        </div>
+    </div>
+
+    <nav class="menu">
+
+        <a href="#" data-page="Dashboard">
+            <span class="menu-icon">⌂</span> Dashboard
+        </a>
+
+        <a href="#" data-page="Students">
+            <span class="menu-icon">👥</span> Students
+        </a>
+
+        <a href="#" data-page="Teachers">
+            <span class="menu-icon">👨‍🏫</span> Teachers
+        </a>
+
+        <a href="#" data-page="Classes">
+            <span class="menu-icon">📖</span> Classes
+        </a>
+
+        <a href="#" class="active" data-page="Attendance">
+            <span class="menu-icon">☑</span> Attendance
+        </a>
+
+        <a href="#" data-page="Fees & Accounts">
+            <span class="menu-icon">💵</span> Fees & Accounts
+        </a>
+
+        <a href="#" data-page="Exams & Results">
+            <span class="menu-icon">📋</span> Exams & Results
+        </a>
+
+        <a href="#" data-page="Academics">
+            <span class="menu-icon">🎓</span> Academics
+        </a>
+
+        <a href="#" data-page="Timetable">
+            <span class="menu-icon">🗓</span> Timetable
+        </a>
+
+        <a href="#" data-page="Library">
+            <span class="menu-icon">📚</span> Library
+        </a>
+
+        <a href="#" data-page="Transport">
+            <span class="menu-icon">🚌</span> Transport
+        </a>
+
+        <a href="#" data-page="Health">
+            <span class="menu-icon">♥</span> Health
+        </a>
+
+        <a href="#" data-page="Parents">
+            <span class="menu-icon">👨‍👩‍👧</span> Parents
+        </a>
+
+        <a href="#" data-page="Communication">
+            <span class="menu-icon">💬</span> Communication
+        </a>
+
+        <a href="#" data-page="Reports">
+            <span class="menu-icon">📑</span> Reports
+        </a>
+
+        <a href="#" data-page="Settings">
+            <span class="menu-icon">⚙</span> Settings
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="quote">
+            Discipline<br>
+            Builds<br>
+            Bright Futures
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div class="hamburger" id="hamburger">☰</div>
+
+        <div class="search">
+            🔍
+            <input type="text" id="globalSearch"
+                   placeholder="Search students, teachers, classes...">
+        </div>
+
+        <div class="top-spacer"></div>
+
+        <div class="notification">
+            🔔
+            <span>0</span>
+        </div>
+
+        <div class="profile">
+            <div class="profile-img">👨🏻</div>
+            <div class="profile-info">
+                <strong>Admin</strong>
+                <small>Administrator</small>
+            </div>
+            <span>⌄</span>
+        </div>
+
+    </header>
+
+
+    <div class="content">
+
+        <div class="page-grid">
+
+            <!-- =========================
+                 LEFT CONTENT
+            ========================== -->
+            <section>
+
+                <!-- BANNER -->
+                <div class="banner">
+
+                    <div class="banner-icon">☑</div>
+
+                    <div>
+                        <h1>Attendance</h1>
+                        <p>Track and manage student & teacher attendance easily.</p>
+                    </div>
+
+                    <div class="banner-quote">
+                        “Regular Attendance<br>
+                        Builds Better Learners”
+                    </div>
+
+                </div>
+
+
+                <!-- STAT CARDS -->
+                <div class="stats">
+
+                    <div class="card stat-card">
+                        <div class="stat-icon blue">👥</div>
+
+                        <div class="stat-info">
+                            <p>Total Students</p>
+                            <h2>1,248</h2>
+                            <small class="up">⬆ +5% <span>than last month</span></small>
+                        </div>
+
+                        <div class="stat-arrow">›</div>
+                    </div>
+
+
+                    <div class="card stat-card">
+                        <div class="stat-icon green">👥</div>
+
+                        <div class="stat-info">
+                            <p>Total Teachers</p>
+                            <h2>68</h2>
+                            <small class="up">⬆ +2% <span>than last month</span></small>
+                        </div>
+
+                        <div class="stat-arrow">›</div>
+                    </div>
+
+
+                    <div class="card stat-card">
+                        <div class="stat-icon purple">☑</div>
+
+                        <div class="stat-info">
+                            <p>Today's Attendance</p>
+                            <h2 id="todayAttendance">1,205</h2>
+                            <small class="up">● 96.6% present</small>
+                        </div>
+
+                        <div class="stat-arrow">›</div>
+                    </div>
+
+
+                    <div class="card stat-card">
+                        <div class="stat-icon red">⏰</div>
+
+                        <div class="stat-info">
+                            <p>Absent Today</p>
+                            <h2 id="absentCount">42</h2>
+                            <small style="color:#e3333b">● 3.4% absent</small>
+                        </div>
+
+                        <div class="stat-arrow">›</div>
+                    </div>
+
+                </div>
+
+
+                <!-- CHARTS -->
+                <div class="charts">
+
+                    <!-- BAR CHART -->
+                    <div class="card chart-card">
+
+                        <div class="card-title">
+                            <span>📖 &nbsp;Attendance Overview</span>
+
+                            <div class="legend">
+                                <span><i class="dot present-dot"></i>Present</span>
+                                <span><i class="dot absent-dot"></i>Absent</span>
+                                <span><i class="dot late-dot"></i>Late</span>
+                            </div>
+                        </div>
+
+                        <div class="bar-chart">
+
+                            <div class="bar-group">
+                                <div class="bar present"></div>
+                                <div class="bar absent"></div>
+                                <div class="bar late"></div>
+                                <span class="day">Mon</span>
+                            </div>
+
+                            <div class="bar-group">
+                                <div class="bar present"></div>
+                                <div class="bar absent"></div>
+                                <div class="bar late"></div>
+                                <span class="day">Tue</span>
+                            </div>
+
+                            <div class="bar-group">
+                                <div class="bar present"></div>
+                                <div class="bar absent"></div>
+                                <div class="bar late"></div>
+                                <span class="day">Wed</span>
+                            </div>
+
+                            <div class="bar-group">
+                                <div class="bar present"></div>
+                                <div class="bar absent"></div>
+                                <div class="bar late"></div>
+                                <span class="day">Thu</span>
+                            </div>
+
+                            <div class="bar-group">
+                                <div class="bar present"></div>
+                                <div class="bar absent"></div>
+                                <div class="bar late"></div>
+                                <span class="day">Fri</span>
+                            </div>
+
+                            <div class="bar-group">
+                                <div class="bar present"></div>
+                                <div class="bar absent"></div>
+                                <div class="bar late"></div>
+                                <span class="day">Sat</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DONUT -->
+                    <div class="card chart-card">
+
+                        <div class="card-title">
+                            <span>☑ &nbsp;Attendance by Class</span>
+                            <a href="#" style="font-size:9px;color:#0872df;text-decoration:none">
+                                View Report →
+                            </a>
+                        </div>
+
+                        <div class="donut-area">
+
+                            <div class="donut">
+                                <div class="donut-text">
+                                    <strong>96.6%</strong>
+                                    <small>Overall Attendance</small>
+                                </div>
+                            </div>
+
+                            <div class="class-list">
+
+                                <div>
+                                    <span class="class-name">Class 6A</span>
+                                    <b>98%</b>
+                                </div>
+
+                                <div>
+                                    <span class="class-name">Class 7A</span>
+                                    <b>95%</b>
+                                </div>
+
+                                <div>
+                                    <span class="class-name">Class 8A</span>
+                                    <b>96%</b>
+                                </div>
+
+                                <div>
+                                    <span class="class-name">Class 9A</span>
+                                    <b>93%</b>
+                                </div>
+
+                                <div>
+                                    <span class="class-name">Class 10A</span>
+                                    <b>97%</b>
+                                </div>
+
+                                <div>
+                                    <span class="class-name">Class 11A</span>
+                                    <b>94%</b>
+                                </div>
+
+                                <div>
+                                    <span class="class-name">Class 12A</span>
+                                    <b>92%</b>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STUDENT ATTENDANCE -->
+                <div class="card table-card">
+
+                    <div class="table-header">
+
+                        <h3>☑ &nbsp; Student Attendance</h3>
+
+                        <select class="select" id="classFilter">
+                            <option value="All">All Classes</option>
+                            <option value="6A">Class 6A</option>
+                            <option value="7A">Class 7A</option>
+                            <option value="8A">Class 8A</option>
+                            <option value="9A">Class 9A</option>
+                            <option value="10A">Class 10A</option>
+                            <option value="11A">Class 11A</option>
+                            <option value="12A">Class 12A</option>
+                        </select>
+
+                        <input
+                            type="text"
+                            class="table-search"
+                            id="studentSearch"
+                            placeholder="🔍 Search student..."
+                        >
+
+                        <button class="apply" id="applyBtn">Apply</button>
+
+                    </div>
+
+
+                    <div style="overflow-x:auto">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+
+                                    <th>#</th>
+                                    <th>Photo</th>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Mon<br>15 Sep</th>
+                                    <th>Tue<br>16 Sep</th>
+                                    <th>Wed<br>17 Sep</th>
+                                    <th>Thu<br>18 Sep</th>
+                                    <th>Fri<br>19 Sep</th>
+                                    <th>Attendance %</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="studentTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="pagination">
+
+                        <span id="showingText">
+                            Showing 1 to 8 of 32 students
+                        </span>
+
+                        <div class="pages">
+
+                            <button class="page-btn" id="prevPage">‹</button>
+
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+
+                            <button class="page-btn" id="nextPage">›</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 RIGHT SIDEBAR
+            ========================== -->
+            <aside class="right">
+
+                <!-- DATE -->
+                <div class="right-card">
+
+                    <div class="right-title">
+                        📅 Select Date
+                    </div>
+
+                    <input
+                        type="date"
+                        class="date-input"
+                        id="datePicker"
+                        value="2025-09-15"
+                    >
+
+                    <div class="calendar-head">
+                        <span>‹</span>
+                        <span>September 2025</span>
+                        <span>›</span>
+                    </div>
+
+                    <div class="calendar">
+
+                        <div class="week">Mon</div>
+                        <div class="week">Tue</div>
+                        <div class="week">Wed</div>
+                        <div class="week">Thu</div>
+                        <div class="week">Fri</div>
+                        <div class="week">Sat</div>
+                        <div class="week">Sun</div>
+
+                        <div>1</div>
+                        <div>2</div>
+                        <div>3</div>
+                        <div>4</div>
+                        <div>5</div>
+                        <div>6</div>
+                        <div>7</div>
+
+                        <div>8</div>
+                        <div>9</div>
+                        <div>10</div>
+                        <div>11</div>
+                        <div>12</div>
+                        <div>13</div>
+                        <div>14</div>
+
+                        <div class="selected">15</div>
+                        <div>16</div>
+                        <div>17</div>
+                        <div>18</div>
+                        <div>19</div>
+                        <div>20</div>
+                        <div>21</div>
+
+                        <div>22</div>
+                        <div>23</div>
+                        <div>24</div>
+                        <div>25</div>
+                        <div>26</div>
+                        <div>27</div>
+                        <div>28</div>
+
+                        <div>29</div>
+                        <div>30</div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+                <div class="right-card quick">
+
+                    <div class="right-title">
+                        ⚡ Quick Actions
+                    </div>
+
+                    <button class="mark" id="markAttendance">
+                        ☑ &nbsp; Mark Attendance
+                    </button>
+
+                    <button class="report" id="viewReport">
+                        ▣ &nbsp; View Attendance Report
+                    </button>
+
+                    <button class="download" id="downloadReport">
+                        ♟ &nbsp; Download Report (PDF)
+                    </button>
+
+                    <button class="summary" id="dailySummary">
+                        ▣ &nbsp; Daily Summary
+                    </button>
+
+                </div>
+
+
+                <!-- TODAY SUMMARY -->
+                <div class="right-card">
+
+                    <div class="right-title">
+                        ⚡ Today's Summary
+                    </div>
+
+                    <div class="summary-content">
+
+                        <div class="small-donut">
+                            <span>96.6%</span>
+                        </div>
+
+                        <div class="summary-list">
+
+                            <div>
+                                <span>🟢 Present</span>
+                                <b>1,205</b>
+                            </div>
+
+                            <div>
+                                <span>🔴 Absent</span>
+                                <b>42</b>
+                            </div>
+
+                            <div>
+                                <span>🟠 Late</span>
+                                <b>18</b>
+                            </div>
+
+                            <div>
+                                <span>Total Students</span>
+                                <b>1,248</b>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT ACTIVITY -->
+                <div class="right-card">
+
+                    <div class="right-title">
+                        ◉ Recent Activity
+                    </div>
+
+                    <div class="recent-item">
+
+                        <div class="activity-icon">☑</div>
+
+                        <div>
+                            Attendance marked for Class 6A
+                            <small>09:15 AM</small>
+                        </div>
+
+                    </div>
+
+                    <div class="recent-item">
+
+                        <div class="activity-icon">☑</div>
+
+                        <div>
+                            Attendance marked for Class 7A
+                            <small>09:10 AM</small>
+                        </div>
+
+                    </div>
+
+                    <div class="recent-item">
+
+                        <div class="activity-icon">!</div>
+
+                        <div>
+                            Late entry for Ali Raza
+                            <small>08:50 AM</small>
+                        </div>
+
+                    </div>
+
+                    <div class="recent-item">
+
+                        <div class="activity-icon">♟</div>
+
+                        <div>
+                            Attendance marked for Class 9A
+                            <small>08:40 AM</small>
+                        </div>
+
+                    </div>
+
+                    <div style="
+                        text-align:right;
+                        margin-top:10px;
+                        font-size:9px;
+                        color:#0872df;
+                        cursor:pointer;
+                    ">
+                        View All →
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+/* =====================================
+   STUDENT DATA
+===================================== */
+
+const students = [
+    {
+        name:"Ahmed Raza",
+        class:"6A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+    {
+        name:"Ayesha Khan",
+        class:"6A",
+        days:["P","P","A","P","P"],
+        attendance:80,
+        status:"Absent"
+    },
+    {
+        name:"Ali Hamza",
+        class:"6A",
+        days:["P","P","P","L","P"],
+        attendance:80,
+        status:"Late"
+    },
+    {
+        name:"Fatima Noor",
+        class:"6A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+    {
+        name:"Usman Tariq",
+        class:"6A",
+        days:["P","A","P","P","P"],
+        attendance:80,
+        status:"Absent"
+    },
+    {
+        name:"Sara Ahmed",
+        class:"6A",
+        days:["P","P","P","P","L"],
+        attendance:80,
+        status:"Late"
+    },
+    {
+        name:"Zainab Fatima",
+        class:"6A",
+        days:["P","P","A","P","P"],
+        attendance:80,
+        status:"Absent"
+    },
+    {
+        name:"Bilal Ahmed",
+        class:"6A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+
+    {
+        name:"Hassan Ali",
+        class:"7A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+
+    {
+        name:"Maryam Shah",
+        class:"7A",
+        days:["P","A","P","P","P"],
+        attendance:80,
+        status:"Absent"
+    },
+
+    {
+        name:"Hamza Aslam",
+        class:"8A",
+        days:["P","P","L","P","P"],
+        attendance:80,
+        status:"Late"
+    },
+
+    {
+        name:"Iqra Noor",
+        class:"8A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+
+    {
+        name:"Danish Ahmed",
+        class:"9A",
+        days:["A","P","P","P","P"],
+        attendance:80,
+        status:"Absent"
+    },
+
+    {
+        name:"Hira Khan",
+        class:"9A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+
+    {
+        name:"Saad Malik",
+        class:"10A",
+        days:["P","P","P","L","P"],
+        attendance:80,
+        status:"Late"
+    },
+
+    {
+        name:"Anaya Ali",
+        class:"10A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+
+    {
+        name:"Usman Shah",
+        class:"11A",
+        days:["P","P","A","P","P"],
+        attendance:80,
+        status:"Absent"
+    },
+
+    {
+        name:"Laiba Tariq",
+        class:"11A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    },
+
+    {
+        name:"Abdullah Khan",
+        class:"12A",
+        days:["P","P","P","P","L"],
+        attendance:80,
+        status:"Late"
+    },
+
+    {
+        name:"Areeba Fatima",
+        class:"12A",
+        days:["P","P","P","P","P"],
+        attendance:100,
+        status:"Present"
+    }
+];
+
+
+/* =====================================
+   RENDER TABLE
+===================================== */
+
+const table = document.getElementById("studentTable");
+
+function renderTable(){
+
+    const search =
+        document.getElementById("studentSearch").value.toLowerCase();
+
+    const selectedClass =
+        document.getElementById("classFilter").value;
+
+    let filtered = students.filter(student => {
+
+        const matchesClass =
+            selectedClass === "All" ||
+            student.class === selectedClass;
+
+        const matchesSearch =
+            student.name.toLowerCase().includes(search);
+
+        return matchesClass && matchesSearch;
+
+    });
+
+    table.innerHTML = "";
+
+    filtered.slice(0,8).forEach((student,index)=>{
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>
+                <input type="checkbox" class="studentCheck">
+            </td>
+
+            <td>${index+1}</td>
+
+            <td>
+                <div class="student-photo">👤</div>
+            </td>
+
+            <td>
+                <div class="student">
+                    ${student.name}
+                </div>
+            </td>
+
+            <td>${student.class}</td>
+
+            ${student.days.map((day,dayIndex)=>`
+
+                <td>
+                    <button
+                        class="status-btn ${getStatusClass(day)}"
+                        onclick="changeAttendance(${students.indexOf(student)},${dayIndex},this)">
+                        ${day}
+                    </button>
+                </td>
+
+            `).join("")}
+
+            <td>
+                <b>${student.attendance}%</b>
+            </td>
+
+            <td>
+                <span class="status ${student.status.toLowerCase()}">
+                    ${student.status}
+                </span>
+            </td>
+
+            <td class="more">•••</td>
+        `;
+
+        table.appendChild(tr);
+
+    });
+
+    document.getElementById("showingText").innerText =
+        `Showing 1 to ${Math.min(filtered.length,8)} of ${filtered.length} students`;
+
+}
+
+
+/* =====================================
+   STATUS CLASS
+===================================== */
+
+function getStatusClass(value){
+
+    if(value === "P") return "present";
+    if(value === "A") return "absent";
+    return "late";
+
+}
+
+
+/* =====================================
+   CHANGE ATTENDANCE
+===================================== */
+
+function changeAttendance(studentIndex,dayIndex,button){
+
+    const student = students[studentIndex];
+
+    let current = student.days[dayIndex];
+
+    if(current === "P"){
+        current = "A";
+    }
+    else if(current === "A"){
+        current = "L";
+    }
+    else{
+        current = "P";
+    }
+
+    student.days[dayIndex] = current;
+
+    const present =
+        student.days.filter(x=>x==="P").length;
+
+    student.attendance =
+        Math.round((present / student.days.length) * 100);
+
+    if(current === "A"){
+        student.status = "Absent";
+    }
+    else if(current === "L"){
+        student.status = "Late";
+    }
+    else{
+        student.status = "Present";
+    }
+
+    renderTable();
+
+}
+
+
+/* =====================================
+   SEARCH
+===================================== */
+
+document.getElementById("studentSearch")
+.addEventListener("input",renderTable);
+
+document.getElementById("globalSearch")
+.addEventListener("input",function(){
+
+    document.getElementById("studentSearch").value =
+        this.value;
+
+    renderTable();
+
+});
+
+
+/* =====================================
+   CLASS FILTER
+===================================== */
+
+document.getElementById("applyBtn")
+.addEventListener("click",function(){
+
+    renderTable();
+
+    showMessage("Attendance list updated.");
+
+});
+
+
+/* =====================================
+   SELECT ALL
+===================================== */
+
+document.getElementById("selectAll")
+.addEventListener("change",function(){
+
+    document.querySelectorAll(".studentCheck")
+    .forEach(check=>{
+        check.checked = this.checked;
+    });
+
+});
+
+
+/* =====================================
+   DATE PICKER
+===================================== */
+
+document.getElementById("datePicker")
+.addEventListener("change",function(){
+
+    const date = new Date(this.value);
+
+    if(!isNaN(date)){
+
+        showMessage(
+            "Attendance date changed to " +
+            date.toLocaleDateString()
+        );
+
+    }
+
+});
+
+
+/* =====================================
+   SIDEBAR MENU
+===================================== */
+
+document.querySelectorAll(".menu a")
+.forEach(link=>{
+
+    link.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+        document.querySelectorAll(".menu a")
+        .forEach(item=>item.classList.remove("active"));
+
+        this.classList.add("active");
+
+        const page = this.dataset.page;
+
+        if(page !== "Attendance"){
+
+            showMessage(page + " section selected.");
+
+        }
+
+    });
+
+});
+
+
+/* =====================================
+   MOBILE SIDEBAR
+===================================== */
+
+document.getElementById("hamburger")
+.addEventListener("click",function(){
+
+    document.getElementById("sidebar")
+    .classList.toggle("show");
+
+});
+
+
+/* =====================================
+   QUICK ACTIONS
+===================================== */
+
+document.getElementById("markAttendance")
+.addEventListener("click",function(){
+
+    showMessage("Attendance marking mode is ready.");
+
+});
+
+
+document.getElementById("viewReport")
+.addEventListener("click",function(){
+
+    showMessage("Attendance report opened.");
+
+});
+
+
+document.getElementById("downloadReport")
+.addEventListener("click",function(){
+
+    showMessage("Report download started.");
+
+});
+
+
+document.getElementById("dailySummary")
+.addEventListener("click",function(){
+
+    showMessage(
+        "Today's Attendance: 96.6% | Present: 1,205 | Absent: 42"
+    );
+
+});
+
+
+/* =====================================
+   PAGINATION
+===================================== */
+
+let currentPage = 1;
+
+const pageButtons =
+    document.querySelectorAll(".pages .page-btn");
+
+pageButtons.forEach((button,index)=>{
+
+    if(index > 0 && index < 5){
+
+        button.addEventListener("click",function(){
+
+            pageButtons.forEach(btn=>
+                btn.classList.remove("active")
+            );
+
+            this.classList.add("active");
+
+            currentPage = Number(this.innerText);
+
+            showMessage("Page " + currentPage + " selected.");
+
+        });
+
+    }
+
+});
+
+
+document.getElementById("prevPage")
+.addEventListener("click",function(){
+
+    if(currentPage > 1){
+        currentPage--;
+        showMessage("Page " + currentPage);
+    }
+
+});
+
+
+document.getElementById("nextPage")
+.addEventListener("click",function(){
+
+    if(currentPage < 4){
+        currentPage++;
+        showMessage("Page " + currentPage);
+    }
+
+});
+
+
+/* =====================================
+   MESSAGE / TOAST
+===================================== */
+
+function showMessage(message){
+
+    let toast = document.getElementById("toast");
+
+    if(!toast){
+
+        toast = document.createElement("div");
+
+        toast.id = "toast";
+
+        toast.style.position = "fixed";
+        toast.style.bottom = "25px";
+        toast.style.right = "25px";
+        toast.style.background = "#082f68";
+        toast.style.color = "white";
+        toast.style.padding = "12px 18px";
+        toast.style.borderRadius = "8px";
+        toast.style.fontSize = "12px";
+        toast.style.boxShadow =
+            "0 8px 25px rgba(0,0,0,.2)";
+        toast.style.zIndex = "9999";
+
+        document.body.appendChild(toast);
+
+    }
+
+    toast.innerText = message;
+    toast.style.display = "block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(()=>{
+            toast.style.display = "none";
+        },2500);
+
+}
+
+
+/* =====================================
+   INITIAL LOAD
+===================================== */
+
+renderTable();
+
+</script>
+
+</body>
+</html>

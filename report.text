@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Store - Reports Management</title>
+  
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --sidebar-bg: #071931;
+      --primary-blue: #1d61e8;
+      --primary-green: #10b981;
+      --light-green-bg: #d1fae5;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --light-blue-bg: #e0f2fe;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-size: 12px;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 210px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 10px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 10px 20px 10px;
+    }
+
+    .logo-icon {
+      background: var(--primary-green);
+      border-radius: 6px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text h2 {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .logo-text p {
+      font-size: 9px;
+      color: #9ca3af;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .nav-item i {
+      width: 15px;
+      height: 15px;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--primary-blue);
+      color: #fff;
+    }
+
+    .nav-item.dropdown {
+      justify-content: space-between;
+    }
+
+    .quick-add {
+      margin-top: 15px;
+      border-top: 1px solid #1f2937;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-add span {
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    .btn {
+      border: none;
+      padding: 7px 10px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .btn-green { background-color: #059669; }
+    .btn-blue { background-color: var(--primary-blue); }
+
+    /* Main Content */
+    .main-content {
+      flex-grow: 1;
+      padding: 15px 20px;
+      overflow-x: hidden;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .page-title h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .breadcrumb {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .header-search {
+      position: relative;
+      width: 350px;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      color: var(--text-muted);
+    }
+
+    .header-search input {
+      width: 100%;
+      padding: 6px 12px 6px 34px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      outline: none;
+      background: #fff;
+      font-size: 11px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .notification-badge {
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: var(--red);
+      color: #fff;
+      font-size: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 12px;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-info .name { font-weight: 700; font-size: 11px; display: block; }
+    .user-info .role { font-size: 9px; color: var(--text-muted); display: block; }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      background: #e5e7eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Top Stats Grid */
+    .top-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      border: 1px solid #f0f0f0;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .icon-blue { background-color: var(--primary-blue); }
+    .icon-cyan { background-color: #0284c7; }
+    .icon-green { background-color: var(--primary-green); }
+    .icon-red { background-color: #f43f5e; }
+    .icon-emerald { background-color: #059669; }
+
+    .stat-info p { color: var(--text-muted); font-size: 10px; }
+    .stat-info h3 { font-size: 15px; font-weight: 700; margin: 2px 0; }
+    .stat-info .subtext { font-size: 9px; color: var(--primary-green); display: flex; align-items: center; gap: 2px; }
+
+    /* Navigation Tabs */
+    .reports-tabs {
+      display: flex;
+      gap: 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 15px;
+    }
+
+    .tab-item {
+      padding: 8px 4px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      position: relative;
+    }
+
+    .tab-item.active {
+      color: var(--primary-blue);
+    }
+
+    .tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary-blue);
+    }
+
+    /* Layout Sections */
+    .reports-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr 240px;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    /* Report Filters Card */
+    .filter-card .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .filter-card h3 { font-size: 12px; font-weight: 700; }
+    .clear-btn { color: var(--primary-blue); text-decoration: none; font-size: 10px; }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 11px;
+      background: #fff;
+      outline: none;
+    }
+
+    .apply-btn {
+      width: 100%;
+      background: var(--primary-blue);
+      color: #fff;
+      border: none;
+      padding: 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    /* Main Chart Card */
+    .chart-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .chart-card-header h3 { font-size: 12px; font-weight: 700; }
+    .chart-card-header select {
+      padding: 2px 6px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 10px;
+    }
+
+    .chart-flex-container {
+      display: flex;
+      gap: 15px;
+    }
+
+    .chart-stats-side {
+      width: 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+      border-right: 1px solid #f0f0f0;
+      padding-right: 10px;
+    }
+
+    .mini-stat p { font-size: 9px; color: var(--text-muted); }
+    .mini-stat h4 { font-size: 12px; font-weight: 700; }
+
+    .line-chart-box {
+      flex-grow: 1;
+      height: 160px;
+    }
+
+    /* Top Selling Card */
+    .top-selling-card h3 {
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .top-selling-card .view-all {
+      color: var(--primary-blue);
+      font-size: 10px;
+      text-decoration: none;
+      font-weight: normal;
+    }
+
+    .selling-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .selling-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    .selling-item span:first-child { font-weight: 600; color: #374151; }
+    .selling-item span:last-child { font-weight: 600; color: var(--text-main); }
+
+    /* Bottom Section */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 15px;
+    }
+
+    /* Table Styles */
+    .recent-reports-card h3 {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 10px;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      background-color: #fafafa;
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 8px;
+      color: var(--primary-blue);
+      cursor: pointer;
+    }
+
+    .action-icons i {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* Donut Summary Card */
+    .summary-donut-card h3 {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .donut-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .donut-box {
+      width: 80px;
+      height: 80px;
+    }
+
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-grow: 1;
+    }
+
+    .legend-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+    }
+
+    .legend-row-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .dot.blue { background: var(--primary-blue); }
+    .dot.green { background: var(--primary-green); }
+    .dot.orange { background: var(--orange); }
+    .dot.purple { background: var(--purple); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"><i data-lucide="plus"></i></div>
+        <div class="logo-text">
+          <h2>Medical Store</h2>
+          <p>Management System</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="merged_medical_store.html" class="nav-item"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="medicine.html" class="nav-item"><i data-lucide="pill"></i> Medicine</a>
+        <a href="sales.html" class="nav-item dropdown"><i data-lucide="shopping-cart"></i> Sales <i data-lucide="chevron-down"></i></a>
+        <a href="customer.html" class="nav-item"><i data-lucide="user"></i> Customers</a>
+        <a href="suppliers.html" class="nav-item"><i data-lucide="truck"></i> Suppliers</a>
+        <a href="purchases.html" class="nav-item"><i data-lucide="shopping-bag"></i> Purchases</a>
+        <a href="stock.html" class="nav-item"><i data-lucide="package"></i> Stock</a>
+        <a href="medical-reports.html" class="nav-item active"><i data-lucide="file-text"></i> Reports</a>
+        <a href="expenses.html" class="nav-item"><i data-lucide="wallet"></i> Expenses</a>
+        <a href="users.html" class="nav-item"><i data-lucide="users"></i> Users</a>
+        <a href="medical-settings.html" class="nav-item"><i data-lucide="settings"></i> Settings</a>
+      </nav>
+
+      <div class="quick-add">
+        <span>Quick Add</span>
+        <button class="btn btn-green"><i data-lucide="plus"></i> Add Medicine</button>
+        <button class="btn btn-blue"><i data-lucide="plus"></i> New Sale</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="top-header">
+        <div class="page-title">
+          <h1>Reports</h1>
+          <p class="breadcrumb">Dashboard &gt; <span>Reports</span></p>
+        </div>
+
+        <div class="header-search">
+          <i data-lucide="search"></i>
+          <input type="text" placeholder="Search by report name...">
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn"><i data-lucide="printer"></i> <span>Print</span></button>
+          <div class="notification-badge">
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <span class="badge">1</span>
+          </div>
+          <button class="icon-btn"><i data-lucide="settings"></i></button>
+          <div class="user-profile">
+            <div class="user-info">
+              <span class="name">Admin</span>
+              <span class="role">Owner</span>
+            </div>
+            <div class="avatar"><i data-lucide="user"></i></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Top Stat Cards -->
+      <div class="top-stats">
+        <div class="card stat-card">
+          <div class="stat-icon icon-blue"><i data-lucide="shopping-bag"></i></div>
+          <div class="stat-info">
+            <p>Total Sales</p>
+            <h3>Rs. 1,245,680</h3>
+            <span class="subtext"><i data-lucide="arrow-up-right" style="width:10px;"></i> +12.8% vs last month</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon icon-cyan"><i data-lucide="shopping-cart"></i></div>
+          <div class="stat-info">
+            <p>Total Purchases</p>
+            <h3>Rs. 324,560</h3>
+            <span class="subtext"><i data-lucide="arrow-up-right" style="width:10px;"></i> +9.6% vs last month</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon icon-green"><i data-lucide="trending-up"></i></div>
+          <div class="stat-info">
+            <p>Gross Profit</p>
+            <h3>Rs. 921,120</h3>
+            <span class="subtext"><i data-lucide="arrow-up-right" style="width:10px;"></i> +14.2% vs last month</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon icon-red"><i data-lucide="wallet"></i></div>
+          <div class="stat-info">
+            <p>Total Expenses</p>
+            <h3>Rs. 78,450</h3>
+            <span class="subtext"><i data-lucide="arrow-up-right" style="width:10px;"></i> +6.4% vs last month</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon icon-emerald"><i data-lucide="dollar-sign"></i></div>
+          <div class="stat-info">
+            <p>Net Profit</p>
+            <h3>Rs. 842,670</h3>
+            <span class="subtext"><i data-lucide="arrow-up-right" style="width:10px;"></i> +15.3% vs last month</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="reports-tabs">
+        <a href="#" class="tab-item active">Sales Report</a>
+        <a href="#" class="tab-item">Purchase Report</a>
+        <a href="#" class="tab-item">Stock Report</a>
+        <a href="#" class="tab-item">Profit & Loss</a>
+        <a href="#" class="tab-item">Tax Report</a>
+        <a href="#" class="tab-item">Customer Report</a>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="reports-grid">
+        <!-- Filter Card -->
+        <div class="card filter-card">
+          <div class="card-header">
+            <h3>Report Filters</h3>
+            <a href="#" class="clear-btn">Clear</a>
+          </div>
+
+          <div class="form-group">
+            <label>Date Range</label>
+            <input type="text" value="01/05/2025 - 17/05/2025">
+          </div>
+
+          <div class="form-group">
+            <label>Report Type</label>
+            <select>
+              <option>All Reports</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Category</label>
+            <select>
+              <option>All Categories</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Supplier</label>
+            <select>
+              <option>All Suppliers</option>
+            </select>
+          </div>
+
+          <button class="apply-btn">Apply Filter</button>
+        </div>
+
+        <!-- Sales Trend Chart Card -->
+        <div class="card">
+          <div class="chart-card-header">
+            <h3>Sales Report <span style="font-size:10px; font-weight:normal; color:var(--text-muted);">(01/05/2025 - 17/05/2025)</span></h3>
+            <select>
+              <option>Daily</option>
+            </select>
+          </div>
+
+          <div class="chart-flex-container">
+            <div class="chart-stats-side">
+              <div class="mini-stat">
+                <p>Total Sales</p>
+                <h4>Rs. 1,245,680</h4>
+              </div>
+              <div class="mini-stat">
+                <p>Total Items Sold</p>
+                <h4>2,860</h4>
+              </div>
+              <div class="mini-stat">
+                <p>Average Sale</p>
+                <h4>Rs. 435</h4>
+              </div>
+              <div class="mini-stat">
+                <p>Orders</p>
+                <h4>58</h4>
+              </div>
+            </div>
+
+            <div class="line-chart-box">
+              <canvas id="salesTrendChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Selling Medicines Card -->
+        <div class="card top-selling-card">
+          <h3>Top Selling Medicines <a href="#" class="view-all">View All</a></h3>
+          <ul class="selling-list">
+            <li class="selling-item">
+              <span>Paracetamol 500mg (Tab)</span>
+              <span>Rs. 152,400</span>
+            </li>
+            <li class="selling-item">
+              <span>Amoxicillin 500mg (Cap)</span>
+              <span>Rs. 121,800</span>
+            </li>
+            <li class="selling-item">
+              <span>Omeprazole 20mg (Cap)</span>
+              <span>Rs. 98,600</span>
+            </li>
+            <li class="selling-item">
+              <span>Vitamin C 500mg (Tab)</span>
+              <span>Rs. 87,300</span>
+            </li>
+            <li class="selling-item">
+              <span>Cetirizine 10mg (Tab)</span>
+              <span>Rs. 76,200</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Layout Section -->
+      <div class="bottom-grid">
+        <!-- Recent Reports Table -->
+        <div class="card recent-reports-card">
+          <h3>Recent Reports</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Report Name</th>
+                <th>Type</th>
+                <th>Date Range</th>
+                <th>Generated On</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Sales Report</b></td>
+                <td>Sales</td>
+                <td>01/05/2025 - 17/05/2025</td>
+                <td>17/05/2025 10:30 AM</td>
+                <td>Rs. 1,245,680</td>
+                <td>
+                  <div class="action-icons">
+                    <i data-lucide="download"></i>
+                    <i data-lucide="eye"></i>
+                    <i data-lucide="printer"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Purchase Report</b></td>
+                <td>Purchase</td>
+                <td>01/05/2025 - 17/05/2025</td>
+                <td>17/05/2025 10:25 AM</td>
+                <td>Rs. 324,560</td>
+                <td>
+                  <div class="action-icons">
+                    <i data-lucide="download"></i>
+                    <i data-lucide="eye"></i>
+                    <i data-lucide="printer"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Profit & Loss Report</b></td>
+                <td>P&L</td>
+                <td>01/05/2025 - 17/05/2025</td>
+                <td>17/05/2025 10:20 AM</td>
+                <td>Rs. 842,670</td>
+                <td>
+                  <div class="action-icons">
+                    <i data-lucide="download"></i>
+                    <i data-lucide="eye"></i>
+                    <i data-lucide="printer"></i>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Stock Report</b></td>
+                <td>Stock</td>
+                <td>17/05/2025</td>
+                <td>17/05/2025 10:15 AM</td>
+                <td>Rs. 1,245,680</td>
+                <td>
+                  <div class="action-icons">
+                    <i data-lucide="download"></i>
+                    <i data-lucide="eye"></i>
+                    <i data-lucide="printer"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Summary Donut Chart Card -->
+        <div class="card summary-donut-card">
+          <h3>Summary</h3>
+          <div class="donut-container">
+            <div class="donut-box">
+              <canvas id="summaryDonutChart"></canvas>
+            </div>
+            <div class="donut-legend">
+              <div class="legend-row">
+                <div class="legend-row-left">
+                  <span class="dot blue"></span>
+                  <span>Sales</span>
+                </div>
+                <b>55.2%</b>
+              </div>
+              <div class="legend-row">
+                <div class="legend-row-left">
+                  <span class="dot green"></span>
+                  <span>Purchases</span>
+                </div>
+                <b>24.8%</b>
+              </div>
+              <div class="legend-row">
+                <div class="legend-row-left">
+                  <span class="dot orange"></span>
+                  <span>Expenses</span>
+                </div>
+                <b>6.3%</b>
+              </div>
+              <div class="legend-row">
+                <div class="legend-row-left">
+                  <span class="dot purple"></span>
+                  <span>Profit</span>
+                </div>
+                <b>13.7%</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Line Chart Initialization
+    const lineCtx = document.getElementById('salesTrendChart').getContext('2d');
+    
+    // Create gradient background for line chart
+    const gradient = lineCtx.createLinearGradient(0, 0, 0, 160);
+    gradient.addColorStop(0, 'rgba(29, 97, 232, 0.25)');
+    gradient.addColorStop(1, 'rgba(29, 97, 232, 0.0)');
+
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: ['01 May', '03 May', '05 May', '07 May', '09 May', '11 May', '13 May', '15 May', '17 May'],
+        datasets: [{
+          data: [100, 65, 140, 90, 150, 165, 95, 120, 90, 110, 60, 110, 65, 120],
+          borderColor: '#1d61e8',
+          borderWidth: 2,
+          fill: true,
+          backgroundColor: gradient,
+          tension: 0.3,
+          pointRadius: 3,
+          pointBackgroundColor: '#1d61e8'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 9 }, color: '#9ca3af' }
+          },
+          y: {
+            grid: { color: '#f3f4f6' },
+            ticks: {
+              font: { size: 9 },
+              color: '#9ca3af',
+              callback: function(value) {
+                return value + 'K';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Donut Chart Initialization
+    const donutCtx = document.getElementById('summaryDonutChart').getContext('2d');
+    new Chart(donutCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Sales', 'Purchases', 'Expenses', 'Profit'],
+        datasets: [{
+          data: [55.2, 24.8, 6.3, 13.7],
+          backgroundColor: ['#1d61e8', '#10b981', '#f59e0b', '#8b5cf6'],
+          borderWidth: 0,
+          hoverOffset: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

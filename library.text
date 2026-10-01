@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Library</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    background:#eef6ff;
+    color:#12345f;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:255px;
+    height:100vh;
+    background:linear-gradient(180deg,#061d3c,#052957);
+    color:white;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo-area{
+    height:105px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#f4b42e,#fff0a2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:29px;
+    color:#092750;
+}
+
+.logo-text h2{
+    font-family:Georgia,serif;
+    font-size:18px;
+    line-height:21px;
+}
+
+.logo-text p{
+    font-size:10px;
+    color:#d7e5f9;
+    margin-top:5px;
+}
+
+.menu{
+    padding:14px 10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#e5efff;
+    text-decoration:none;
+    padding:11px 14px;
+    margin:3px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.09);
+}
+
+.menu a.active{
+    background:linear-gradient(90deg,#0865d8,#147ee8);
+    color:white;
+    font-weight:600;
+}
+
+.menu-icon{
+    width:22px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-bottom{
+    padding:35px 22px 20px;
+}
+
+.quote{
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:20px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:68px;
+    background:white;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    gap:25px;
+    border-bottom:1px solid #dce9f7;
+}
+
+.hamburger{
+    font-size:25px;
+    color:#092e61;
+    cursor:pointer;
+}
+
+.search{
+    width:440px;
+    height:39px;
+    background:#edf5fd;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    color:#7590b1;
+}
+
+.search input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding-left:10px;
+}
+
+.top-space{
+    flex:1;
+}
+
+.notification{
+    position:relative;
+    font-size:21px;
+}
+
+.notification span{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:#e7292f;
+    color:white;
+    font-size:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.profile-img{
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    background:#dce9f7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.profile-info small{
+    color:#7890ad;
+    font-size:9px;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:18px 16px 30px;
+}
+
+.page-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 295px;
+    gap:18px;
+}
+
+.card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:11px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+}
+
+/* ================= BANNER ================= */
+
+.banner{
+    height:105px;
+    border-radius:10px;
+    background:
+    linear-gradient(90deg,rgba(4,35,73,.96),rgba(7,59,103,.72)),
+    linear-gradient(135deg,#496b83,#9ab59b);
+    display:flex;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+.banner-icon{
+    width:56px;
+    height:56px;
+    border-radius:13px;
+    background:#e8f3ff;
+    color:#0871dc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    margin-right:15px;
+}
+
+.banner h1{
+    font-family:Georgia,serif;
+    font-size:25px;
+}
+
+.banner p{
+    font-size:12px;
+    margin-top:5px;
+}
+
+.banner-quote{
+    margin-left:auto;
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:13px;
+    text-align:center;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.stat-card{
+    min-height:110px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.stat-icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.blue{
+    background:#e0f0ff;
+    color:#1478e5;
+}
+
+.green{
+    background:#dcf7eb;
+    color:#07986b;
+}
+
+.orange{
+    background:#fff0d8;
+    color:#dc8c0a;
+}
+
+.purple{
+    background:#eee5ff;
+    color:#6438d5;
+}
+
+.stat-info{
+    flex:1;
+}
+
+.stat-info p{
+    font-size:11px;
+    color:#174680;
+}
+
+.stat-info h2{
+    font-size:23px;
+    color:#092e68;
+    margin:4px 0;
+}
+
+.stat-info small{
+    font-size:9px;
+    color:#617e9f;
+}
+
+/* ================= TOOLBAR ================= */
+
+.toolbar{
+    margin-top:15px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.toolbar-title{
+    margin-right:auto;
+}
+
+.toolbar-title h3{
+    font-size:14px;
+    color:#092f64;
+}
+
+.toolbar-title p{
+    font-size:9px;
+    color:#7890ad;
+    margin-top:3px;
+}
+
+.select,
+.input{
+    height:35px;
+    border:1px solid #d8e6f4;
+    background:#f9fcff;
+    border-radius:7px;
+    padding:0 10px;
+    color:#31557f;
+    font-size:10px;
+    outline:none;
+}
+
+.btn{
+    height:35px;
+    border:none;
+    border-radius:7px;
+    padding:0 13px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+.primary{
+    background:#0873df;
+    color:white;
+}
+
+.secondary{
+    background:#e8f3ff;
+    color:#0873df;
+}
+
+/* ================= BOOK TABLE ================= */
+
+.library-card{
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.table-top{
+    padding:15px 17px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid #e4edf6;
+}
+
+.table-top h3{
+    font-size:14px;
+    color:#0b2e62;
+}
+
+.table-top span{
+    margin-left:auto;
+    font-size:9px;
+    color:#7890ad;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+.book-table{
+    width:100%;
+    min-width:780px;
+    border-collapse:collapse;
+}
+
+.book-table th{
+    background:#f5faff;
+    padding:13px 10px;
+    color:#173e71;
+    font-size:9px;
+    border-bottom:1px solid #e1ecf6;
+    text-align:left;
+}
+
+.book-table td{
+    padding:12px 10px;
+    border-bottom:1px solid #edf3f8;
+    font-size:9px;
+    color:#31577f;
+}
+
+.book-info{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.book-cover{
+    width:35px;
+    height:42px;
+    border-radius:5px;
+    background:#e5f1ff;
+    color:#0872df;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+}
+
+.book-name strong{
+    display:block;
+    font-size:10px;
+    color:#123e73;
+}
+
+.book-name small{
+    color:#7890ad;
+    font-size:8px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:12px;
+    font-size:8px;
+    font-weight:600;
+}
+
+.available{
+    background:#daf5e9;
+    color:#07875f;
+}
+
+.issued{
+    background:#fff0d7;
+    color:#b87308;
+}
+
+.overdue{
+    background:#ffe2e3;
+    color:#d52b34;
+}
+
+.action-btn{
+    border:none;
+    background:#e8f3ff;
+    color:#0872df;
+    padding:6px 8px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:9px;
+    margin-right:4px;
+}
+
+/* ================= RIGHT SIDE ================= */
+
+.right{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.right-card{
+    padding:15px;
+}
+
+.right-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:700;
+    color:#0b2e62;
+    margin-bottom:13px;
+}
+
+/* QUICK ACTIONS */
+
+.quick button{
+    width:100%;
+    height:39px;
+    border-radius:7px;
+    margin-bottom:9px;
+    border:1px solid #dce8f4;
+    text-align:left;
+    padding:0 12px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+.blue-btn{
+    background:#328be5;
+    color:white;
+}
+
+.green-btn{
+    background:#d9f5ee;
+    color:#078d6a;
+}
+
+.purple-btn{
+    background:#eee6ff;
+    color:#6033c6;
+}
+
+.orange-btn{
+    background:#fff0dc;
+    color:#b56d08;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:9px 0;
+    border-bottom:1px solid #edf3f8;
+    font-size:10px;
+}
+
+.summary-row:last-child{
+    border-bottom:none;
+}
+
+.summary-row span{
+    color:#557697;
+}
+
+.summary-row strong{
+    color:#123e73;
+}
+
+/* ================= BORROWERS ================= */
+
+.borrower{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 0;
+    border-bottom:1px solid #edf3f8;
+}
+
+.borrower:last-child{
+    border-bottom:none;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#e6f1fc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:17px;
+}
+
+.borrower-info{
+    flex:1;
+}
+
+.borrower-info strong{
+    display:block;
+    font-size:10px;
+    color:#204978;
+}
+
+.borrower-info small{
+    font-size:8px;
+    color:#7890ad;
+}
+
+.days{
+    font-size:8px;
+    color:#d17d09;
+}
+
+/* ================= CATEGORY ================= */
+
+.category{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid #edf3f8;
+    font-size:9px;
+}
+
+.category span{
+    color:#58789a;
+}
+
+.category strong{
+    color:#174477;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#082f68;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    font-size:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+    display:none;
+    z-index:9999;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1150px){
+
+    .sidebar{
+        width:215px;
+    }
+
+    .main{
+        margin-left:215px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .page-grid{
+        grid-template-columns:1fr;
+    }
+
+    .right{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        left:-255px;
+        transition:.3s;
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .search{
+        width:220px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .right{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .toolbar-title{
+        width:100%;
+        margin-bottom:5px;
+    }
+
+    .banner-quote{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo-area">
+
+        <div class="logo">📖</div>
+
+        <div class="logo-text">
+            <h2>Al-Hidayah<br>Public School</h2>
+            <p>Learn • Grow • Succeed</p>
+        </div>
+
+    </div>
+
+    <nav class="menu">
+
+        <a href="#"><span class="menu-icon">⌂</span>Dashboard</a>
+        <a href="#"><span class="menu-icon">👥</span>Students</a>
+        <a href="#"><span class="menu-icon">👨‍🏫</span>Teachers</a>
+        <a href="#"><span class="menu-icon">📖</span>Classes</a>
+        <a href="#"><span class="menu-icon">☑</span>Attendance</a>
+        <a href="#"><span class="menu-icon">💵</span>Fees & Accounts</a>
+        <a href="#"><span class="menu-icon">📋</span>Exams & Results</a>
+        <a href="#"><span class="menu-icon">🎓</span>Academics</a>
+        <a href="#"><span class="menu-icon">🗓</span>Timetable</a>
+
+        <a href="#" class="active">
+            <span class="menu-icon">📚</span>
+            Library
+        </a>
+
+        <a href="#"><span class="menu-icon">🚌</span>Transport</a>
+        <a href="#"><span class="menu-icon">♥</span>Health</a>
+        <a href="#"><span class="menu-icon">👨‍👩‍👧</span>Parents</a>
+        <a href="#"><span class="menu-icon">💬</span>Communication</a>
+        <a href="#"><span class="menu-icon">📑</span>Reports</a>
+        <a href="#"><span class="menu-icon">⚙</span>Settings</a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="quote">
+            Discipline<br>
+            Builds<br>
+            Bright Futures
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="hamburger" id="hamburger">☰</div>
+
+    <div class="search">
+        🔍
+        <input
+            type="text"
+            id="search"
+            placeholder="Search books, authors, students..."
+        >
+    </div>
+
+    <div class="top-space"></div>
+
+    <div class="notification">
+        🔔
+        <span>4</span>
+    </div>
+
+    <div class="profile">
+
+        <div class="profile-img">👨🏻</div>
+
+        <div class="profile-info">
+            <strong>Admin</strong>
+            <small>Administrator</small>
+        </div>
+
+        <span>⌄</span>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<div class="page-grid">
+
+<section>
+
+
+<!-- ================= BANNER ================= -->
+
+<div class="banner">
+
+    <div class="banner-icon">📚</div>
+
+    <div>
+        <h1>Library</h1>
+        <p>Manage books, students, borrowing and library records.</p>
+    </div>
+
+    <div class="banner-quote">
+        “A library is<br>
+        a gateway to knowledge”
+    </div>
+
+</div>
+
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+    <div class="card stat-card">
+
+        <div class="stat-icon blue">📚</div>
+
+        <div class="stat-info">
+            <p>Total Books</p>
+            <h2 id="totalBooks">4,850</h2>
+            <small>Books in library</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon green">📖</div>
+
+        <div class="stat-info">
+            <p>Available Books</p>
+            <h2>3,920</h2>
+            <small>Currently available</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon orange">📤</div>
+
+        <div class="stat-info">
+            <p>Issued Books</p>
+            <h2 id="issuedCount">812</h2>
+            <small>Currently issued</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon purple">⚠️</div>
+
+        <div class="stat-info">
+            <p>Overdue</p>
+            <h2>118</h2>
+            <small>Need attention</small>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOOLBAR ================= -->
+
+<div class="card toolbar">
+
+    <div class="toolbar-title">
+
+        <h3>Library Books</h3>
+
+        <p>Search and manage all library books</p>
+
+    </div>
+
+
+    <select class="select" id="categorySelect">
+
+        <option value="all">All Categories</option>
+        <option value="science">Science</option>
+        <option value="computer">Computer</option>
+        <option value="english">English</option>
+        <option value="urdu">Urdu</option>
+        <option value="islamiyat">Islamiyat</option>
+
+    </select>
+
+
+    <select class="select" id="statusSelect">
+
+        <option value="all">All Status</option>
+        <option value="available">Available</option>
+        <option value="issued">Issued</option>
+        <option value="overdue">Overdue</option>
+
+    </select>
+
+
+    <button class="btn primary" id="addBook">
+        + Add Book
+    </button>
+
+</div>
+
+
+<!-- ================= BOOK TABLE ================= -->
+
+<div class="card library-card">
+
+    <div class="table-top">
+
+        <h3>📚 Book Collection</h3>
+
+        <span id="bookCount">
+            Showing 6 books
+        </span>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+    <table class="book-table">
+
+        <thead>
+
+            <tr>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>ISBN</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody id="bookTable">
+
+            <tr data-category="science" data-status="available">
+
+                <td>
+
+                    <div class="book-info">
+
+                        <div class="book-cover">🔬</div>
+
+                        <div class="book-name">
+                            <strong>General Science</strong>
+                            <small>Class 8 Edition</small>
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>Dr. Ahmed Khan</td>
+
+                <td>Science</td>
+
+                <td>978-10245</td>
+
+                <td>
+                    <span class="badge available">
+                        Available
+                    </span>
+                </td>
+
+                <td>
+                    <button class="action-btn viewBtn">View</button>
+                    <button class="action-btn issueBtn">Issue</button>
+                </td>
+
+            </tr>
+
+
+            <tr data-category="computer" data-status="issued">
+
+                <td>
+
+                    <div class="book-info">
+
+                        <div class="book-cover">💻</div>
+
+                        <div class="book-name">
+                            <strong>Computer Science</strong>
+                            <small>Programming Basics</small>
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>John Smith</td>
+
+                <td>Computer</td>
+
+                <td>978-20354</td>
+
+                <td>
+                    <span class="badge issued">
+                        Issued
+                    </span>
+                </td>
+
+                <td>
+                    <button class="action-btn viewBtn">View</button>
+                    <button class="action-btn issueBtn">Return</button>
+                </td>
+
+            </tr>
+
+
+            <tr data-category="english" data-status="available">
+
+                <td>
+
+                    <div class="book-info">
+
+                        <div class="book-cover">📘</div>
+
+                        <div class="book-name">
+                            <strong>English Grammar</strong>
+                            <small>Intermediate Level</small>
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>Michael Swan</td>
+
+                <td>English</td>
+
+                <td>978-30672</td>
+
+                <td>
+                    <span class="badge available">
+                        Available
+                    </span>
+                </td>
+
+                <td>
+                    <button class="action-btn viewBtn">View</button>
+                    <button class="action-btn issueBtn">Issue</button>
+                </td>
+
+            </tr>
+
+
+            <tr data-category="urdu" data-status="issued">
+
+                <td>
+
+                    <div class="book-info">
+
+                        <div class="book-cover">📕</div>
+
+                        <div class="book-name">
+                            <strong>Urdu Adab</strong>
+                            <small>School Edition</small>
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>Dr. Jameel Jalibi</td>
+
+                <td>Urdu</td>
+
+                <td>978-40881</td>
+
+                <td>
+                    <span class="badge issued">
+                        Issued
+                    </span>
+                </td>
+
+                <td>
+                    <button class="action-btn viewBtn">View</button>
+                    <button class="action-btn issueBtn">Return</button>
+                </td>
+
+            </tr>
+
+
+            <tr data-category="islamiyat" data-status="overdue">
+
+                <td>
+
+                    <div class="book-info">
+
+                        <div class="book-cover">📗</div>
+
+                        <div class="book-name">
+                            <strong>Islamiat</strong>
+                            <small>Class 10 Edition</small>
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>Prof. Muhammad Ali</td>
+
+                <td>Islamiyat</td>
+
+                <td>978-50192</td>
+
+                <td>
+                    <span class="badge overdue">
+                        Overdue
+                    </span>
+                </td>
+
+                <td>
+                    <button class="action-btn viewBtn">View</button>
+                    <button class="action-btn issueBtn">Return</button>
+                </td>
+
+            </tr>
+
+
+            <tr data-category="science" data-status="available">
+
+                <td>
+
+                    <div class="book-info">
+
+                        <div class="book-cover">🧪</div>
+
+                        <div class="book-name">
+                            <strong>Physics Fundamentals</strong>
+                            <small>Class 9 Edition</small>
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>Robert Resnick</td>
+
+                <td>Science</td>
+
+                <td>978-60483</td>
+
+                <td>
+                    <span class="badge available">
+                        Available
+                    </span>
+                </td>
+
+                <td>
+                    <button class="action-btn viewBtn">View</button>
+                    <button class="action-btn issueBtn">Issue</button>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= RIGHT SIDE ================= -->
+
+<aside class="right">
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="card right-card quick">
+
+    <div class="right-title">
+        ⚡ Quick Actions
+    </div>
+
+    <button class="blue-btn" id="quickAdd">
+        ➕ &nbsp; Add New Book
+    </button>
+
+    <button class="green-btn" id="issueBook">
+        📤 &nbsp; Issue Book
+    </button>
+
+    <button class="purple-btn" id="returnBook">
+        📥 &nbsp; Return Book
+    </button>
+
+    <button class="orange-btn" id="overdueBooks">
+        ⚠️ &nbsp; Overdue Books
+    </button>
+
+</div>
+
+
+<!-- LIBRARY SUMMARY -->
+
+<div class="card right-card">
+
+    <div class="right-title">
+        📊 Library Summary
+    </div>
+
+    <div class="summary-row">
+        <span>Total Books</span>
+        <strong>4,850</strong>
+    </div>
+
+    <div class="summary-row">
+        <span>Available</span>
+        <strong>3,920</strong>
+    </div>
+
+    <div class="summary-row">
+        <span>Issued</span>
+        <strong>812</strong>
+    </div>
+
+    <div class="summary-row">
+        <span>Overdue</span>
+        <strong>118</strong>
+    </div>
+
+    <div class="summary-row">
+        <span>Lost / Damaged</span>
+        <strong>22</strong>
+    </div>
+
+</div>
+
+
+<!-- RECENT BORROWERS -->
+
+<div class="card right-card">
+
+    <div class="right-title">
+        👥 Recent Borrowers
+    </div>
+
+
+    <div class="borrower">
+
+        <div class="avatar">👦🏻</div>
+
+        <div class="borrower-info">
+            <strong>Ali Raza</strong>
+            <small>Class 9A • Physics</small>
+        </div>
+
+        <div class="days">2 days</div>
+
+    </div>
+
+
+    <div class="borrower">
+
+        <div class="avatar">👧🏻</div>
+
+        <div class="borrower-info">
+            <strong>Hina Malik</strong>
+            <small>Class 8A • English</small>
+        </div>
+
+        <div class="days">4 days</div>
+
+    </div>
+
+
+    <div class="borrower">
+
+        <div class="avatar">👦🏻</div>
+
+        <div class="borrower-info">
+            <strong>Usman Khan</strong>
+            <small>Class 10A • Computer</small>
+        </div>
+
+        <div class="days">6 days</div>
+
+    </div>
+
+
+    <div class="borrower">
+
+        <div class="avatar">👧🏻</div>
+
+        <div class="borrower-info">
+            <strong>Ayesha Noor</strong>
+            <small>Class 7A • Urdu</small>
+        </div>
+
+        <div class="days">8 days</div>
+
+    </div>
+
+</div>
+
+
+<!-- CATEGORIES -->
+
+<div class="card right-card">
+
+    <div class="right-title">
+        📚 Book Categories
+    </div>
+
+    <div class="category">
+        <span>Science</span>
+        <strong>1,120</strong>
+    </div>
+
+    <div class="category">
+        <span>Computer</span>
+        <strong>760</strong>
+    </div>
+
+    <div class="category">
+        <span>English</span>
+        <strong>940</strong>
+    </div>
+
+    <div class="category">
+        <span>Urdu</span>
+        <strong>720</strong>
+    </div>
+
+    <div class="category">
+        <span>Islamiyat</span>
+        <strong>610</strong>
+    </div>
+
+    <div class="category">
+        <span>Other</span>
+        <strong>700</strong>
+    </div>
+
+</div>
+
+</aside>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* ================= TOAST ================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.style.display = "block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(function(){
+
+            toast.style.display = "none";
+
+        },2500);
+}
+
+
+/* ================= MOBILE SIDEBAR ================= */
+
+document
+.getElementById("hamburger")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("show");
+
+});
+
+
+/* ================= SEARCH ================= */
+
+document
+.getElementById("search")
+.addEventListener("input",function(){
+
+    const searchValue =
+        this.value.toLowerCase().trim();
+
+    filterBooks();
+
+    const rows =
+        document.querySelectorAll("#bookTable tr");
+
+    rows.forEach(function(row){
+
+        const text =
+            row.innerText.toLowerCase();
+
+        if(searchValue === ""){
+            row.style.display = "";
+        }
+
+    });
+
+});
+
+
+/* ================= FILTER FUNCTION ================= */
+
+function filterBooks(){
+
+    const searchValue =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const category =
+        document
+        .getElementById("categorySelect")
+        .value;
+
+    const status =
+        document
+        .getElementById("statusSelect")
+        .value;
+
+    const rows =
+        document.querySelectorAll("#bookTable tr");
+
+    let visible = 0;
+
+    rows.forEach(function(row){
+
+        const text =
+            row.innerText.toLowerCase();
+
+        const rowCategory =
+            row.dataset.category;
+
+        const rowStatus =
+            row.dataset.status;
+
+        const searchMatch =
+            text.includes(searchValue);
+
+        const categoryMatch =
+            category === "all" ||
+            rowCategory === category;
+
+        const statusMatch =
+            status === "all" ||
+            rowStatus === status;
+
+        if(
+            searchMatch &&
+            categoryMatch &&
+            statusMatch
+        ){
+
+            row.style.display = "";
+            visible++;
+
+        }
+
+        else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+    document
+    .getElementById("bookCount")
+    .innerText =
+        "Showing " + visible + " books";
+
+}
+
+
+/* ================= FILTER EVENTS ================= */
+
+document
+.getElementById("categorySelect")
+.addEventListener("change",filterBooks);
+
+document
+.getElementById("statusSelect")
+.addEventListener("change",filterBooks);
+
+
+/* ================= ADD BOOK ================= */
+
+document
+.getElementById("addBook")
+.addEventListener("click",function(){
+
+    showToast(
+        "Add New Book form opened."
+    );
+
+});
+
+
+document
+.getElementById("quickAdd")
+.addEventListener("click",function(){
+
+    showToast(
+        "Add New Book form opened."
+    );
+
+});
+
+
+/* ================= ISSUE BOOK ================= */
+
+document
+.getElementById("issueBook")
+.addEventListener("click",function(){
+
+    showToast(
+        "Issue Book window opened."
+    );
+
+});
+
+
+/* ================= RETURN BOOK ================= */
+
+document
+.getElementById("returnBook")
+.addEventListener("click",function(){
+
+    showToast(
+        "Return Book window opened."
+    );
+
+});
+
+
+/* ================= OVERDUE ================= */
+
+document
+.getElementById("overdueBooks")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("statusSelect")
+    .value = "overdue";
+
+    filterBooks();
+
+    showToast(
+        "Showing overdue books."
+    );
+
+});
+
+
+/* ================= VIEW BUTTON ================= */
+
+document
+.querySelectorAll(".viewBtn")
+.forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+        const row =
+            this.closest("tr");
+
+        const bookName =
+            row.querySelector(".book-name strong")
+            .innerText;
+
+        showToast(
+            "Opening details: " +
+            bookName
+        );
+
+    });
+
+});
+
+
+/* ================= ISSUE / RETURN BUTTON ================= */
+
+document
+.querySelectorAll(".issueBtn")
+.forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+        const action =
+            this.innerText;
+
+        const row =
+            this.closest("tr");
+
+        const bookName =
+            row.querySelector(".book-name strong")
+            .innerText;
+
+        if(action === "Issue"){
+
+            showToast(
+                bookName +
+                " selected for issue."
+            );
+
+        }
+
+        else{
+
+            showToast(
+                bookName +
+                " selected for return."
+            );
+
+        }
+
+    });
+
+});
+
+
+/* ================= SIDEBAR ================= */
+
+document
+.querySelectorAll(".menu a")
+.forEach(function(link){
+
+    link.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+        document
+        .querySelectorAll(".menu a")
+        .forEach(function(item){
+
+            item.classList.remove("active");
+
+        });
+
+        this.classList.add("active");
+
+        const section =
+            this.innerText.trim();
+
+        if(section !== "Library"){
+
+            showToast(
+                section +
+                " section selected."
+            );
+
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

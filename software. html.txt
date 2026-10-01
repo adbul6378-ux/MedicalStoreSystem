@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Hidayah Public School - Admin Dashboard</title>
+  
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-graduation-cap logo-icon"></i>
+        <div class="brand-text">
+          <h2>Al-Hidayah</h2>
+          <p>Public School</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="#" class="menu-item active"><i class="fa-solid fa-square-poll-vertical"></i> Dashboard</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Students <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-chalkboard-user"></i> Teachers <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-book-open"></i> Classes <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-clipboard-user"></i> Attendance <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-receipt"></i> Fees & Accounts <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-file-pen"></i> Exams & Results <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-graduation-cap"></i> Academics <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-calendar-days"></i> Timetable <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-book"></i> Library <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-bus"></i> Transport <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-heart-pulse"></i> Health <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-users"></i> Parents <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-comments"></i> Communication <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Reports <i class="fa-solid fa-chevron-right arrow"></i></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-gear"></i> Settings <i class="fa-solid fa-chevron-right arrow"></i></a>
+      </nav>
+
+      <div class="sidebar-promo">
+        <p><strong>Better Education</strong><br><small>Brighter Future</small></p>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="top-header">
+        <button class="toggle-btn"><i class="fa-solid fa-bars"></i></button>
+        
+        <div class="search-bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search students, teachers, classes, etc...">
+        </div>
+
+        <div class="user-controls">
+          <div class="icon-btn badge-btn">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge">3</span>
+          </div>
+          <div class="icon-btn">
+            <i class="fa-regular fa-moon"></i>
+          </div>
+          <div class="user-profile">
+            <img src="https://i.pravatar.cc/100?img=33" alt="Admin Avatar">
+            <div class="user-info">
+              <strong>Admin</strong>
+              <span>Administrator</span>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD LAYOUT GRID -->
+      <div class="dashboard-grid">
+        
+        <!-- LEFT MAIN COLUMN -->
+        <div class="left-column">
+          
+          <!-- Welcome Banner -->
+          <div class="welcome-banner">
+            <div class="banner-text">
+              <h2>Welcome Back, <span>Admin 👋</span></h2>
+              <p>Here's what's happening at Al-Hidayah Public School today.</p>
+              <div class="banner-pills">
+                <span class="pill"><i class="fa-regular fa-calendar"></i> Monday, 15 September 2025</span>
+                <span class="pill">Academic Session: 2025 - 2026</span>
+              </div>
+            </div>
+            <div class="banner-quote">
+              <p>“Education Builds a Better Tomorrow”</p>
+            </div>
+          </div>
+
+          <!-- 4 Stat Summary Cards -->
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-icon blue-bg"><i class="fa-solid fa-users"></i></div>
+              <div class="stat-data">
+                <small>Total Students</small>
+                <h3>1,248</h3>
+                <span class="stat-change positive">↑ +5% <small>from last month</small></span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon purple-bg"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="stat-data">
+                <small>Total Teachers</small>
+                <h3>68</h3>
+                <span class="stat-change positive">↑ +2% <small>from last month</small></span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon green-bg"><i class="fa-solid fa-school"></i></div>
+              <div class="stat-data">
+                <small>Total Classes</small>
+                <h3>32</h3>
+                <span class="stat-change neutral">↑ +0% <small>from last month</small></span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon orange-bg"><i class="fa-solid fa-wallet"></i></div>
+              <div class="stat-data">
+                <small>Fee Collection</small>
+                <h3>Rs. 452,600</h3>
+                <span class="stat-change positive">↑ +12% <small>from last month</small></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row 1: Attendance + Fee Pie -->
+          <div class="charts-row">
+            <div class="card chart-card flex-2">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-calendar-check text-green"></i> Attendance Overview</h3>
+                <select class="dropdown"><option>Last 7 Days</option></select>
+              </div>
+              <div class="chart-box">
+                <canvas id="attendanceChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card chart-card flex-1">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-circle-dollar-to-slot text-blue"></i> Fee Collection</h3>
+                <select class="dropdown"><option>This Month</option></select>
+              </div>
+              <div class="chart-box pie-box">
+                <canvas id="feeChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row 2: Class Bar + Gender Pie + Top Students Table -->
+          <div class="charts-row three-cols">
+            
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-chart-column text-blue"></i> Students by Class</h3>
+                <span class="subtext">Total: 1,248</span>
+              </div>
+              <div class="chart-box">
+                <canvas id="classBarChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-venus-mars text-purple"></i> Gender Ratio</h3>
+              </div>
+              <div class="chart-box pie-box">
+                <canvas id="genderChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card table-card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-trophy text-gold"></i> Top Performing Students</h3>
+                <a href="#" class="view-link">View All</a>
+              </div>
+              <table class="simple-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Ayesha Khan</td>
+                    <td>10</td>
+                    <td><span class="badge-tag green">98.6%</span></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Muhammad Ali</td>
+                    <td>9</td>
+                    <td><span class="badge-tag green">96.4%</span></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Fatima Noor</td>
+                    <td>8</td>
+                    <td><span class="badge-tag green">95.8%</span></td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Usman Raza</td>
+                    <td>10</td>
+                    <td><span class="badge-tag green">94.2%</span></td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Sara Ahmed</td>
+                    <td>7</td>
+                    <td><span class="badge-tag green">92.7%</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR COLUMN -->
+        <div class="right-column">
+          
+          <!-- Today's Schedule -->
+          <div class="card schedule-card">
+            <div class="card-header">
+              <h3><i class="fa-regular fa-calendar-check text-blue"></i> Today's Schedule</h3>
+              <a href="#" class="view-link">View All</a>
+            </div>
+            
+            <div class="schedule-body">
+              <div class="date-badge">
+                <span class="month">Mon</span>
+                <strong class="day">15</strong>
+                <span class="year">Sep 2025</span>
+              </div>
+
+              <div class="schedule-list">
+                <div class="schedule-item">
+                  <span class="time">08:00 - 09:00</span>
+                  <span class="subject"><i class="fa-solid fa-circle dot blue"></i> Class 6A (Math)</span>
+                  <i class="fa-solid fa-chevron-right text-gray"></i>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">09:00 - 10:00</span>
+                  <span class="subject"><i class="fa-solid fa-circle dot green"></i> Class 7B (English)</span>
+                  <i class="fa-solid fa-chevron-right text-gray"></i>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">10:15 - 11:15</span>
+                  <span class="subject"><i class="fa-solid fa-circle dot teal"></i> Class 8A (Science)</span>
+                  <i class="fa-solid fa-chevron-right text-gray"></i>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">11:15 - 12:15</span>
+                  <span class="subject"><i class="fa-solid fa-circle dot orange"></i> Class 9C (Urdu)</span>
+                  <i class="fa-solid fa-chevron-right text-gray"></i>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">12:15 - 01:00</span>
+                  <span class="subject"><i class="fa-solid fa-circle dot red"></i> Class 10A (Computer)</span>
+                  <i class="fa-solid fa-chevron-right text-gray"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Grid -->
+          <div class="card quick-actions-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-bolt text-gold"></i> Quick Actions</h3>
+            </div>
+            <div class="action-buttons-grid">
+              <button class="action-btn blue-btn"><i class="fa-solid fa-user-plus"></i> Add Student</button>
+              <button class="action-btn purple-btn"><i class="fa-solid fa-user-plus"></i> Add Teacher</button>
+              <button class="action-btn green-btn"><i class="fa-solid fa-wallet"></i> Collect Fee</button>
+              <button class="action-btn orange-btn"><i class="fa-solid fa-bullhorn"></i> Add Notice</button>
+              <button class="action-btn pink-btn"><i class="fa-solid fa-file-invoice"></i> Generate Report</button>
+              <button class="action-btn cyan-btn"><i class="fa-solid fa-calendar-days"></i> View Timetable</button>
+            </div>
+          </div>
+
+          <!-- Recent Activities -->
+          <div class="card activity-card">
+            <div class="card-header">
+              <h3><i class="fa-regular fa-clock text-blue"></i> Recent Activities</h3>
+              <a href="#" class="view-link">View All</a>
+            </div>
+            
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="act-icon blue"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="act-details">
+                  <strong>New student admission: Ahmed Raza</strong>
+                  <small>Class 6 - 15 Sep 2025, 10:24 AM</small>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray"></i>
+              </div>
+
+              <div class="activity-item">
+                <div class="act-icon green"><i class="fa-solid fa-receipt"></i></div>
+                <div class="act-details">
+                  <strong>Fee received from Ayesha Khan</strong>
+                  <small>Rs. 5,000 - 15 Sep 2025, 09:45 AM</small>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray"></i>
+              </div>
+
+              <div class="activity-item">
+                <div class="act-icon purple"><i class="fa-solid fa-clipboard-user"></i></div>
+                <div class="act-details">
+                  <strong>Teacher attendance marked</strong>
+                  <small>Mr. Imran - 15 Sep 2025, 09:20 AM</small>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray"></i>
+              </div>
+
+              <div class="activity-item">
+                <div class="act-icon red"><i class="fa-solid fa-file-pen"></i></div>
+                <div class="act-details">
+                  <strong>Exam result updated</strong>
+                  <small>Class 8 - 15 Sep 2025, 08:50 AM</small>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray"></i>
+              </div>
+
+              <div class="activity-item">
+                <div class="act-icon orange"><i class="fa-solid fa-bullhorn"></i></div>
+                <div class="act-details">
+                  <strong>Notice published: Parent Teacher Meeting</strong>
+                  <small>15 Sep 2025, 08:30 AM</small>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-brand">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <strong>Al-Hidayah Public School</strong>
+          <span>| Knowledge • Character • Success</span>
+        </div>
+        <p>© 2025. All rights reserved.</p>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

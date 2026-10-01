@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Store - Medicines Management</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --sidebar-bg: #0d1e32;
+            --sidebar-hover: #172b43;
+            --primary-blue: #2563eb;
+            --primary-green: #10b981;
+            --warning-orange: #f59e0b;
+            --danger-red: #ef4444;
+            --purple: #8b5cf6;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 15px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+        }
+
+        .brand-icon {
+            background-color: var(--primary-green);
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-text h2 { font-size: 15px; font-weight: 700; }
+        .brand-text p { font-size: 11px; color: #9ca3af; }
+
+        .nav-list { list-style: none; margin-top: 5px; }
+        .nav-item { margin-bottom: 3px; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            color: #9ca3af;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link-content { display: flex; align-items: center; gap: 12px; }
+        .nav-link:hover { color: #ffffff; background-color: var(--sidebar-hover); }
+        .nav-link.active { background-color: var(--primary-blue); color: #ffffff; }
+
+        .sub-menu {
+            list-style: none;
+            margin: 4px 0 8px 24px;
+            padding: 4px 0 4px 14px;
+            border-left: 1px solid rgba(148, 163, 184, 0.28);
+        }
+        .sub-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #9ca3af;
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        .sub-menu li a i { width: 14px; text-align: center; font-size: 11px; color: #64748b; }
+        .sub-menu li a.active,
+        .sub-menu li a:hover { color: #ffffff; background: rgba(37, 99, 235, 0.2); transform: translateX(2px); }
+        .sub-menu li a.active i,
+        .sub-menu li a:hover i { color: #93c5fd; }
+
+        .quick-add {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .quick-add h4 { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin-bottom: 10px; }
+
+        .btn-sidebar {
+            width: 100%;
+            padding: 9px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .btn-green { background-color: var(--primary-green); }
+        .btn-blue { background-color: var(--primary-blue); }
+
+        /* --- Main Content --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Top Header */
+        header {
+            background-color: var(--card-bg);
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title-container h1 { font-size: 18px; font-weight: 700; }
+        .breadcrumb { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        .top-search-box {
+            position: relative;
+            width: 380px;
+        }
+        .top-search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #f9fafb;
+            font-size: 13px;
+            outline: none;
+        }
+        .top-search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .header-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f9fafb;
+            border: 1px solid var(--border-color);
+            padding: 7px 12px;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .notification-icon-box {
+            position: relative;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -6px;
+            background: var(--danger-red);
+            color: white;
+            font-size: 9px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 1px solid var(--border-color);
+            padding-left: 18px;
+        }
+        .user-info { text-align: right; }
+        .user-info h4 { font-size: 13px; font-weight: 600; }
+        .user-info p { font-size: 11px; color: var(--text-muted); }
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* --- Page Layout --- */
+        .content-area {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+        }
+
+        /* Top Summary Metrics Cards */
+        .metrics-bar {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .metric-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .metric-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 2px; }
+        .metric-info h3 { font-size: 18px; font-weight: 700; }
+        .metric-info span { font-size: 11px; color: var(--text-muted); }
+        .metric-info span.green { color: var(--primary-green); font-weight: 600; }
+        .metric-info span.orange { color: var(--warning-orange); font-weight: 600; }
+        .metric-info span.red { color: var(--danger-red); font-weight: 600; }
+
+        /* Left Main Section */
+        .card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Table Filter Controls */
+        .table-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            gap: 10px;
+        }
+
+        .table-title { font-size: 16px; font-weight: 700; }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-input-sm {
+            position: relative;
+            width: 250px;
+        }
+        .search-input-sm input {
+            width: 100%;
+            padding: 7px 10px 7px 30px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            outline: none;
+        }
+        .search-input-sm i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .select-sm {
+            padding: 7px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            outline: none;
+            background: white;
+        }
+
+        .btn-filter {
+            background: #f9fafb;
+            border: 1px solid var(--border-color);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-main);
+        }
+
+        .btn-add-primary {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Table Design */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        td {
+            padding: 10px 8px;
+            font-size: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        .med-icon-box {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+            font-size: 11px;
+        }
+
+        .badge-cat {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            background: #eff6ff;
+            color: var(--primary-blue);
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-badge.in-stock { background: #ecfdf5; color: #047857; }
+        .status-badge.low-stock { background: #fffbe3; color: #b45309; }
+        .status-badge.out-stock { background: #fef2f2; color: #b91c1c; }
+
+        .text-green { color: var(--primary-green); font-weight: 600; }
+        .text-red { color: var(--danger-red); font-weight: 600; }
+
+        .action-btns { display: flex; gap: 8px; }
+        .btn-icon-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .btn-icon-action.edit { color: var(--primary-blue); }
+        .btn-icon-action.delete { color: var(--danger-red); }
+
+        /* Pagination */
+        .pagination-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .pagination-pages {
+            display: flex;
+            gap: 4px;
+        }
+
+        .page-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .page-btn.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+
+        /* Medicine Details Bottom Section */
+        .med-details-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 18px;
+        }
+
+        .med-details-header {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 220px repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .detail-item-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .med-img-ph {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #9ca3af;
+        }
+
+        .med-title-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .med-info-list { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+
+        .detail-box-card {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .detail-box-card p { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .detail-box-card h4 { font-size: 14px; font-weight: 700; }
+
+        /* Right Side Panels */
+        .side-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .side-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .side-header h3 { font-size: 13px; font-weight: 700; }
+        .btn-link { font-size: 11px; color: var(--primary-blue); border: none; background: none; cursor: pointer; text-decoration: none; }
+
+        .list-group { list-style: none; }
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 12px;
+        }
+        .list-item:last-child { border-bottom: none; }
+
+        .cat-item-left { display: flex; align-items: center; gap: 8px; }
+        .cat-badge-circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .badge-num {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-full-outline {
+            width: 100%;
+            padding: 7px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--primary-blue);
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .alert-item-left { display: flex; align-items: center; gap: 8px; color: var(--text-main); }
+        .val-badge-red { color: var(--danger-red); font-weight: 700; }
+        .val-badge-orange { color: var(--warning-orange); font-weight: 700; }
+
+        /* Action Panel Right */
+        .actions-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+        .btn-action-side {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            border: none;
+        }
+        .btn-blue-fill { background: var(--primary-blue); color: white; }
+        .btn-light-outline { background: white; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-red-outline { background: white; border: 1px solid var(--border-color); color: var(--danger-red); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <div class="brand-icon">+</div>
+                <div class="brand-text">
+                    <h2>Medical Store</h2>
+                    <p>Management System</p>
+                </div>
+            </div>
+
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="merged_medical_store.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-chart-pie"></i> Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="medicine.html" class="nav-link active"><span class="nav-link-content"><i class="fa-solid fa-capsules"></i> Medicine</span> <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i></a>
+                    <ul class="sub-menu">
+                        <li><a href="all-medicines.html" class="active"><i class="fa-solid fa-list"></i> All Medicines</a></li>
+                        <li><a href="add-medicine.html"><i class="fa-solid fa-plus"></i> Add Medicine</a></li>
+                        <li><a href="medicine-categories.html"><i class="fa-solid fa-layer-group"></i> Medicine Categories</a></li>
+                        <li><a href="expiry-alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> Expiry Alerts</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="sales.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-cart-shopping"></i> Sales</span></a></li>
+                <li class="nav-item"><a href="customer.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-user-group"></i> Customers</span></a></li>
+                <li class="nav-item"><a href="suppliers.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-truck"></i> Suppliers</span></a></li>
+                <li class="nav-item"><a href="purchases.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-bag-shopping"></i> Purchases</span></a></li>
+                <li class="nav-item"><a href="stock.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-boxes-stacked"></i> Stock</span></a></li>
+                <li class="nav-item"><a href="medical-reports.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-chart-line"></i> Reports</span></a></li>
+                <li class="nav-item"><a href="expenses.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-receipt"></i> Expenses</span></a></li>
+                <li class="nav-item"><a href="users.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-users"></i> Users</span></a></li>
+                <li class="nav-item"><a href="medical-settings.html" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-gear"></i> Settings</span></a></li>
+            </ul>
+        </div>
+
+        <div class="quick-add">
+            <h4>Quick Add</h4>
+            <button class="btn-sidebar btn-green"><i class="fa-solid fa-plus"></i> Add Medicine</button>
+            <button class="btn-sidebar btn-blue"><i class="fa-solid fa-plus"></i> New Sale</button>
+        </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header>
+            <div class="header-title-container">
+                <h1>Medicines</h1>
+                <div class="breadcrumb">Dashboard &gt; Medicines &gt; All Medicines</div>
+            </div>
+
+            <div class="top-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search medicine by name, generic, barcode...">
+            </div>
+
+            <div class="header-actions">
+                <button class="header-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Import Medicines</button>
+                <button class="header-btn"><i class="fa-solid fa-print"></i> Print</button>
+                
+                <div class="notification-icon-box">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+
+                <i class="fa-solid fa-gear" style="color: var(--text-muted); cursor: pointer;"></i>
+
+                <div class="user-profile">
+                    <div class="user-info">
+                        <h4>Admin</h4>
+                        <p>Owner</p>
+                    </div>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            
+            <!-- Top Summary Cards -->
+            <div class="metrics-bar">
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #2563eb;"><i class="fa-solid fa-pills"></i></div>
+                    <div class="metric-info">
+                        <p>Total Medicines</p>
+                        <h3>1,256</h3>
+                        <span>All Medicines</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #10b981;"><i class="fa-solid fa-box-archive"></i></div>
+                    <div class="metric-info">
+                        <p>Total In Stock</p>
+                        <h3>1,102</h3>
+                        <span class="green">87.7% <span style="color:var(--text-muted); font-weight:normal;">of total</span></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #f59e0b;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="metric-info">
+                        <p>Low Stock</p>
+                        <h3>112</h3>
+                        <span class="orange">8.9% <span style="color:var(--text-muted); font-weight:normal;">of total</span></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #ef4444;"><i class="fa-solid fa-circle-plus"></i></div>
+                    <div class="metric-info">
+                        <p>Out of Stock</p>
+                        <h3>42</h3>
+                        <span class="red">3.4% <span style="color:var(--text-muted); font-weight:normal;">of total</span></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #8b5cf6;"><i class="fa-solid fa-calendar-xmark"></i></div>
+                    <div class="metric-info">
+                        <p>Expiring Soon</p>
+                        <h3>36</h3>
+                        <span>Within 30 days</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left Main Table Section -->
+            <div class="main-section">
+                
+                <div class="card">
+                    <!-- Controls Header -->
+                    <div class="table-controls">
+                        <div class="table-title">All Medicines</div>
+                        <div class="filter-group">
+                            <div class="search-input-sm">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="tableSearch" placeholder="Search medicine by name, generic, barcode...">
+                            </div>
+
+                            <select class="select-sm" id="categoryFilter">
+                                <option value="All">All Categories</option>
+                                <option value="Tablet">Tablet</option>
+                                <option value="Capsule">Capsule</option>
+                                <option value="Inhaler">Inhaler</option>
+                            </select>
+
+                            <select class="select-sm" id="statusFilter">
+                                <option value="All">All Status</option>
+                                <option value="In Stock">In Stock</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+
+                            <button class="btn-filter"><i class="fa-solid fa-filter"></i> Filter</button>
+                            <button class="btn-add-primary"><i class="fa-solid fa-plus"></i> Add Medicine</button>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Medicine Name <i class="fa-solid fa-sort" style="font-size: 10px; color: var(--text-muted);"></i></th>
+                                    <th>Generic Name</th>
+                                    <th>Category</th>
+                                    <th>Batch No.</th>
+                                    <th>Expiry Date</th>
+                                    <th>MRP (Rs.)</th>
+                                    <th>Sell Price (Rs.)</th>
+                                    <th>Stock Qty</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="medicineTableBody">
+                                <!-- Dynamic JS Population -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-bar">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            Show 
+                            <select class="select-sm" id="entriesPerPage" style="padding: 2px 5px;" aria-label="Entries per page">
+                                <option>10</option>
+                                <option>25</option>
+                                <option>50</option>
+                            </select>
+                            entries
+                        </div>
+                        <div id="entriesInfo">Showing 1 to 8 of 8 entries</div>
+                        <div class="pagination-pages" id="paginationPages">
+                            <button class="page-btn" type="button" aria-label="Previous page"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button class="page-btn active" type="button">1</button>
+                            <button class="page-btn" type="button" aria-label="Next page"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Details Panel -->
+                <div class="med-details-card">
+                    <div class="med-details-header">Medicine Details</div>
+                    <div class="details-grid">
+                        <div class="detail-item-main">
+                            <div class="med-img-ph"><i class="fa-solid fa-capsules"></i></div>
+                            <div class="med-title-box">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <h3 id="detName">Paracetamol 500mg (Tab)</h3>
+                                    <span class="status-badge in-stock" id="detStatusBadge">In Stock</span>
+                                </div>
+                                <div class="med-info-list">
+                                    <div>Generic Name : <span id="detGeneric" style="color:var(--text-main);">Paracetamol</span></div>
+                                    <div>Category : <span id="detCategory" style="color:var(--text-main);">Tablet</span></div>
+                                    <div>Company : <span id="detCompany" style="color:var(--text-main);">GlaxoSmithKline</span></div>
+                                    <div>Barcode : <span id="detBarcode" style="color:var(--text-main);">8964001234567</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-box-card">
+                            <p>Batch No.</p>
+                            <h4 id="detBatch">PCT500-0525</h4>
+                        </div>
+
+                        <div class="detail-box-card">
+                            <p>Expiry Date</p>
+                            <h4 id="detExpiry" class="text-green">05/2026</h4>
+                        </div>
+
+                        <div class="detail-box-card">
+                            <p>MRP (Rs.)</p>
+                            <h4 id="detMrp">15.00</h4>
+                        </div>
+
+                        <div class="detail-box-card">
+                            <p>Sell Price (Rs.)</p>
+                            <h4 id="detSell">10.00</h4>
+                        </div>
+
+                        <!-- Second row of detail cards -->
+                        <div style="grid-column: 2 / 3;">
+                            <div class="detail-box-card">
+                                <p>Stock Quantity</p>
+                                <h4 id="detStock">250</h4>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="detail-box-card">
+                                <p>Stock Value</p>
+                                <h4 id="detValue">Rs. 2,500.00</h4>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="detail-box-card">
+                                <p>Last Purchase</p>
+                                <h4>10 May 2025</h4>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="detail-box-card">
+                                <p>Added On</p>
+                                <h4>01 Jan 2025</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Sidebar Widgets -->
+            <div class="right-sidebar">
+                
+                <!-- Categories -->
+                <div class="side-card">
+                    <div class="side-header">
+                        <h3>Categories</h3>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-item">
+                            <div class="cat-item-left"><div class="cat-badge-circle" style="background:#e0f2fe; color:#0284c7;"><i class="fa-solid fa-tablets"></i></div> Tablet</div>
+                            <span class="badge-num">562</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="cat-item-left"><div class="cat-badge-circle" style="background:#ecfdf5; color:#059669;"><i class="fa-solid fa-capsules"></i></div> Capsule</div>
+                            <span class="badge-num">341</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="cat-item-left"><div class="cat-badge-circle" style="background:#fef3c7; color:#d97706;"><i class="fa-solid fa-bottle-droplet"></i></div> Syrup</div>
+                            <span class="badge-num">152</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="cat-item-left"><div class="cat-badge-circle" style="background:#fee2e2; color:#dc2626;"><i class="fa-solid fa-syringe"></i></div> Injection</div>
+                            <span class="badge-num">98</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="cat-item-left"><div class="cat-badge-circle" style="background:#f3e8ff; color:#7c3aed;"><i class="fa-solid fa-spray-can"></i></div> Inhaler</div>
+                            <span class="badge-num">67</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="cat-item-left"><div class="cat-badge-circle" style="background:#f3f4f6; color:#4b5563;"><i class="fa-solid fa-ellipsis"></i></div> Others</div>
+                            <span class="badge-num">36</span>
+                        </li>
+                    </ul>
+                    <button class="btn-full-outline" type="button" onclick="window.location.href='medicine-categories.html'">View All Categories</button>
+                </div>
+
+                <!-- Expiry Alerts -->
+                <div class="side-card">
+                    <div class="side-header">
+                        <h3>Expiry Alerts</h3>
+                        <a href="expiry-alerts.html" class="btn-link">View All</a>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-item">
+                            <div class="alert-item-left"><i class="fa-regular fa-clock" style="color:var(--danger-red);"></i> Within 7 Days</div>
+                            <span class="val-badge-red">12</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="alert-item-left"><i class="fa-regular fa-clock" style="color:var(--warning-orange);"></i> Within 30 Days</div>
+                            <span class="val-badge-orange">24</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="alert-item-left"><i class="fa-regular fa-clock" style="color:var(--warning-orange);"></i> Within 90 Days</div>
+                            <span class="val-badge-orange">18</span>
+                        </li>
+                        <li class="list-item">
+                            <div class="alert-item-left"><i class="fa-regular fa-circle-xmark" style="color:var(--danger-red);"></i> Expired</div>
+                            <span class="val-badge-red">8</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Top Selling Medicines -->
+                <div class="side-card">
+                    <div class="side-header">
+                        <h3>Top Selling Medicines</h3>
+                        <a href="medical-reports.html" class="btn-link">View All</a>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-item">
+                            <span>1. Paracetamol 500mg (Tab)</span>
+                            <span style="font-weight:600;">520 <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">Sales</span></span>
+                        </li>
+                        <li class="list-item">
+                            <span>2. Amoxicillin 500mg (Cap)</span>
+                            <span style="font-weight:600;">410 <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">Sales</span></span>
+                        </li>
+                        <li class="list-item">
+                            <span>3. Omeprazole 20mg (Cap)</span>
+                            <span style="font-weight:600;">375 <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">Sales</span></span>
+                        </li>
+                        <li class="list-item">
+                            <span>4. Cetirizine 10mg (Tab)</span>
+                            <span style="font-weight:600;">290 <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">Sales</span></span>
+                        </li>
+                        <li class="list-item">
+                            <span>5. Azithromycin 500mg (Tab)</span>
+                            <span style="font-weight:600;">265 <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">Sales</span></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Actions Widget -->
+                <div class="side-card actions-card">
+                    <h3>Actions</h3>
+                    <button class="btn-action-side btn-blue-fill"><i class="fa-solid fa-pen"></i> Edit Medicine</button>
+                    <button class="btn-action-side btn-light-outline"><i class="fa-solid fa-clock-rotate-left"></i> View Stock History</button>
+                    <button class="btn-action-side btn-red-outline"><i class="fa-regular fa-trash-can"></i> Delete Medicine</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        // Sample Medicine Inventory Data
+        const medicines = [
+            { id: 1, name: 'Paracetamol 500mg (Tab)', generic: 'Paracetamol', category: 'Tablet', batch: 'PCT500-0525', expiry: '05/2026', mrp: 15.00, sell: 10.00, stock: 250, status: 'In Stock', icon: 'fa-tablets', iconBg: '#e0f2fe', iconColor: '#0284c7', company: 'GlaxoSmithKline', barcode: '8964001234567' },
+            { id: 2, name: 'Amoxicillin 500mg (Cap)', generic: 'Amoxicillin', category: 'Capsule', batch: 'AMX500-0326', expiry: '03/2026', mrp: 30.00, sell: 22.00, stock: 120, status: 'In Stock', icon: 'fa-capsules', iconBg: '#fee2e2', iconColor: '#ef4444', company: 'Getz Pharma', barcode: '8964001234568' },
+            { id: 3, name: 'Omeprazole 20mg (Cap)', generic: 'Omeprazole', category: 'Capsule', batch: 'OMP20-0626', expiry: '06/2026', mrp: 25.00, sell: 18.00, stock: 80, status: 'In Stock', icon: 'fa-capsules', iconBg: '#e0e7ff', iconColor: '#4338ca', company: 'Sami Pharma', barcode: '8964001234569' },
+            { id: 4, name: 'Vitamin C 500mg (Tab)', generic: 'Ascorbic Acid', category: 'Tablet', batch: 'VC500-0726', expiry: '07/2026', mrp: 20.00, sell: 15.00, stock: 60, status: 'In Stock', icon: 'fa-tablets', iconBg: '#fef3c7', iconColor: '#d97706', company: 'Abbott Laboratories', barcode: '8964001234570' },
+            { id: 5, name: 'Cetirizine 10mg (Tab)', generic: 'Cetirizine', category: 'Tablet', batch: 'CET10-0526', expiry: '05/2026', mrp: 18.00, sell: 12.00, stock: 35, status: 'Low Stock', icon: 'fa-tablets', iconBg: '#e0f2fe', iconColor: '#0284c7', company: 'Searle Company', barcode: '8964001234571' },
+            { id: 6, name: 'Azithromycin 500mg (Tab)', generic: 'Azithromycin', category: 'Tablet', batch: 'AZI500-0226', expiry: '02/2026', mrp: 40.00, sell: 28.00, stock: 18, status: 'Low Stock', icon: 'fa-tablets', iconBg: '#e0f2fe', iconColor: '#0284c7', company: 'Pfizer', barcode: '8964001234572' },
+            { id: 7, name: 'Salbutamol 100mcg (Inhaler)', generic: 'Salbutamol', category: 'Inhaler', batch: 'SAL100-0126', expiry: '01/2026', mrp: 120.00, sell: 85.00, stock: 5, status: 'Low Stock', icon: 'fa-spray-can', iconBg: '#fee2e2', iconColor: '#dc2626', company: 'GSK Pakistan', barcode: '8964001234573' },
+            { id: 8, name: 'Metformin 500mg (Tab)', generic: 'Metformin', category: 'Tablet', batch: 'MET500-1125', expiry: '11/2025', mrp: 12.00, sell: 8.00, stock: 0, status: 'Out of Stock', icon: 'fa-tablets', iconBg: '#e0f2fe', iconColor: '#0284c7', company: 'Merck', barcode: '8964001234574' }
+        ];
+
+        let filteredMedicines = medicines;
+        let currentPage = 1;
+        let entriesPerPage = 10;
+
+        // Render the current page and keep pagination controls in sync.
+        function renderTable(data) {
+            const tbody = document.getElementById('medicineTableBody');
+            tbody.innerHTML = '';
+            filteredMedicines = data;
+
+            const totalPages = Math.max(1, Math.ceil(data.length / entriesPerPage));
+            currentPage = Math.min(currentPage, totalPages);
+            const startIndex = (currentPage - 1) * entriesPerPage;
+            const visibleItems = data.slice(startIndex, startIndex + entriesPerPage);
+
+            visibleItems.forEach((item, index) => {
+                let statusClass = 'in-stock';
+                if(item.status === 'Low Stock') statusClass = 'low-stock';
+                if(item.status === 'Out of Stock') statusClass = 'out-stock';
+
+                let expiryClass = 'text-green';
+                if(item.expiry.endsWith('2025')) expiryClass = 'text-red';
+
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => selectMedicine(item);
+
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td style="font-weight: 500;">
+                        <span class="med-icon-box" style="background:${item.iconBg}; color:${item.iconColor};"><i class="fa-solid ${item.icon}"></i></span>
+                        <span style="color:#2563eb;">${item.name}</span>
+                    </td>
+                    <td style="color:var(--text-muted);">${item.generic}</td>
+                    <td><span class="badge-cat">${item.category}</span></td>
+                    <td style="color:var(--text-muted);">${item.batch}</td>
+                    <td class="${expiryClass}">${item.expiry}</td>
+                    <td>${item.mrp.toFixed(2)}</td>
+                    <td>${item.sell.toFixed(2)}</td>
+                    <td>${item.stock}</td>
+                    <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon-action edit"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <button class="btn-icon-action delete"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const firstEntry = data.length ? startIndex + 1 : 0;
+            const lastEntry = Math.min(startIndex + entriesPerPage, data.length);
+            document.getElementById('entriesInfo').textContent = `Showing ${firstEntry} to ${lastEntry} of ${data.length} entries`;
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('paginationPages');
+            pagination.innerHTML = '';
+
+            const previous = document.createElement('button');
+            previous.className = 'page-btn';
+            previous.type = 'button';
+            previous.setAttribute('aria-label', 'Previous page');
+            previous.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+            previous.disabled = currentPage === 1;
+            previous.addEventListener('click', () => {
+                if (currentPage > 1) { currentPage--; renderTable(filteredMedicines); }
+            });
+            pagination.appendChild(previous);
+
+            for (let page = 1; page <= totalPages; page++) {
+                const button = document.createElement('button');
+                button.className = `page-btn${page === currentPage ? ' active' : ''}`;
+                button.type = 'button';
+                button.textContent = page;
+                button.addEventListener('click', () => { currentPage = page; renderTable(filteredMedicines); });
+                pagination.appendChild(button);
+            }
+
+            const next = document.createElement('button');
+            next.className = 'page-btn';
+            next.type = 'button';
+            next.setAttribute('aria-label', 'Next page');
+            next.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+            next.disabled = currentPage === totalPages;
+            next.addEventListener('click', () => {
+                if (currentPage < totalPages) { currentPage++; renderTable(filteredMedicines); }
+            });
+            pagination.appendChild(next);
+        }
+
+        // Show Bottom Medicine Details
+        function selectMedicine(item) {
+            document.getElementById('detName').innerText = item.name;
+            document.getElementById('detGeneric').innerText = item.generic;
+            document.getElementById('detCategory').innerText = item.category;
+            document.getElementById('detCompany').innerText = item.company;
+            document.getElementById('detBarcode').innerText = item.barcode;
+            document.getElementById('detBatch').innerText = item.batch;
+            document.getElementById('detExpiry').innerText = item.expiry;
+            document.getElementById('detMrp').innerText = item.mrp.toFixed(2);
+            document.getElementById('detSell').innerText = item.sell.toFixed(2);
+            document.getElementById('detStock').innerText = item.stock;
+            document.getElementById('detValue').innerText = `Rs. ${(item.sell * item.stock).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+
+            const badge = document.getElementById('detStatusBadge');
+            badge.innerText = item.status;
+            badge.className = 'status-badge ' + (item.status === 'In Stock' ? 'in-stock' : item.status === 'Low Stock' ? 'low-stock' : 'out-stock');
+        }
+
+        // Search & Filter Listeners
+        document.getElementById('tableSearch').addEventListener('input', filterData);
+        document.getElementById('categoryFilter').addEventListener('change', filterData);
+        document.getElementById('statusFilter').addEventListener('change', filterData);
+        document.getElementById('entriesPerPage').addEventListener('change', (event) => {
+            entriesPerPage = Number(event.target.value);
+            currentPage = 1;
+            renderTable(filteredMedicines);
+        });
+
+        function filterData() {
+            const query = document.getElementById('tableSearch').value.toLowerCase();
+            const cat = document.getElementById('categoryFilter').value;
+            const status = document.getElementById('statusFilter').value;
+
+            const filtered = medicines.filter(m => {
+                const matchesSearch = m.name.toLowerCase().includes(query) || m.generic.toLowerCase().includes(query) || m.batch.toLowerCase().includes(query);
+                const matchesCat = (cat === 'All' || m.category === cat);
+                const matchesStatus = (status === 'All' || m.status === status);
+
+                return matchesSearch && matchesCat && matchesStatus;
+            });
+
+            currentPage = 1;
+            renderTable(filtered);
+        }
+
+        // Initial Load
+        renderTable(medicines);
+    </script>
+</body>
+</html>

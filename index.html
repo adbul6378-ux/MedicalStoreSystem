@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Dashboard</title>
+  <style>
+    :root {
+      --bg: #eef4ff;
+      --card: #ffffff;
+      --navy: #0d172a;
+      --blue: #2563eb;
+      --blue-soft: #eaf2ff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #dfe7f4;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #eef4ff, #f8fbff);
+      color: var(--text);
+    }
+
+    .wrap {
+      width: min(960px, 90vw);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--navy);
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      background: linear-gradient(180deg, #fff, #f8fbff);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      color: var(--navy);
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 16px;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .card.secondary a {
+      background: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Software Dashboard</h1>
+    <p>Choose the correct module below. The school dashboard is the default working module. The medical store remains available separately.</p>
+
+    <div class="grid">
+      <div class="card primary">
+        <h2>School Management</h2>
+        <p>Main dashboard for school operations and admin modules.</p>
+        <a href="software.html">Open School Dashboard</a>
+      </div>
+
+      <div class="card secondary">
+        <h2>Medical Store</h2>
+        <p>Dashboard for medicine, sales, stock, and customer records.</p>
+        <a href="merged_medical_store.html">Open Medical Store</a>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

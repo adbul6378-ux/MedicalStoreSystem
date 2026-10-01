@@ -1,0 +1,154 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Students</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#061d3b;--blue:#1769e8;--bg:#eef5fd;--card:#fff;--text:#102a55;--muted:#6b83a4;--border:#dce8f7;--green:#12a66a;--red:#ef4444}
+body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.app{display:flex;min-height:100vh}.sidebar{width:255px;background:linear-gradient(180deg,#061b38,#092c58);color:#fff;position:fixed;inset:0 auto 0 0;padding:16px 12px;overflow:auto;z-index:20}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 22px}.logo{width:50px;height:50px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:26px;border:2px solid #d5b84b}
+.brand h2{font:20px Georgia,serif;line-height:1.05}.brand small{font-size:9px;color:#c9d8eb}
+.nav{display:flex;flex-direction:column;gap:4px}.nav button{border:0;background:transparent;color:#e5eefb;text-align:left;border-radius:8px;padding:11px 12px;cursor:pointer;font-size:13px;display:flex;gap:12px;align-items:center}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#1261e5,#2b76ef)}.nav i{font-style:normal;width:20px;text-align:center;font-size:17px}
+.side-bottom{margin-top:30px;border:1px solid #345579;border-radius:9px;padding:16px;text-align:center}.side-bottom b{font:14px Georgia,serif;display:block}.side-bottom small{color:#b9cbe0}
+.main{margin-left:255px;width:calc(100% - 255px);min-width:0}.topbar{height:65px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:10}.menu{border:0;background:none;font-size:25px;cursor:pointer;color:var(--navy)}
+.search{position:relative;max-width:600px;flex:1}.search span{position:absolute;left:14px;top:8px;font-size:19px}.search input{width:100%;height:39px;border:0;background:#edf4fc;border-radius:23px;padding:0 16px 0 42px;outline:0}.top-right{margin-left:auto;display:flex;gap:13px;align-items:center}.round{border:0;width:37px;height:37px;border-radius:50%;background:#edf4fc;cursor:pointer}.user{display:flex;gap:8px;align-items:center;border-left:1px solid var(--border);padding-left:13px}.avatar{width:37px;height:37px;border-radius:50%;background:#dceafa;display:grid;place-items:center}.user b{font-size:13px}.user small{display:block;color:var(--muted);font-size:9px}
+.content{padding:17px 20px 28px}.hero{height:105px;border-radius:11px;padding:20px 24px;color:#fff;background:linear-gradient(90deg,rgba(3,31,65,.96),rgba(10,60,108,.78)),url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=80") center/cover;display:flex;align-items:center}.hero-icon{width:53px;height:53px;border-radius:13px;background:#3479e9;display:grid;place-items:center;font-size:28px;margin-right:15px}.hero h1{font:25px Georgia,serif}.hero p{font-size:11px;margin-top:4px;color:#dbe8f7}.hero-actions{margin-left:auto;display:flex;gap:9px}.btn{border:0;border-radius:7px;padding:10px 15px;cursor:pointer;font-size:11px;font-weight:600}.primary{background:#1769e8;color:#fff}.white{background:#fff;color:#254a77}.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;margin-top:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:0 2px 12px rgba(15,55,100,.05)}.stat{padding:15px;min-height:105px}.stat-top{display:flex;align-items:center;gap:10px}.stat-icon{width:42px;height:42px;border-radius:50%;background:#e5f0ff;display:grid;place-items:center;font-size:20px}.stat:nth-child(2) .stat-icon{background:#dcf8ed}.stat:nth-child(3) .stat-icon{background:#eee5ff}.stat:nth-child(4) .stat-icon{background:#ffe9e8}.stat label{font-size:10px;color:#426185}.stat h2{font:23px Georgia,serif;color:#092b60;margin-top:3px}.change{font-size:9px;margin-top:8px}.up{color:var(--green)}.down{color:var(--red)}
+.panel{padding:15px;margin-top:14px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.panel-head h2,.panel-head h3{font:16px Georgia,serif}.filters{display:flex;gap:8px;align-items:center}.filters input,.filters select{height:34px;border:1px solid var(--border);border-radius:7px;padding:0 10px;font-size:10px;color:#4d6a8d;background:#fff;outline:0}.filters input{width:170px}.filter-btn{height:34px;border:0;border-radius:7px;background:#edf4fc;color:#1769e8;padding:0 11px;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:10px}th{text-align:left;background:#f0f5fc;color:#294c76;padding:10px 8px;font-weight:600}td{padding:10px 8px;border-bottom:1px solid #edf2f8;vertical-align:middle}.student{display:flex;align-items:center;gap:8px}.student-img{width:30px;height:30px;border-radius:50%;background:#d9e7f6;display:grid;place-items:center;font-size:16px}.status{display:inline-block;border-radius:12px;padding:4px 9px;background:#d9f6e9;color:#07935c;font-size:9px}.actions{display:flex;gap:5px}.action{border:0;width:27px;height:27px;border-radius:6px;cursor:pointer;background:#edf4fc;color:#1769e8}.delete{background:#fff0f0;color:#ef4444}.empty{display:none;text-align:center;padding:30px;color:var(--muted)}
+.pagination{display:flex;justify-content:space-between;align-items:center;padding-top:12px;font-size:9px;color:var(--muted)}.pages button{border:1px solid var(--border);background:#fff;border-radius:5px;width:28px;height:26px;cursor:pointer;margin-left:4px}.pages button.active{background:#1769e8;color:#fff}
+.side-card{padding:15px;margin-bottom:14px}.side-card h3{font:14px Georgia,serif;margin-bottom:12px}.donut-wrap{display:flex;align-items:center;gap:18px}.donut{width:125px;height:125px;border-radius:50%;background:conic-gradient(#ef4444 0 16%,#2875dc 16% 33%,#16aa70 33% 47%,#8650d9 47% 60%,#9c57d6 60% 72%,#a85fe3 72% 82%,#8799c5 82% 100%);position:relative;display:grid;place-items:center}.donut:after{content:"";width:78px;height:78px;background:#fff;border-radius:50%}.donut b{position:absolute;z-index:1;font:19px Georgia,serif}.donut small{position:absolute;z-index:1;margin-top:32px;font-size:8px;color:var(--muted)}.legend{font-size:9px;line-height:2}.legend span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}.admission{display:flex;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid #edf2f8}.admission:last-child{border:0}.mini-avatar{width:29px;height:29px;border-radius:50%;background:#dbe8f7;display:grid;place-items:center}.admission b{font-size:10px}.admission small{display:block;color:var(--muted);font-size:8px}.admission .date{margin-left:auto;font-size:8px;color:var(--muted)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(3,20,43,.55);z-index:50;align-items:center;justify-content:center}.modal{background:#fff;width:min(520px,92%);border-radius:12px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}.modal h2{font:21px Georgia,serif;margin-bottom:15px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid label{font-size:10px;color:#4b6788}.form-grid input,.form-grid select{display:block;width:100%;height:37px;border:1px solid var(--border);border-radius:7px;margin-top:5px;padding:0 9px;outline:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.toast{display:none;position:fixed;right:20px;bottom:20px;background:#09264d;color:#fff;padding:12px 16px;border-radius:8px;z-index:100;font-size:12px}
+.footer{background:#09264d;color:#c8d8eb;padding:15px 22px;font-size:10px;display:flex;justify-content:space-between}
+@media(max-width:1150px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){.sidebar{transform:translateX(-100%);transition:.25s}.mobile-open .sidebar{transform:translateX(0)}.main{margin-left:0;width:100%}.hero{height:auto;min-height:120px}.hero-actions{display:none}.filters{flex-wrap:wrap}.filters input{width:145px}table{min-width:780px}.table-wrap{overflow-x:auto}.top-right .user div{display:none}}
+@media(max-width:500px){.stats{grid-template-columns:1fr}.content{padding:12px}.hero{padding:15px}.hero h1{font-size:21px}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">📖</div><div><h2>Al-Hidayah<br>Public School</h2><small>Knowledge • Character • Success</small></div></div>
+  <nav class="nav">
+    <button data-page="Dashboard"><i>⌂</i>Dashboard</button>
+    <button class="active" data-page="Students"><i>👥</i>Students</button>
+    <button data-page="Teachers"><i>♟</i>Teachers</button><button data-page="Classes"><i>📚</i>Classes</button>
+    <button data-page="Attendance"><i>☑</i>Attendance</button><button data-page="Fees & Accounts"><i>💵</i>Fees & Accounts</button>
+    <button data-page="Exams & Results"><i>📋</i>Exams & Results</button><button data-page="Academics"><i>🎓</i>Academics</button>
+    <button data-page="Timetable"><i>🗓</i>Timetable</button><button data-page="Library"><i>📕</i>Library</button>
+    <button data-page="Transport"><i>🚌</i>Transport</button><button data-page="Health"><i>♥</i>Health</button>
+    <button data-page="Parents"><i>👨‍👩‍👧</i>Parents</button><button data-page="Communication"><i>💬</i>Communication</button>
+    <button data-page="Reports"><i>📄</i>Reports</button><button data-page="Settings"><i>⚙</i>Settings</button>
+  </nav>
+  <div class="side-bottom"><b>🎓 Better Education</b><small>Brighter Future</small></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><button class="menu" id="menu">☰</button><div class="search"><span>⌕</span><input id="globalSearch" placeholder="Search students by name, roll no or class..."></div><div class="top-right"><button class="round" id="theme">◐</button><button class="round" id="notify">🔔</button><div class="user"><div class="avatar">👨🏻</div><div><b>Admin</b><small>Administrator</small></div><b>⌄</b></div></div></header>
+
+<section class="content">
+<div class="hero"><div class="hero-icon">👥</div><div><h1>Students</h1><p>Manage student records, admissions and academic progress.</p></div><div class="hero-actions"><button class="btn primary" id="addStudent">＋ Add Student</button><button class="btn white" id="importBtn">☁ Import</button><button class="btn white" id="exportBtn">⇩ Export</button></div></div>
+
+<div class="grid">
+<div>
+<div class="stats">
+<div class="card stat"><div class="stat-top"><div class="stat-icon">👥</div><label>Total Students<h2 id="totalCount">1,248</h2></label></div><div class="change up">▲ 5% &nbsp; from last month</div></div>
+<div class="card stat"><div class="stat-top"><div class="stat-icon">🎓</div><label>New Admissions<h2>86</h2></label></div><div class="change up">▲ 12% &nbsp; from last month</div></div>
+<div class="card stat"><div class="stat-top"><div class="stat-icon">👨‍👩‍👧</div><label>Active Students<h2 id="activeCount">1,198</h2></label></div><div class="change up">▲ 4% &nbsp; from last month</div></div>
+<div class="card stat"><div class="stat-top"><div class="stat-icon">📋</div><label>Inactive Students<h2>50</h2></label></div><div class="change down">▼ 2% &nbsp; from last month</div></div>
+</div>
+
+<div class="card panel">
+<div class="panel-head"><h2>Student List</h2><div class="filters"><input id="tableSearch" placeholder="Search student..."><select id="classFilter"><option value="">All Classes</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select><select id="statusFilter"><option value="">All Status</option><option>Active</option><option>Inactive</option></select><button class="filter-btn" id="clearFilters">⟳</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Photo</th><th>Name</th><th>Roll No</th><th>Class</th><th>Section</th><th>Gender</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead><tbody id="studentTable"></tbody></table><div class="empty" id="empty">No students found.</div></div>
+<div class="pagination"><span id="resultText">Showing 1 to 5 of 1,248 students</span><div class="pages"><button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>…</button><button>38</button><button>›</button></div></div>
+</div>
+</div>
+
+<aside>
+<div class="card side-card"><div class="panel-head"><h3>♟ Students by Class</h3><a href="#" id="reportLink">View Report →</a></div><div class="donut-wrap"><div class="donut"><b>1,248</b><small>Total</small></div><div class="legend"><div><span style="background:#ef4444"></span>Class 6 &nbsp;198 &nbsp;16%</div><div><span style="background:#2875dc"></span>Class 7 &nbsp;210 &nbsp;17%</div><div><span style="background:#16aa70"></span>Class 8 &nbsp;176 &nbsp;14%</div><div><span style="background:#8650d9"></span>Class 9 &nbsp;160 &nbsp;13%</div><div><span style="background:#9c57d6"></span>Class 10 &nbsp;154 &nbsp;12%</div><div><span style="background:#a85fe3"></span>Class 11 &nbsp;130 &nbsp;10%</div><div><span style="background:#8799c5"></span>Class 12 &nbsp;120 &nbsp;10%</div></div></div></div>
+<div class="card side-card"><div class="panel-head"><h3>♟ Recent Admissions</h3><a href="#" id="allAdmissions">View All →</a></div>
+<div class="admission"><div class="mini-avatar">👨🏻</div><div><b>Hassan Ali</b><small>Class 6 - A</small></div><span class="date">15 Sep 2025</span></div>
+<div class="admission"><div class="mini-avatar">👩🏻</div><div><b>Zainab Fatima</b><small>Class 7 - B</small></div><span class="date">14 Sep 2025</span></div>
+<div class="admission"><div class="mini-avatar">👨🏻</div><div><b>Muhammad Bilal</b><small>Class 8 - A</small></div><span class="date">13 Sep 2025</span></div>
+<div class="admission"><div class="mini-avatar">👩🏻</div><div><b>Areeba Khan</b><small>Class 9 - B</small></div><span class="date">12 Sep 2025</span></div>
+<div class="admission"><div class="mini-avatar">👨🏻</div><div><b>Daniyal Shahzad</b><small>Class 10 - A</small></div><span class="date">11 Sep 2025</span></div>
+</div>
+</aside>
+</div>
+</section>
+<footer class="footer"><span>📖 Al-Hidayah Public School &nbsp; | &nbsp; ★ Knowledge &nbsp; ♟ Character &nbsp; Success</span><span>© 2025. All rights reserved.</span></footer>
+</main></div>
+
+<div class="modal-bg" id="modalBg"><div class="modal"><h2>Add New Student</h2><div class="form-grid">
+<label>Student Name<input id="newName" placeholder="Enter full name"></label><label>Roll No<input id="newRoll" placeholder="e.g. 006"></label>
+<label>Class<select id="newClass"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></label>
+<label>Section<select id="newSection"><option>A</option><option>B</option><option>C</option></select></label>
+<label>Gender<select id="newGender"><option>Male</option><option>Female</option></select></label><label>Phone<input id="newPhone" placeholder="03XX-XXXXXXX"></label>
+</div><div class="modal-actions"><button class="btn white" id="closeModal">Cancel</button><button class="btn primary" id="saveStudent">Save Student</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const students=[
+{name:"Ahmed Raza",roll:"001",class:"6",section:"A",gender:"Male",phone:"0301-1234567",status:"Active"},
+{name:"Ayesha Khan",roll:"002",class:"6",section:"A",gender:"Female",phone:"0302-7654321",status:"Active"},
+{name:"Ali Hamza",roll:"003",class:"7",section:"B",gender:"Male",phone:"0303-9876543",status:"Active"},
+{name:"Fatima Noor",roll:"004",class:"7",section:"B",gender:"Female",phone:"0304-6543210",status:"Active"},
+{name:"Usman Tariq",roll:"005",class:"8",section:"A",gender:"Male",phone:"0305-1122334",status:"Active"}
+];
+const table=document.getElementById("studentTable"), empty=document.getElementById("empty"), search1=document.getElementById("globalSearch"), search2=document.getElementById("tableSearch"), classFilter=document.getElementById("classFilter"), statusFilter=document.getElementById("statusFilter");
+
+function render(){
+ const q=(search2.value||search1.value).toLowerCase().trim();
+ const cf=classFilter.value,sf=statusFilter.value;
+ const list=students.filter(s=>(!q||Object.values(s).some(v=>String(v).toLowerCase().includes(q)))&&(!cf||s.class===cf)&&(!sf||s.status===sf));
+ table.innerHTML="";
+ list.forEach((s,i)=>{
+   const tr=document.createElement("tr");
+   tr.innerHTML=`<td>${i+1}</td><td><div class="student-img">${s.gender==="Female"?"👩🏻":"👨🏻"}</div></td>
+   <td><div class="student"><b>${s.name}</b></div></td><td>${s.roll}</td><td>${s.class}</td><td>${s.section}</td><td>${s.gender}</td><td>${s.phone}</td>
+   <td><span class="status">${s.status}</span></td><td><div class="actions"><button class="action view">👁</button><button class="action edit">✎</button><button class="action delete">🗑</button></div></td>`;
+   tr.querySelector(".view").onclick=()=>toast("Viewing "+s.name);
+   tr.querySelector(".edit").onclick=()=>toast("Edit mode opened for "+s.name);
+   tr.querySelector(".delete").onclick=()=>{if(confirm("Delete "+s.name+"?")){students.splice(students.indexOf(s),1);render();toast("Student deleted")}};
+   table.appendChild(tr);
+ });
+ empty.style.display=list.length?"none":"block";
+ document.getElementById("resultText").textContent=`Showing ${list.length?1:0} to ${list.length} of ${students.length} visible students`;
+ document.getElementById("totalCount").textContent=(1248+students.length-5).toLocaleString();
+}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.timer);window.timer=setTimeout(()=>t.style.display="none",2200)}
+[search1,search2,classFilter,statusFilter].forEach(el=>el.addEventListener("input",render));
+document.getElementById("clearFilters").onclick=()=>{search1.value="";search2.value="";classFilter.value="";statusFilter.value="";render()};
+document.getElementById("menu").onclick=()=>document.body.classList.toggle("mobile-open");
+document.getElementById("theme").onclick=()=>{document.body.classList.toggle("dark");toast("Theme button clicked")};
+document.getElementById("notify").onclick=()=>toast("You have 3 new notifications");
+document.getElementById("reportLink").onclick=e=>{e.preventDefault();toast("Student class report opened")};
+document.getElementById("allAdmissions").onclick=e=>{e.preventDefault();toast("All admissions opened")};
+document.getElementById("importBtn").onclick=()=>toast("Import students selected");
+document.getElementById("exportBtn").onclick=()=>{
+ const csv="Name,Roll No,Class,Section,Gender,Phone,Status\n"+students.map(s=>`${s.name},${s.roll},${s.class},${s.section},${s.gender},${s.phone},${s.status}`).join("\n");
+ const blob=new Blob([csv],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="students.csv";a.click();URL.revokeObjectURL(a.href);toast("Students CSV exported");
+};
+const modal=document.getElementById("modalBg");
+document.getElementById("addStudent").onclick=()=>modal.style.display="flex";
+document.getElementById("closeModal").onclick=()=>modal.style.display="none";
+document.getElementById("saveStudent").onclick=()=>{
+ const name=document.getElementById("newName").value.trim();if(!name){alert("Please enter student name");return}
+ students.push({name,roll:document.getElementById("newRoll").value||String(students.length+1).padStart(3,"0"),class:document.getElementById("newClass").value,section:document.getElementById("newSection").value,gender:document.getElementById("newGender").value,phone:document.getElementById("newPhone").value||"03XX-XXXXXXX",status:"Active"});
+ modal.style.display="none";document.getElementById("newName").value="";render();toast("New student added successfully");
+};
+document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");if(btn.dataset.page!=="Students")toast(btn.dataset.page+" section selected")});
+render();
+</script>
+</body>
+</html>'''
+
+path = Path("/mnt/data/al-hidayah-students.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created: {path}")

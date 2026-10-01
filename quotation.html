@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="medical-theme.css">
+	<script src="medical-theme.js"></script>
+	<title>Medical Store - Quotations</title>
+	<style>
+		:root { --ink:#173b36; --muted:#64748b; --line:#dbe5e7; --soft:#f7fbfb; --teal:#0d9488; }
+		* { box-sizing:border-box; }
+		body { margin:0; background:var(--bg-color,#ecfeff); color:var(--ink); font:14px "Segoe UI",sans-serif; }
+		.page { max-width:1180px; margin:0 auto; padding:28px 24px 42px; }
+		.topbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:28px; }
+		.eyebrow { color:var(--teal); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+		h1 { margin:5px 0 7px; font-size:28px; letter-spacing:0; }
+		.subtitle { margin:0; color:var(--muted); }
+		.actions { display:flex; gap:10px; align-items:center; }
+		.button { border:0; border-radius:7px; padding:11px 15px; cursor:pointer; font:600 13px inherit; text-decoration:none; }
+		.button.primary { background:var(--teal); color:#fff; }
+		.button.secondary { background:#fff; border:1px solid var(--line); color:var(--ink); }
+		.metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
+		.metric, .workspace { background:#fff; border:1px solid var(--line); border-radius:10px; }
+		.metric { padding:17px; }
+		.metric span { color:var(--muted); font-size:12px; }
+		.metric strong { display:block; margin-top:7px; font-size:22px; }
+		.metric em { color:#059669; font-size:11px; font-style:normal; }
+		.workspace { overflow:hidden; }
+		.workspace-head { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:18px 20px; border-bottom:1px solid var(--line); }
+		.workspace-head h2 { margin:0 0 4px; font-size:17px; }
+		.workspace-head p { margin:0; color:var(--muted); font-size:12px; }
+		.filters { display:flex; gap:10px; align-items:center; padding:14px 20px; background:var(--soft); border-bottom:1px solid var(--line); }
+		.filters input, .filters select, dialog input { border:1px solid var(--line); border-radius:6px; padding:10px 11px; background:#fff; font:inherit; }
+		.filters input { flex:1; min-width:180px; }
+		table { width:100%; border-collapse:collapse; }
+		th { padding:12px 20px; text-align:left; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.04em; background:#fff; }
+		td { padding:15px 20px; border-top:1px solid #edf2f3; font-size:13px; }
+		.quote-number { color:var(--teal); font-weight:700; }
+		.customer { display:grid; gap:3px; }
+		.customer small { color:var(--muted); }
+		.status { display:inline-flex; padding:5px 8px; border-radius:99px; font-size:11px; font-weight:700; }
+		.status.sent { background:#dff7f2; color:#047857; }
+		.status.draft { background:#f1f5f9; color:#475569; }
+		.status.expired { background:#fee2e2; color:#b91c1c; }
+		.row-actions { display:flex; gap:7px; }
+		.icon-button { border:1px solid var(--line); background:#fff; border-radius:6px; padding:7px 9px; cursor:pointer; color:var(--ink); }
+		.empty { padding:30px; text-align:center; color:var(--muted); }
+		dialog { width:min(480px,calc(100% - 32px)); border:0; border-radius:10px; padding:0; box-shadow:0 20px 60px rgba(15,23,42,.2); }
+		dialog::backdrop { background:rgba(15,23,42,.35); }
+		.dialog-head, .dialog-body, .dialog-actions { padding:18px 22px; }
+		.dialog-head { border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+		.dialog-head h2 { margin:0; font-size:18px; }
+		.dialog-body { display:grid; gap:14px; }
+		.dialog-body label { display:grid; gap:6px; color:var(--ink); font-weight:600; }
+		.dialog-actions { border-top:1px solid var(--line); display:flex; justify-content:flex-end; gap:9px; }
+		@media (max-width:760px) { .page { padding:20px 14px; } .topbar, .workspace-head { align-items:flex-start; flex-direction:column; } .metrics { grid-template-columns:repeat(2,1fr); } .filters { flex-wrap:wrap; } table { min-width:760px; } .workspace { overflow-x:auto; } }
+	</style>
+</head>
+<body>
+	<main class="page">
+		<header class="topbar">
+			<div><div class="eyebrow">Sales workspace</div><h1>Quotations</h1><p class="subtitle">Prepare, track and convert customer price proposals.</p></div>
+			<div class="actions"><a class="button secondary" href="sales.html">Back to Sales</a><button class="button primary" id="newQuotation" type="button">+ New Quotation</button></div>
+		</header>
+
+		<section class="metrics" aria-label="Quotation summary">
+			<div class="metric"><span>Total quotations</span><strong id="totalQuotes">3</strong><em>All records</em></div>
+			<div class="metric"><span>Awaiting response</span><strong id="pendingQuotes">2</strong><em>Follow up this week</em></div>
+			<div class="metric"><span>Accepted value</span><strong id="acceptedValue">Rs. 3,240</strong><em>Confirmed business</em></div>
+			<div class="metric"><span>Conversion rate</span><strong>33%</strong><em>Healthy opportunity</em></div>
+		</section>
+
+		<section class="workspace">
+			<div class="workspace-head"><div><h2>Quotation register</h2><p>Review customer proposals and take the next action.</p></div><button class="button secondary" id="printQuotes" type="button">Print Register</button></div>
+			<div class="filters"><input id="quoteSearch" type="search" placeholder="Search quotation or customer..."><select id="quoteStatus"><option value="">All statuses</option><option>Sent</option><option>Draft</option><option>Expired</option></select><select id="quoteSort"><option value="newest">Newest first</option><option value="value">Highest value</option></select></div>
+			<table><thead><tr><th>Quotation</th><th>Customer</th><th>Created</th><th>Valid until</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="quoteRows"></tbody></table>
+			<div class="empty" id="emptyState" hidden>No quotations match your search.</div>
+		</section>
+	</main>
+
+	<dialog id="quotationDialog">
+		<form id="quotationForm">
+			<div class="dialog-head"><h2>Create quotation</h2><button class="icon-button" id="closeDialog" type="button" aria-label="Close">X</button></div>
+			<div class="dialog-body"><label>Customer name<input name="customer" required placeholder="Customer or business name"></label><label>Amount (Rs.)<input name="amount" type="number" min="0" required placeholder="0"></label><label>Valid until<input name="validUntil" type="date" required></label></div>
+			<div class="dialog-actions"><button class="button secondary" id="cancelDialog" type="button">Cancel</button><button class="button primary" type="submit">Create quotation</button></div>
+		</form>
+	</dialog>
+
+	<script>
+		const defaultQuotationData = [
+			{ id:'QT-2025-004', customer:'Ali Raza', contact:'0300 1234567', created:'17 May 2025', valid:'31 May 2025', amount:3240, status:'Sent' },
+			{ id:'QT-2025-003', customer:'Walk-in Customer', contact:'No contact saved', created:'16 May 2025', valid:'30 May 2025', amount:980, status:'Draft' },
+			{ id:'QT-2025-002', customer:'Fatima Khan', contact:'0301 5550192', created:'12 May 2025', valid:'20 May 2025', amount:1850, status:'Expired' }
+		];
+		let quotationData;
+		try { quotationData = JSON.parse(localStorage.getItem('medical_store_quotations') || 'null') || defaultQuotationData; } catch (error) { quotationData = defaultQuotationData; }
+		const rows = document.getElementById('quoteRows');
+		const formatAmount = value => `Rs. ${Number(value).toLocaleString('en-PK')}`;
+		function renderQuotes() {
+			const search = document.getElementById('quoteSearch').value.toLowerCase().trim();
+			const status = document.getElementById('quoteStatus').value;
+			const sort = document.getElementById('quoteSort').value;
+			const items = quotationData.filter(item => (!status || item.status === status) && (!search || `${item.id} ${item.customer}`.toLowerCase().includes(search))).sort((a,b) => sort === 'value' ? b.amount - a.amount : b.id.localeCompare(a.id));
+			rows.innerHTML = items.map(item => `<tr><td><span class="quote-number">${item.id}</span></td><td><div class="customer"><strong>${item.customer}</strong><small>${item.contact}</small></div></td><td>${item.created}</td><td>${item.valid}</td><td><strong>${formatAmount(item.amount)}</strong></td><td><span class="status ${item.status.toLowerCase()}">${item.status}</span></td><td><div class="row-actions"><button class="icon-button" data-action="view" data-id="${item.id}" type="button" title="View quotation">View</button><button class="icon-button" data-action="print" data-id="${item.id}" type="button" title="Print quotation">Print</button></div></td></tr>`).join('');
+			document.getElementById('emptyState').hidden = items.length > 0;
+			document.getElementById('totalQuotes').textContent = quotationData.length;
+			document.getElementById('pendingQuotes').textContent = quotationData.filter(item => item.status !== 'Expired').length;
+			document.getElementById('acceptedValue').textContent = formatAmount(quotationData.filter(item => item.status === 'Sent').reduce((sum,item) => sum + item.amount, 0));
+		}
+		['quoteSearch','quoteStatus','quoteSort'].forEach(id => document.getElementById(id).addEventListener('input', renderQuotes));
+		rows.addEventListener('click', event => { const button = event.target.closest('[data-action]'); if (!button) return; const item = quotationData.find(quote => quote.id === button.dataset.id); if (button.dataset.action === 'print') window.print(); else window.alert(`${item.id}\n${item.customer}\n${formatAmount(item.amount)}`); });
+		document.getElementById('printQuotes').addEventListener('click', () => window.print());
+		const dialog = document.getElementById('quotationDialog');
+		document.getElementById('newQuotation').addEventListener('click', () => dialog.showModal());
+		document.getElementById('closeDialog').addEventListener('click', () => dialog.close());
+		document.getElementById('cancelDialog').addEventListener('click', () => dialog.close());
+		document.getElementById('quotationForm').addEventListener('submit', event => { event.preventDefault(); const data = new FormData(event.currentTarget); const nextId = `QT-${new Date().getFullYear()}-${String(quotationData.length + 5).padStart(3,'0')}`; quotationData.unshift({ id:nextId, customer:data.get('customer'), contact:'New customer', created:'Today', valid:data.get('validUntil'), amount:Number(data.get('amount')), status:'Draft' }); localStorage.setItem('medical_store_quotations', JSON.stringify(quotationData)); event.currentTarget.reset(); dialog.close(); renderQuotes(); });
+		renderQuotes();
+	</script>
+</body>
+</html>

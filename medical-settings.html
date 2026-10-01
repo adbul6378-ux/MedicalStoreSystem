@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script><script src="rbac.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Medical Store - Settings</title>
+  <style>
+    :root { --navy:#071931; --blue:#1d61e8; --bg:#f4f6f9; --text:#1f2937; --muted:#6b7280; --border:#e5e7eb; }
+    html[data-theme="emerald"] { --navy:#083344; --blue:#0d9488; --bg:#ecfeff; --text:#134e4a; --border:#bae6fd; }
+    html[data-theme="sunrise"] { --navy:#422006; --blue:#ea580c; --bg:#fff7ed; --text:#431407; --border:#fed7aa; }
+    html[data-theme="graphite"] { --navy:#111827; --blue:#4b5563; --bg:#f3f4f6; --text:#1f2937; --border:#d1d5db; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:14px "Segoe UI", sans-serif; }
+    .layout { display:flex; min-height:100vh; }
+    aside { width:230px; background:var(--navy); color:#fff; padding:22px 14px; }
+    .brand { padding:0 10px 22px; border-bottom:1px solid #1f2937; }
+    .brand h2 { margin:0 0 4px; font-size:18px; }
+    .brand p { margin:0; color:#9ca3af; font-size:12px; }
+    nav { margin-top:20px; display:grid; gap:5px; }
+    nav a { color:#cbd5e1; text-decoration:none; padding:11px 12px; border-radius:7px; }
+    nav a:hover, nav a.active { background:var(--blue); color:#fff; }
+    main { flex:1; padding:28px; }
+    .header { margin-bottom:22px; }
+    .header h1 { margin:0 0 6px; font-size:25px; }
+    .header p { margin:0; color:var(--muted); }
+    .panel { max-width:980px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:18px; }
+    .panel h2 { margin:0 0 20px; font-size:18px; }
+    .grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; }
+    label { display:grid; gap:7px; color:#374151; font-weight:600; }
+    input, select, textarea { width:100%; padding:11px 12px; border:1px solid #d1d5db; border-radius:6px; font:inherit; }
+    textarea { min-height:88px; resize:vertical; }
+    .full { grid-column:1 / -1; }
+    .hint { margin:-10px 0 18px; color:var(--muted); font-size:12px; }
+    .theme-options { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px; }
+    .theme-option { display:flex; align-items:center; gap:9px; padding:12px; border:1px solid #d1d5db; border-radius:8px; cursor:pointer; font-weight:600; }
+    .theme-option:has(input:checked) { border-color:var(--blue); box-shadow:0 0 0 2px color-mix(in srgb, var(--blue) 18%, transparent); }
+    .theme-option input { width:16px; height:16px; accent-color:var(--blue); }
+    .swatch { width:22px; height:22px; border-radius:6px; background:var(--swatch); border:1px solid rgba(0,0,0,.12); }
+    .theme-copy { display:grid; gap:2px; }
+    .theme-copy small { color:var(--muted); font-size:11px; font-weight:400; }
+    .toggle { display:flex; grid-template-columns:none; align-items:center; gap:10px; font-weight:500; }
+    .toggle input { width:18px; height:18px; accent-color:var(--blue); }
+    .actions { margin-top:22px; display:flex; justify-content:flex-end; gap:10px; }
+    button { border:0; border-radius:6px; padding:11px 16px; cursor:pointer; font-weight:600; }
+    .secondary { background:#eef2f7; color:#374151; }
+    .primary { background:var(--blue); color:#fff; }
+    .status { min-height:20px; margin:12px 0 0; color:#047857; font-weight:600; text-align:right; }
+    @media (max-width:700px) { .layout { display:block; } aside { width:auto; } .grid { grid-template-columns:1fr; } .full { grid-column:auto; } main { padding:18px; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand"><h2>Medical Store</h2><p>Management System</p></div>
+      <nav aria-label="Medical store navigation">
+        <a href="merged_medical_store.html">Dashboard</a>
+        <a href="medicine.html">Medicine</a>
+        <a href="sales.html">Sales</a>
+        <a href="customer.html">Customers</a>
+        <a href="suppliers.html">Suppliers</a>
+        <a href="purchases.html">Purchases</a>
+        <a href="stock.html">Stock</a>
+        <a href="medical-reports.html">Reports</a>
+        <a href="expenses.html">Expenses</a>
+        <a href="users.html">Users</a>
+        <a class="active" href="medical-settings.html">Settings</a>
+      </nav>
+    </aside>
+    <main>
+      <header class="header">
+        <h1>Medical Store Settings</h1>
+        <p>Configure store details, invoice preferences and stock alerts.</p>
+      </header>
+      <form id="settingsForm">
+      <section class="panel">
+        <h2>Color Theme</h2>
+        <p class="hint">Choose a visual style for the Medical Store dashboard. Your selection appears immediately after saving.</p>
+        <div class="theme-options">
+          <label class="theme-option"><input type="radio" name="theme" value="ocean" checked><span class="swatch" style="--swatch:#2563eb"></span><span class="theme-copy">Ocean<small>Clean and focused</small></span></label>
+          <label class="theme-option"><input type="radio" name="theme" value="emerald"><span class="swatch" style="--swatch:#0d9488"></span><span class="theme-copy">Modern Teal<small>Fresh and professional</small></span></label>
+          <label class="theme-option"><input type="radio" name="theme" value="sunrise"><span class="swatch" style="--swatch:#ea580c"></span><span class="theme-copy">Sunrise<small>Warm and energetic</small></span></label>
+          <label class="theme-option"><input type="radio" name="theme" value="graphite"><span class="swatch" style="--swatch:#4b5563"></span><span class="theme-copy">Graphite<small>Quiet and premium</small></span></label>
+        </div>
+        <div class="grid" style="margin-top:18px;">
+          <label>Custom Accent Color<input id="accentColor" name="accentColor" type="color" value="#2563eb"></label>
+          <label class="toggle"><input id="compactMode" name="compactMode" type="checkbox"> Use compact dashboard layout</label>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Store Information</h2>
+        <p class="hint">These details appear on invoices and store records.</p>
+        <div class="grid">
+          <label class="full">Store Name<input id="storeName" name="storeName" type="text" value="Al-Hidayah Medical Store" required></label>
+          <label>Owner Name<input id="ownerName" name="ownerName" type="text" value="Store Owner"></label>
+          <label>Contact Number<input id="contactNumber" name="contactNumber" type="text" value="+92 300 1234567"></label>
+          <label>Email<input id="email" name="email" type="email" value="admin@medicalstore.com"></label>
+          <label>Currency<select id="currency" name="currency"><option>PKR (Rs.)</option><option>USD ($)</option><option>AED</option></select></label>
+          <label class="full">Address<textarea id="address" name="address">Main Market, Lahore</textarea></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Invoice Preferences</h2>
+        <p class="hint">Control invoice numbering, tax and the text printed for customers.</p>
+        <div class="grid">
+          <label>Invoice Prefix<input id="invoicePrefix" name="invoicePrefix" type="text" value="INV-"></label>
+          <label>Default Tax Rate (%)<input id="taxRate" name="taxRate" type="number" min="0" max="100" step="0.1" value="0"></label>
+          <label class="full">Invoice Footer<textarea id="invoiceFooter" name="invoiceFooter">Thank you for your purchase.</textarea></label>
+          <label class="toggle"><input id="showStoreContact" name="showStoreContact" type="checkbox" checked> Show store contact on invoices</label>
+          <label class="toggle"><input id="showInvoiceLogo" name="showInvoiceLogo" type="checkbox" checked> Show store logo on invoices</label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Inventory Alerts</h2>
+        <p class="hint">Get clear thresholds for low stock and medicines nearing expiry.</p>
+        <div class="grid">
+          <label>Low Stock Threshold<input id="lowStockThreshold" name="lowStockThreshold" type="number" min="0" value="10"></label>
+          <label>Expiry Warning (days)<input id="expiryWarningDays" name="expiryWarningDays" type="number" min="1" value="30"></label>
+          <label class="toggle"><input id="lowStockAlerts" name="lowStockAlerts" type="checkbox" checked> Enable low-stock alerts</label>
+          <label class="toggle"><input id="expiryAlerts" name="expiryAlerts" type="checkbox" checked> Enable expiry alerts</label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>AI Copilot</h2>
+        <p class="hint">Use local store intelligence now, or connect a secure backend endpoint for a real AI model. Never place an API key in this browser form.</p>
+        <div class="grid">
+          <label class="toggle"><input id="aiEnabled" name="aiEnabled" type="checkbox"> Enable connected AI</label>
+          <label>Model Name<input id="aiModel" name="aiModel" type="text" value="medical-store-copilot"></label>
+          <label class="full">Secure AI Endpoint<input id="aiEndpoint" name="aiEndpoint" type="url" placeholder="https://your-server.example.com/api/assistant"></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>System Preferences</h2>
+        <p class="hint">Choose how dates and confirmations behave throughout the store.</p>
+        <div class="grid">
+          <label>Date Format<select id="dateFormat" name="dateFormat"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select></label>
+          <label>Default Payment Method<select id="paymentMethod" name="paymentMethod"><option>Cash</option><option>Card</option><option>Bank Transfer</option></select></label>
+          <label class="toggle"><input id="confirmDelete" name="confirmDelete" type="checkbox" checked> Ask before deleting records</label>
+          <label class="toggle"><input id="desktopNotifications" name="desktopNotifications" type="checkbox"> Enable desktop notifications</label>
+        </div>
+        <div class="actions">
+          <button class="secondary" type="button" id="resetSettings">Reset Defaults</button>
+          <button class="secondary" type="button" id="exportSettings">Export Settings</button>
+          <button class="primary" type="submit" id="saveSettings">Save Settings</button>
+        </div>
+        <p id="saveStatus" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      </form>
+    </main>
+  </div>
+  <script>
+    (() => {
+    const settingsKey = 'medical_store_settings';
+    const form = document.getElementById('settingsForm');
+    if (!window.MedicalRBAC || !window.MedicalRBAC.requirePermission('Settings', 'view')) return;
+    window.MedicalRBAC.hideUnauthorizedControls();
+    const fields = Array.from(form.querySelectorAll('[name]'));
+    const defaults = {};
+    fields.forEach(field => {
+      if (field.type === 'radio' && !field.checked) return;
+      defaults[field.name] = field.type === 'checkbox' ? field.checked : field.value;
+    });
+
+    function readSettings() {
+      try { return JSON.parse(localStorage.getItem(settingsKey)) || {}; } catch (error) { return {}; }
+    }
+
+    function applySettings(settings) {
+      fields.forEach(field => {
+        if (!(field.name in settings)) return;
+        if (field.type === 'checkbox') field.checked = Boolean(settings[field.name]);
+        else if (field.type === 'radio') field.checked = field.value === settings[field.name];
+        else field.value = settings[field.name];
+      });
+      applyTheme(settings);
+    }
+
+    function applyTheme(settings) {
+      document.documentElement.dataset.theme = settings.theme || 'ocean';
+      if (settings.accentColor) document.documentElement.style.setProperty('--blue', settings.accentColor);
+    }
+
+    function collectSettings() {
+      const settings = {};
+      fields.forEach(field => {
+        if (field.type === 'radio' && !field.checked) return;
+        settings[field.name] = field.type === 'checkbox' ? field.checked : field.value;
+      });
+      return settings;
+    }
+
+    function showStatus(message) {
+      const status = document.getElementById('saveStatus');
+      status.textContent = message;
+      window.setTimeout(() => { status.textContent = ''; }, 2500);
+    }
+
+    applySettings(readSettings());
+    document.querySelectorAll('input[name="theme"]').forEach(input => {
+      input.addEventListener('change', () => applyTheme({ theme: input.value, accentColor: document.getElementById('accentColor').value }));
+    });
+    document.getElementById('accentColor').addEventListener('input', () => {
+      applyTheme({ theme: document.querySelector('input[name="theme"]:checked').value, accentColor: document.getElementById('accentColor').value });
+    });
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!window.MedicalRBAC || !window.MedicalRBAC.requirePermission('Settings', 'edit')) return;
+      const settings = collectSettings();
+      localStorage.setItem(settingsKey, JSON.stringify(settings));
+      applyTheme(settings);
+      showStatus('Settings saved successfully.');
+    });
+    document.getElementById('resetSettings').addEventListener('click', () => {
+      applySettings(defaults);
+      localStorage.removeItem(settingsKey);
+      showStatus('Default settings restored.');
+    });
+    document.getElementById('exportSettings').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(collectSettings(), null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'medical-store-settings.json';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      showStatus('Settings exported.');
+    });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Exams & Results</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    background:#eef6ff;
+    color:#102d5c;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:255px;
+    height:100vh;
+    background:linear-gradient(180deg,#061d3c,#052957);
+    color:white;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo-area{
+    height:105px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#f9b62d,#fff0a5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:29px;
+    color:#092750;
+}
+
+.logo-text h2{
+    font-family:Georgia,serif;
+    font-size:18px;
+    line-height:21px;
+}
+
+.logo-text p{
+    font-size:10px;
+    color:#d7e5f9;
+    margin-top:5px;
+}
+
+.menu{
+    padding:14px 10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#e5efff;
+    text-decoration:none;
+    padding:11px 14px;
+    margin:3px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.09);
+}
+
+.menu a.active{
+    background:linear-gradient(90deg,#0865d8,#147ee8);
+    color:white;
+    font-weight:600;
+}
+
+.menu-icon{
+    width:22px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-bottom{
+    padding:45px 22px 20px;
+}
+
+.quote{
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:20px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:68px;
+    background:white;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    gap:25px;
+    border-bottom:1px solid #dce9f7;
+}
+
+.hamburger{
+    font-size:25px;
+    color:#092e61;
+    cursor:pointer;
+}
+
+.search{
+    width:440px;
+    height:39px;
+    background:#edf5fd;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    color:#7590b1;
+}
+
+.search input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding-left:10px;
+}
+
+.top-space{
+    flex:1;
+}
+
+.notification{
+    position:relative;
+    font-size:21px;
+}
+
+.notification span{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:#e7292f;
+    color:white;
+    font-size:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.profile-img{
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    background:#dce9f7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.profile-info small{
+    color:#7890ad;
+    font-size:9px;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:18px 16px 25px;
+}
+
+.page-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 295px;
+    gap:18px;
+}
+
+/* ================= BANNER ================= */
+
+.banner{
+    height:98px;
+    border-radius:10px;
+    background:
+    linear-gradient(90deg,rgba(4,35,73,.97),rgba(7,59,103,.68)),
+    linear-gradient(135deg,#315b77,#91b49b);
+    display:flex;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+.banner-icon{
+    width:56px;
+    height:56px;
+    border-radius:13px;
+    background:#e8f3ff;
+    color:#0871dc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    margin-right:15px;
+}
+
+.banner h1{
+    font-family:Georgia,serif;
+    font-size:25px;
+}
+
+.banner p{
+    font-size:12px;
+    margin-top:5px;
+}
+
+.banner-quote{
+    margin-left:auto;
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:13px;
+    text-align:center;
+}
+
+/* ================= STAT CARDS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:11px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+}
+
+.stat-card{
+    min-height:120px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.stat-icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.blue{
+    background:#e0f0ff;
+    color:#1478e5;
+}
+
+.green{
+    background:#dcf7eb;
+    color:#07986b;
+}
+
+.orange{
+    background:#fff0d8;
+    color:#dc8c0a;
+}
+
+.purple{
+    background:#eee5ff;
+    color:#6438d5;
+}
+
+.stat-info{
+    flex:1;
+}
+
+.stat-info p{
+    font-size:11px;
+    color:#174680;
+}
+
+.stat-info h2{
+    font-size:23px;
+    color:#092e68;
+    margin:4px 0;
+}
+
+.stat-info small{
+    font-size:9px;
+    color:#617e9f;
+}
+
+.up{
+    color:#07986b !important;
+}
+
+/* ================= MIDDLE ================= */
+
+.middle{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:13px;
+    margin-top:14px;
+}
+
+.panel{
+    padding:17px;
+    min-height:245px;
+}
+
+.panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    font-weight:700;
+    color:#0b2e62;
+    margin-bottom:15px;
+}
+
+.panel-title a{
+    font-size:9px;
+    color:#0872df;
+    text-decoration:none;
+}
+
+/* RESULT CHART */
+
+.result-chart{
+    height:170px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-around;
+    border-bottom:1px solid #dbe8f5;
+    padding-top:10px;
+}
+
+.chart-column{
+    width:12%;
+    height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    position:relative;
+}
+
+.chart-bar{
+    width:27px;
+    border-radius:6px 6px 0 0;
+    background:#197edc;
+}
+
+.chart-value{
+    position:absolute;
+    top:-3px;
+    font-size:9px;
+    font-weight:bold;
+    color:#163e70;
+}
+
+.chart-label{
+    position:absolute;
+    bottom:-22px;
+    font-size:9px;
+    color:#5d789c;
+}
+
+/* EXAM LIST */
+
+.exam-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.exam-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:#e8f3ff;
+    color:#0872df;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+}
+
+.exam-info{
+    flex:1;
+}
+
+.exam-info strong{
+    display:block;
+    font-size:11px;
+    color:#214d82;
+}
+
+.exam-info small{
+    color:#7890ad;
+    font-size:9px;
+}
+
+.exam-status{
+    padding:5px 9px;
+    border-radius:15px;
+    font-size:8px;
+    background:#d9f5eb;
+    color:#078e68;
+}
+
+/* ================= TABLE ================= */
+
+.table-card{
+    margin-top:14px;
+    overflow:hidden;
+}
+
+.table-header{
+    padding:15px 17px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    border-bottom:1px solid #e2edf7;
+}
+
+.table-header h3{
+    font-size:14px;
+    margin-right:auto;
+}
+
+.select,
+.search-input{
+    height:32px;
+    border:1px solid #d9e7f5;
+    border-radius:7px;
+    outline:none;
+    background:white;
+    color:#385a85;
+    padding:0 10px;
+    font-size:10px;
+}
+
+.search-input{
+    width:180px;
+}
+
+.primary-btn{
+    height:32px;
+    border:none;
+    background:#0872df;
+    color:white;
+    border-radius:7px;
+    padding:0 14px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:10px;
+}
+
+thead{
+    background:#f7fbff;
+}
+
+th{
+    padding:11px 8px;
+    text-align:left;
+    color:#173f72;
+    font-size:9px;
+}
+
+td{
+    padding:10px 8px;
+    border-top:1px solid #edf3f9;
+    color:#345b89;
+}
+
+.student{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:500;
+    color:#214d82;
+}
+
+.student-photo{
+    width:29px;
+    height:29px;
+    border-radius:50%;
+    background:#dce8f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.marks{
+    font-weight:700;
+    color:#173f72;
+}
+
+.grade{
+    display:inline-block;
+    min-width:27px;
+    text-align:center;
+    padding:5px 7px;
+    border-radius:6px;
+    background:#e3f2ff;
+    color:#0872df;
+    font-weight:bold;
+}
+
+.pass{
+    padding:5px 10px;
+    border-radius:15px;
+    background:#d8f5eb;
+    color:#078e68;
+    font-size:9px;
+}
+
+.fail{
+    padding:5px 10px;
+    border-radius:15px;
+    background:#ffe0e2;
+    color:#df3038;
+    font-size:9px;
+}
+
+.action-btn{
+    border:none;
+    background:#edf5ff;
+    color:#0872df;
+    width:29px;
+    height:29px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* ================= RIGHT SIDE ================= */
+
+.right{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.right-card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+    padding:15px;
+}
+
+.right-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:700;
+    color:#0b2e62;
+    margin-bottom:13px;
+}
+
+/* QUICK ACTIONS */
+
+.quick button{
+    width:100%;
+    height:38px;
+    border-radius:7px;
+    border:1px solid #dce9f5;
+    margin-bottom:9px;
+    text-align:left;
+    padding:0 12px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+.create{
+    background:#328be5;
+    color:white;
+}
+
+.enter{
+    background:#d9f5ee;
+    color:#078d6a;
+}
+
+.publish{
+    background:#eee6ff;
+    color:#6033c6;
+}
+
+.report{
+    background:#fff0dc;
+    color:#b56d08;
+}
+
+/* EXAM SUMMARY */
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin:11px 0;
+    font-size:10px;
+}
+
+.summary-row strong{
+    color:#153d71;
+}
+
+.progress-box{
+    margin:13px 0;
+}
+
+.progress-head{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    margin-bottom:7px;
+}
+
+.progress{
+    width:100%;
+    height:9px;
+    background:#e8f0f7;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:92%;
+    background:#159c75;
+    border-radius:20px;
+}
+
+/* TOP STUDENTS */
+
+.top-student{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.rank{
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:#e7f1ff;
+    color:#0872df;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:9px;
+}
+
+.top-info{
+    flex:1;
+}
+
+.top-info strong{
+    display:block;
+    font-size:10px;
+}
+
+.top-info small{
+    color:#7890ad;
+    font-size:8px;
+}
+
+.percentage{
+    color:#078e68;
+    font-size:10px;
+    font-weight:bold;
+}
+
+/* RECENT ACTIVITY */
+
+.activity{
+    display:flex;
+    gap:9px;
+    padding:9px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.activity-icon{
+    width:29px;
+    height:29px;
+    border-radius:7px;
+    background:#e8f3ff;
+    color:#0872df;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.activity-info{
+    font-size:9px;
+}
+
+.activity-info strong{
+    display:block;
+    font-size:10px;
+}
+
+.activity-info small{
+    color:#7890ad;
+    font-size:8px;
+}
+
+/* PAGINATION */
+
+.pagination{
+    padding:13px 17px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+    color:#58789f;
+}
+
+.pages{
+    display:flex;
+    gap:5px;
+}
+
+.page-btn{
+    width:28px;
+    height:28px;
+    border:1px solid #e0ebf6;
+    background:white;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.page-btn.active{
+    background:#0872df;
+    color:white;
+    border-color:#0872df;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#082f68;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    font-size:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+    display:none;
+    z-index:9999;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .page-grid{
+        grid-template-columns:1fr;
+    }
+
+    .right{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        left:-255px;
+        transition:.3s;
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .search{
+        width:220px;
+    }
+
+    .stats,
+    .middle,
+    .right{
+        grid-template-columns:1fr;
+    }
+
+    .banner-quote{
+        display:none;
+    }
+
+    .table-card{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:850px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo-area">
+
+        <div class="logo">📖</div>
+
+        <div class="logo-text">
+            <h2>Al-Hidayah<br>Public School</h2>
+            <p>Learn • Grow • Succeed</p>
+        </div>
+
+    </div>
+
+    <nav class="menu">
+
+        <a href="#"><span class="menu-icon">⌂</span>Dashboard</a>
+        <a href="#"><span class="menu-icon">👥</span>Students</a>
+        <a href="#"><span class="menu-icon">👨‍🏫</span>Teachers</a>
+        <a href="#"><span class="menu-icon">📖</span>Classes</a>
+        <a href="#"><span class="menu-icon">☑</span>Attendance</a>
+        <a href="#"><span class="menu-icon">💵</span>Fees & Accounts</a>
+
+        <a href="#" class="active">
+            <span class="menu-icon">📋</span>
+            Exams & Results
+        </a>
+
+        <a href="#"><span class="menu-icon">🎓</span>Academics</a>
+        <a href="#"><span class="menu-icon">🗓</span>Timetable</a>
+        <a href="#"><span class="menu-icon">📚</span>Library</a>
+        <a href="#"><span class="menu-icon">🚌</span>Transport</a>
+        <a href="#"><span class="menu-icon">♥</span>Health</a>
+        <a href="#"><span class="menu-icon">👨‍👩‍👧</span>Parents</a>
+        <a href="#"><span class="menu-icon">💬</span>Communication</a>
+        <a href="#"><span class="menu-icon">📑</span>Reports</a>
+        <a href="#"><span class="menu-icon">⚙</span>Settings</a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="quote">
+            Discipline<br>
+            Builds<br>
+            Bright Futures
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="hamburger" id="hamburger">☰</div>
+
+    <div class="search">
+        🔍
+        <input
+            type="text"
+            id="globalSearch"
+            placeholder="Search students, exams, results..."
+        >
+    </div>
+
+    <div class="top-space"></div>
+
+    <div class="notification">
+        🔔
+        <span>3</span>
+    </div>
+
+    <div class="profile">
+
+        <div class="profile-img">👨🏻</div>
+
+        <div class="profile-info">
+            <strong>Admin</strong>
+            <small>Administrator</small>
+        </div>
+
+        <span>⌄</span>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<div class="page-grid">
+
+<section>
+
+<!-- ================= BANNER ================= -->
+
+<div class="banner">
+
+    <div class="banner-icon">📋</div>
+
+    <div>
+        <h1>Exams & Results</h1>
+        <p>
+            Manage examinations, marks, grades and student results easily.
+        </p>
+    </div>
+
+    <div class="banner-quote">
+        “Success Comes<br>
+        Through Learning”
+    </div>
+
+</div>
+
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+    <div class="card stat-card">
+
+        <div class="stat-icon blue">📝</div>
+
+        <div class="stat-info">
+            <p>Total Exams</p>
+            <h2>24</h2>
+            <small class="up">⬆ +4 this session</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon green">🎓</div>
+
+        <div class="stat-info">
+            <p>Students Appeared</p>
+            <h2>1,184</h2>
+            <small class="up">95% participation</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon orange">🏆</div>
+
+        <div class="stat-info">
+            <p>Passed Students</p>
+            <h2>1,096</h2>
+            <small>92.6% pass rate</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon purple">📊</div>
+
+        <div class="stat-info">
+            <p>Average Result</p>
+            <h2>84.8%</h2>
+            <small class="up">⬆ +3.4% improvement</small>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CHARTS ================= -->
+
+<div class="middle">
+
+    <div class="card panel">
+
+        <div class="panel-title">
+            <span>📊 Class Result Overview</span>
+            <a href="#">View Report →</a>
+        </div>
+
+        <div class="result-chart">
+
+            <div class="chart-column">
+                <span class="chart-value">88%</span>
+                <div class="chart-bar" style="height:120px"></div>
+                <span class="chart-label">6A</span>
+            </div>
+
+            <div class="chart-column">
+                <span class="chart-value">91%</span>
+                <div class="chart-bar" style="height:130px"></div>
+                <span class="chart-label">7A</span>
+            </div>
+
+            <div class="chart-column">
+                <span class="chart-value">86%</span>
+                <div class="chart-bar" style="height:112px"></div>
+                <span class="chart-label">8A</span>
+            </div>
+
+            <div class="chart-column">
+                <span class="chart-value">94%</span>
+                <div class="chart-bar" style="height:137px"></div>
+                <span class="chart-label">9A</span>
+            </div>
+
+            <div class="chart-column">
+                <span class="chart-value">89%</span>
+                <div class="chart-bar" style="height:124px"></div>
+                <span class="chart-label">10A</span>
+            </div>
+
+            <div class="chart-column">
+                <span class="chart-value">83%</span>
+                <div class="chart-bar" style="height:108px"></div>
+                <span class="chart-label">11A</span>
+            </div>
+
+            <div class="chart-column">
+                <span class="chart-value">87%</span>
+                <div class="chart-bar" style="height:116px"></div>
+                <span class="chart-label">12A</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card panel">
+
+        <div class="panel-title">
+            <span>📝 Upcoming Exams</span>
+            <a href="#">View All →</a>
+        </div>
+
+
+        <div class="exam-item">
+
+            <div class="exam-icon">📐</div>
+
+            <div class="exam-info">
+                <strong>Mathematics</strong>
+                <small>Class 10A • 20 Sep 2025</small>
+            </div>
+
+            <span class="exam-status">Scheduled</span>
+
+        </div>
+
+
+        <div class="exam-item">
+
+            <div class="exam-icon">🔬</div>
+
+            <div class="exam-info">
+                <strong>Physics</strong>
+                <small>Class 11A • 22 Sep 2025</small>
+            </div>
+
+            <span class="exam-status">Scheduled</span>
+
+        </div>
+
+
+        <div class="exam-item">
+
+            <div class="exam-icon">📖</div>
+
+            <div class="exam-info">
+                <strong>English</strong>
+                <small>Class 9A • 24 Sep 2025</small>
+            </div>
+
+            <span class="exam-status">Scheduled</span>
+
+        </div>
+
+
+        <div class="exam-item">
+
+            <div class="exam-icon">🧪</div>
+
+            <div class="exam-info">
+                <strong>Chemistry</strong>
+                <small>Class 12A • 26 Sep 2025</small>
+            </div>
+
+            <span class="exam-status">Scheduled</span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= RESULTS TABLE ================= -->
+
+<div class="card table-card">
+
+    <div class="table-header">
+
+        <h3>🎓 Student Results</h3>
+
+        <select class="select" id="classFilter">
+
+            <option value="All">All Classes</option>
+            <option value="6A">Class 6A</option>
+            <option value="7A">Class 7A</option>
+            <option value="8A">Class 8A</option>
+            <option value="9A">Class 9A</option>
+            <option value="10A">Class 10A</option>
+            <option value="11A">Class 11A</option>
+            <option value="12A">Class 12A</option>
+
+        </select>
+
+
+        <select class="select" id="examFilter">
+
+            <option value="Annual">Annual Exam</option>
+            <option value="Midterm">Mid Term</option>
+            <option value="Monthly">Monthly Test</option>
+
+        </select>
+
+
+        <input
+            class="search-input"
+            id="studentSearch"
+            type="text"
+            placeholder="🔍 Search student..."
+        >
+
+
+        <button class="primary-btn" id="addResult">
+            + Enter Result
+        </button>
+
+    </div>
+
+
+    <div style="overflow-x:auto">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Exam</th>
+                    <th>Total Marks</th>
+                    <th>Obtained</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="resultTable"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="pagination">
+
+        <span id="showing">
+            Showing 1 to 8 of 20 students
+        </span>
+
+        <div class="pages">
+
+            <button class="page-btn" id="prev">‹</button>
+
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+
+            <button class="page-btn" id="next">›</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= RIGHT SIDEBAR ================= -->
+
+<aside class="right">
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="right-card quick">
+
+    <div class="right-title">
+        ⚡ Quick Actions
+    </div>
+
+    <button class="create" id="createExam">
+        📝 &nbsp; Create New Exam
+    </button>
+
+    <button class="enter" id="enterMarks">
+        ✍ &nbsp; Enter Student Marks
+    </button>
+
+    <button class="publish" id="publishResult">
+        📢 &nbsp; Publish Results
+    </button>
+
+    <button class="report" id="downloadReport">
+        📄 &nbsp; Download Result Report
+    </button>
+
+</div>
+
+
+<!-- EXAM SUMMARY -->
+
+<div class="right-card">
+
+    <div class="right-title">
+        📈 Examination Summary
+    </div>
+
+
+    <div class="summary-row">
+        <span>Completed Exams</span>
+        <strong>18</strong>
+    </div>
+
+    <div class="summary-row">
+        <span>Upcoming Exams</span>
+        <strong>6</strong>
+    </div>
+
+    <div class="summary-row">
+        <span>Results Published</span>
+        <strong>16</strong>
+    </div>
+
+
+    <div class="progress-box">
+
+        <div class="progress-head">
+            <span>Result Completion</span>
+            <strong>92%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOP STUDENTS -->
+
+<div class="right-card">
+
+    <div class="right-title">
+        🏆 Top Performing Students
+    </div>
+
+
+    <div class="top-student">
+
+        <div class="rank">1</div>
+
+        <div class="top-info">
+            <strong>Hira Khan</strong>
+            <small>Class 9A</small>
+        </div>
+
+        <div class="percentage">96%</div>
+
+    </div>
+
+
+    <div class="top-student">
+
+        <div class="rank">2</div>
+
+        <div class="top-info">
+            <strong>Ahmed Raza</strong>
+            <small>Class 6A</small>
+        </div>
+
+        <div class="percentage">94%</div>
+
+    </div>
+
+
+    <div class="top-student">
+
+        <div class="rank">3</div>
+
+        <div class="top-info">
+            <strong>Ayesha Khan</strong>
+            <small>Class 7A</small>
+        </div>
+
+        <div class="percentage">93%</div>
+
+    </div>
+
+
+    <div class="top-student">
+
+        <div class="rank">4</div>
+
+        <div class="top-info">
+            <strong>Bilal Ahmed</strong>
+            <small>Class 8A</small>
+        </div>
+
+        <div class="percentage">91%</div>
+
+    </div>
+
+</div>
+
+
+<!-- RECENT ACTIVITY -->
+
+<div class="right-card">
+
+    <div class="right-title">
+        🔔 Recent Activity
+    </div>
+
+
+    <div class="activity">
+
+        <div class="activity-icon">✓</div>
+
+        <div class="activity-info">
+            <strong>Annual results published</strong>
+            <small>Today • 10:25 AM</small>
+        </div>
+
+    </div>
+
+
+    <div class="activity">
+
+        <div class="activity-icon">📝</div>
+
+        <div class="activity-info">
+            <strong>Mathematics marks updated</strong>
+            <small>Today • 09:40 AM</small>
+        </div>
+
+    </div>
+
+
+    <div class="activity">
+
+        <div class="activity-icon">📅</div>
+
+        <div class="activity-info">
+            <strong>New exam scheduled</strong>
+            <small>Yesterday • 02:15 PM</small>
+        </div>
+
+    </div>
+
+
+    <div class="activity">
+
+        <div class="activity-icon">📊</div>
+
+        <div class="activity-info">
+            <strong>Class 9A report generated</strong>
+            <small>Yesterday • 11:20 AM</small>
+        </div>
+
+    </div>
+
+</div>
+
+</aside>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================================
+   RESULT DATA
+========================================= */
+
+const results = [
+
+    {
+        name:"Ahmed Raza",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:470
+    },
+
+    {
+        name:"Ayesha Khan",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:450
+    },
+
+    {
+        name:"Ali Hamza",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:425
+    },
+
+    {
+        name:"Fatima Noor",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:465
+    },
+
+    {
+        name:"Usman Tariq",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:350
+    },
+
+    {
+        name:"Sara Ahmed",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:410
+    },
+
+    {
+        name:"Zainab Fatima",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:440
+    },
+
+    {
+        name:"Bilal Ahmed",
+        class:"6A",
+        exam:"Annual",
+        total:500,
+        obtained:455
+    },
+
+    {
+        name:"Hassan Ali",
+        class:"7A",
+        exam:"Annual",
+        total:600,
+        obtained:550
+    },
+
+    {
+        name:"Maryam Shah",
+        class:"7A",
+        exam:"Annual",
+        total:600,
+        obtained:510
+    },
+
+    {
+        name:"Hamza Aslam",
+        class:"8A",
+        exam:"Annual",
+        total:600,
+        obtained:525
+    },
+
+    {
+        name:"Iqra Noor",
+        class:"8A",
+        exam:"Annual",
+        total:600,
+        obtained:480
+    },
+
+    {
+        name:"Danish Ahmed",
+        class:"9A",
+        exam:"Annual",
+        total:700,
+        obtained:655
+    },
+
+    {
+        name:"Hira Khan",
+        class:"9A",
+        exam:"Annual",
+        total:700,
+        obtained:672
+    },
+
+    {
+        name:"Saad Malik",
+        class:"10A",
+        exam:"Annual",
+        total:700,
+        obtained:620
+    },
+
+    {
+        name:"Anaya Ali",
+        class:"10A",
+        exam:"Annual",
+        total:700,
+        obtained:645
+    },
+
+    {
+        name:"Usman Shah",
+        class:"11A",
+        exam:"Annual",
+        total:800,
+        obtained:665
+    },
+
+    {
+        name:"Laiba Tariq",
+        class:"11A",
+        exam:"Annual",
+        total:800,
+        obtained:710
+    },
+
+    {
+        name:"Abdullah Khan",
+        class:"12A",
+        exam:"Annual",
+        total:800,
+        obtained:690
+    },
+
+    {
+        name:"Areeba Fatima",
+        class:"12A",
+        exam:"Annual",
+        total:800,
+        obtained:735
+    }
+
+];
+
+
+/* =========================================
+   GRADE CALCULATION
+========================================= */
+
+function getGrade(percentage){
+
+    if(percentage >= 90) return "A+";
+    if(percentage >= 80) return "A";
+    if(percentage >= 70) return "B";
+    if(percentage >= 60) return "C";
+    if(percentage >= 50) return "D";
+
+    return "F";
+}
+
+
+/* =========================================
+   RENDER RESULTS
+========================================= */
+
+const resultTable =
+    document.getElementById("resultTable");
+
+
+function renderResults(){
+
+    const search =
+        document
+        .getElementById("studentSearch")
+        .value
+        .toLowerCase();
+
+
+    const selectedClass =
+        document
+        .getElementById("classFilter")
+        .value;
+
+
+    const selectedExam =
+        document
+        .getElementById("examFilter")
+        .value;
+
+
+    const filtered =
+        results.filter(student => {
+
+            const classMatch =
+                selectedClass === "All" ||
+                student.class === selectedClass;
+
+
+            const examMatch =
+                selectedExam === "Annual" ||
+                student.exam === selectedExam;
+
+
+            const searchMatch =
+                student.name
+                .toLowerCase()
+                .includes(search);
+
+
+            return classMatch &&
+                   examMatch &&
+                   searchMatch;
+
+        });
+
+
+    resultTable.innerHTML = "";
+
+
+    filtered
+    .slice(0,8)
+    .forEach((student,index)=>{
+
+        const percentage =
+            (student.obtained / student.total) * 100;
+
+
+        const grade =
+            getGrade(percentage);
+
+
+        const status =
+            percentage >= 50
+            ? "Pass"
+            : "Fail";
+
+
+        const statusClass =
+            status === "Pass"
+            ? "pass"
+            : "fail";
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>
+
+                <div class="student">
+
+                    <div class="student-photo">
+                        👤
+                    </div>
+
+                    ${student.name}
+
+                </div>
+
+            </td>
+
+            <td>${student.class}</td>
+
+            <td>${student.exam}</td>
+
+            <td>${student.total}</td>
+
+            <td class="marks">
+                ${student.obtained}
+            </td>
+
+            <td>
+                ${percentage.toFixed(1)}%
+            </td>
+
+            <td>
+                <span class="grade">
+                    ${grade}
+                </span>
+            </td>
+
+            <td>
+                <span class="${statusClass}">
+                    ${status}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                    class="action-btn"
+                    onclick="viewResult(${results.indexOf(student)})">
+
+                    👁
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        resultTable.appendChild(row);
+
+    });
+
+
+    document.getElementById("showing").innerText =
+        `Showing 1 to ${Math.min(filtered.length,8)}
+         of ${filtered.length} students`;
+
+}
+
+
+/* =========================================
+   VIEW RESULT
+========================================= */
+
+function viewResult(index){
+
+    const student =
+        results[index];
+
+
+    const percentage =
+        (student.obtained / student.total) * 100;
+
+
+    const grade =
+        getGrade(percentage);
+
+
+    showToast(
+        `${student.name} — ${percentage.toFixed(1)}% — Grade ${grade}`
+    );
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+document
+.getElementById("studentSearch")
+.addEventListener("input",renderResults);
+
+
+document
+.getElementById("globalSearch")
+.addEventListener("input",function(){
+
+    document
+    .getElementById("studentSearch")
+    .value = this.value;
+
+    renderResults();
+
+});
+
+
+/* =========================================
+   FILTERS
+========================================= */
+
+document
+.getElementById("classFilter")
+.addEventListener("change",renderResults);
+
+
+document
+.getElementById("examFilter")
+.addEventListener("change",renderResults);
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+document
+.getElementById("createExam")
+.addEventListener("click",function(){
+
+    showToast(
+        "Create New Exam form opened."
+    );
+
+});
+
+
+document
+.getElementById("enterMarks")
+.addEventListener("click",function(){
+
+    showToast(
+        "Student Marks Entry form opened."
+    );
+
+});
+
+
+document
+.getElementById("publishResult")
+.addEventListener("click",function(){
+
+    showToast(
+        "Results published successfully."
+    );
+
+});
+
+
+document
+.getElementById("downloadReport")
+.addEventListener("click",function(){
+
+    showToast(
+        "Result report is being prepared."
+    );
+
+});
+
+
+document
+.getElementById("addResult")
+.addEventListener("click",function(){
+
+    showToast(
+        "Enter Student Result form opened."
+    );
+
+});
+
+
+/* =========================================
+   SIDEBAR MOBILE
+========================================= */
+
+document
+.getElementById("hamburger")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("show");
+
+});
+
+
+/* =========================================
+   SIDEBAR MENU
+========================================= */
+
+document
+.querySelectorAll(".menu a")
+.forEach(link=>{
+
+    link.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+
+        document
+        .querySelectorAll(".menu a")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+
+        this.classList.add("active");
+
+
+        if(
+            this.innerText.trim()
+            !== "Exams & Results"
+        ){
+
+            showToast(
+                this.innerText.trim()
+                + " section selected."
+            );
+
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+let currentPage = 1;
+
+
+document
+.querySelectorAll(".pages .page-btn")
+.forEach((button,index)=>{
+
+    if(index > 0 && index < 4){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                document
+                .querySelectorAll(
+                    ".pages .page-btn"
+                )
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+
+                this.classList.add("active");
+
+
+                currentPage =
+                    Number(this.innerText);
+
+
+                showToast(
+                    "Page " +
+                    currentPage +
+                    " selected."
+                );
+
+            }
+        );
+
+    }
+
+});
+
+
+document
+.getElementById("prev")
+.addEventListener("click",function(){
+
+    if(currentPage > 1){
+
+        currentPage--;
+
+        showToast(
+            "Page " + currentPage
+        );
+
+    }
+
+});
+
+
+document
+.getElementById("next")
+.addEventListener("click",function(){
+
+    if(currentPage < 3){
+
+        currentPage++;
+
+        showToast(
+            "Page " + currentPage
+        );
+
+    }
+
+});
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.innerText =
+        message;
+
+
+    toast.style.display =
+        "block";
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(function(){
+
+            toast.style.display =
+                "none";
+
+        },2500);
+
+}
+
+
+/* =========================================
+   INITIAL LOAD
+========================================= */
+
+renderResults();
+
+</script>
+
+</body>
+</html>

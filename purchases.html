@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script><script src="rbac.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Store - Purchases Management</title>
+  
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --sidebar-bg: #071931;
+      --sidebar-hover: #132742;
+      --primary-blue: #1d61e8;
+      --primary-green: #10b981;
+      --light-green-bg: #d1fae5;
+      --light-green-text: #047857;
+      --orange: #f59e0b;
+      --light-orange-bg: #fef3c7;
+      --light-orange-text: #b45309;
+      --red: #ef4444;
+      --light-red-bg: #fee2e2;
+      --light-red-text: #b91c1c;
+      --purple: #8b5cf6;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-size: 13px;
+      display: flex;
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .app-container {
+      display: flex;
+      height: 100vh;
+      min-height: 0;
+      width: 100%;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 260px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18px 14px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 8px 20px;
+    }
+
+    .logo-icon {
+      background: var(--primary-green);
+      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .logo-text h2 {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .logo-text p {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.2;
+      font-weight: 500;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-item i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--primary-blue);
+      color: #fff;
+    }
+
+    .nav-item.dropdown {
+      justify-content: space-between;
+    }
+
+    .nav-item .chevron {
+      margin-left: auto;
+      width: 14px;
+      height: 14px;
+    }
+
+    .quick-add {
+      margin-top: 20px;
+      border-top: 1px solid #1f2937;
+      padding-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-add span {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .btn {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .btn-green { background-color: #059669; }
+    .btn-blue { background-color: var(--primary-blue); }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      height: 100vh;
+      min-height: 0;
+      min-width: 0;
+      background: var(--bg-color);
+    }
+
+    .top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px 12px;
+      background: transparent;
+    }
+
+    .page-title h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .breadcrumb span {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .header-search {
+      position: relative;
+      width: 430px;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      color: var(--text-muted);
+    }
+
+    .header-search input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .icon-btn i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .notification-badge {
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--red);
+      color: #fff;
+      font-size: 9px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 15px;
+    }
+
+    .user-info {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-info .name { font-weight: 700; font-size: 12px; }
+    .user-info .role { font-size: 10px; color: var(--text-muted); }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      background: #e5e7eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .action-btns button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--primary-blue);
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .action-btns button:hover {
+      background: #eff6ff;
+    }
+
+    .action-btns button i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .action-btns button.delete-action {
+      color: var(--red);
+    }
+
+    .action-btns button.delete-action:hover {
+      background: var(--light-red-bg);
+    }
+
+    /* Grid Layout */
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 20px;
+      align-items: start;
+      padding: 0 18px 20px 18px;
+    }
+
+    .left-section {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #f0f0f0;
+    }
+
+    .table-container {
+      padding: 18px 18px 16px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+
+    /* Stats Cards */
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 10px 0 0;
+      width: 100%;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 14px;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      border-radius: 10px;
+      margin: 0;
+    }
+
+    .stat-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1f2937;
+      flex-shrink: 0;
+      background: transparent;
+      border: 1px solid rgba(31,41,55,0.2);
+    }
+
+    .icon-blue { background: transparent; }
+    .icon-green { background: transparent; }
+    .icon-purple { background: transparent; }
+    .icon-orange { background: transparent; }
+
+    .stat-info p { color: var(--text-main); font-size: 13px; margin: 0 0 2px; font-weight: 500; }
+    .stat-info h3 { font-size: 18px; font-weight: 700; margin: 0 0 2px; color: var(--text-main); }
+    .stat-info .subtext { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 3px; }
+    .stat-info .subtext.green { color: var(--text-main); }
+
+    /* Filters Bar */
+    .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 0;
+      width: 100%;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+    }
+
+    .filter-group label {
+      font-size: 12px;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .filter-group input, .filter-group select {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid rgba(31,41,55,0.25);
+      border-radius: 4px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.35);
+      outline: none;
+    }
+
+    .filter-actions-right {
+      margin: 8px 0 0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      width: auto;
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(31,41,55,0.25);
+      background: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-main);
+    }
+
+    .btn-primary {
+      background: var(--primary-blue);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: none;
+    }
+
+    /* Data Table */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 11px;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      background-color: #fafafa;
+    }
+
+    .inv-link {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .status-badge {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 10px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .status-paid { background: var(--light-green-bg); color: var(--light-green-text); }
+    .status-partial { background: var(--light-orange-bg); color: var(--light-orange-text); }
+    .status-due { background: var(--light-red-bg); color: var(--light-red-text); }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+      color: var(--primary-blue);
+      cursor: pointer;
+    }
+
+    .action-btns i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .action-btns i.delete-icon {
+      color: var(--red);
+    }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .pagination {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .page-btn {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 3px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .page-btn.active {
+      background: var(--primary-blue);
+      color: #fff;
+      border-color: var(--primary-blue);
+    }
+
+    /* Right Section Side Cards */
+    .right-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .side-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .side-card .sub-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: normal;
+    }
+
+    .summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .summary-item span:first-child {
+      color: var(--text-muted);
+    }
+
+    .summary-item span:last-child {
+      font-weight: 600;
+    }
+
+    .top-suppliers-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .top-suppliers-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .supplier-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .supplier-info i {
+      width: 14px;
+      height: 14px;
+      color: var(--text-muted);
+    }
+
+    .supplier-amount {
+      color: var(--primary-green);
+      font-weight: 600;
+    }
+
+    .recent-purchase-card {
+      border: 1px solid var(--border-color);
+    }
+
+    .recent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .recent-header span.inv {
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+
+    .recent-supplier {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .recent-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .recent-details .items-count {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .recent-details .total-price {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .recent-details .date-text {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    #newPurchaseDialog {
+      width: min(560px, calc(100% - 32px));
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      color: var(--text-main);
+      box-shadow: 0 24px 70px rgba(7, 25, 49, 0.22);
+    }
+
+    #newPurchaseDialog::backdrop {
+      background: rgba(7, 25, 49, 0.48);
+      backdrop-filter: blur(3px);
+    }
+
+    #newPurchaseForm {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 24px;
+    }
+
+    .purchase-dialog-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .purchase-dialog-header h2 {
+      font-size: 19px;
+      margin-bottom: 4px;
+    }
+
+    .purchase-dialog-header p {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .purchase-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .purchase-form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .purchase-form-field label {
+      color: var(--text-main);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .purchase-form-field input,
+    .purchase-form-field select {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text-main);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .purchase-form-field input:focus,
+    .purchase-form-field select:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(29, 97, 232, 0.12);
+    }
+
+    .purchase-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .purchase-dialog-actions button {
+      padding: 9px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .purchase-dialog-cancel {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      color: var(--text-main);
+    }
+
+    .purchase-dialog-save {
+      border: 1px solid var(--primary-blue);
+      background: var(--primary-blue);
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      #newPurchaseForm { padding: 18px; }
+      .purchase-form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        padding: 0 12px 20px;
+      }
+
+      .sidebar {
+        width: 70px;
+        padding: 15px 8px;
+      }
+
+      .logo {
+        justify-content: center;
+        padding: 5px 0 20px;
+      }
+
+      .logo-text,
+      .quick-add span {
+        display: none;
+      }
+
+      .nav-item {
+        justify-content: flex-start;
+        padding: 10px 8px;
+        font-size: 13px;
+      }
+
+      .nav-item .chevron {
+        display: none;
+      }
+
+      .quick-add button {
+        width: 100%;
+        padding: 9px 0;
+        font-size: 12px;
+      }
+
+      .quick-add button i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .main-content {
+        padding: 16px;
+      }
+
+      .top-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .header-search {
+        order: 3;
+        width: 100%;
+      }
+
+      .header-actions {
+        margin-left: auto;
+      }
+
+      .stats-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .stats-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .page-title h1 {
+        font-size: 18px;
+      }
+
+      .filter-actions-right {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .filter-actions-right button {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+
+    @media (min-width: 901px) {
+      .main-content { min-width: 0; }
+      .content-grid { grid-template-columns: minmax(0, 1fr) 290px; }
+      .left-section { min-width: 0; }
+      .stats-cards { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+      .stat-card { min-width: 0; display: flex !important; flex-direction: row !important; align-items: center !important; }
+      .card { background: #fff; }
+    }
+
+    /* Keep purchases consistent with the original management screens. */
+    @media (min-width: 901px) {
+      body { overflow: hidden; }
+      .sidebar {
+        width: 220px;
+        padding: 15px 10px;
+      }
+      .logo {
+        gap: 10px;
+        padding: 5px 10px 20px;
+      }
+      .logo-icon {
+        width: auto;
+        height: auto;
+        padding: 5px;
+        border-radius: 6px;
+      }
+      .logo-text h2 { font-size: 14px; }
+      .logo-text p { font-size: 10px; }
+      .nav-item { padding: 10px 12px; font-size: 13px; }
+      .main-content {
+        padding: 15px 25px;
+        overflow-x: hidden;
+      }
+      .top-header {
+        padding: 0;
+        margin-bottom: 20px;
+      }
+      .page-title h1 { font-size: 20px; }
+      .breadcrumb { font-size: 12px; }
+      .header-search { width: 380px; }
+      .header-search input {
+        padding: 8px 12px 8px 36px;
+        font-size: 12px;
+      }
+      .icon-btn { color: var(--text-muted); }
+      .content-grid {
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 20px;
+        padding: 0;
+      }
+      .left-section { gap: 0; }
+      .card {
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+      .table-container {
+        padding: 15px;
+        border-radius: 8px;
+      }
+      .stats-cards {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 15px;
+        margin: 0 0 20px;
+      }
+      .stat-card {
+        gap: 12px;
+        padding: 15px !important;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+      }
+      .stat-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        color: #fff;
+        border: 0;
+      }
+      .icon-blue { background-color: var(--primary-blue); }
+      .icon-green { background-color: var(--primary-green); }
+      .icon-purple { background-color: var(--purple); }
+      .icon-orange { background-color: var(--orange); }
+      .stat-info p { color: var(--text-muted); font-size: 11px; }
+      .stat-info h3 { font-size: 16px; }
+      .stat-info .subtext { font-size: 10px; }
+      .stat-info .subtext.green { color: var(--primary-green); }
+      .filter-bar {
+        flex-direction: row;
+        gap: 12px;
+        align-items: flex-end;
+        margin: 0 0 15px;
+        flex-wrap: wrap;
+      }
+      .filter-group {
+        width: auto;
+        gap: 4px;
+      }
+      .filter-group label {
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+      .filter-group input,
+      .filter-group select {
+        width: auto;
+        padding: 6px 10px;
+        font-size: 12px;
+        background: #fff;
+      }
+      .filter-actions-right {
+        margin-left: auto;
+        margin-top: 0;
+        align-items: flex-end;
+      }
+      .btn-outline, .btn-primary {
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .right-section { gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"><i data-lucide="plus"></i></div>
+        <div class="logo-text">
+          <h2>Medical Store</h2>
+          <p>Management System</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="merged_medical_store.html" class="nav-item"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="medicine.html" class="nav-item"><i data-lucide="pill"></i> Medicine</a>
+        <a href="sales.html" class="nav-item dropdown"><i data-lucide="shopping-cart"></i> Sales <i data-lucide="chevron-down" class="chevron"></i></a>
+        <a href="customer.html" class="nav-item"><i data-lucide="user"></i> Customers</a>
+        <a href="suppliers.html" class="nav-item"><i data-lucide="truck"></i> Suppliers</a>
+        <a href="purchases.html" class="nav-item active"><i data-lucide="shopping-bag"></i> Purchases</a>
+        <a href="stock.html" class="nav-item"><i data-lucide="package"></i> Stock</a>
+        <a href="medical-reports.html" class="nav-item"><i data-lucide="file-text"></i> Reports</a>
+        <a href="expenses.html" class="nav-item"><i data-lucide="wallet"></i> Expenses</a>
+        <a href="users.html" class="nav-item"><i data-lucide="users"></i> Users</a>
+        <a href="medical-settings.html" class="nav-item"><i data-lucide="settings"></i> Settings</a>
+      </nav>
+
+      <div class="quick-add">
+        <span>Quick Add</span>
+        <button class="btn btn-green" onclick="window.location.href='add-medicine.html'"><i data-lucide="plus"></i> Add Medicine</button>
+        <button class="btn btn-blue" onclick="window.location.href='new-sale.html'"><i data-lucide="plus"></i> New Sale</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="page-title">
+          <h1>Purchases</h1>
+          <p class="breadcrumb">Dashboard &gt; Purchases &gt; <span>All Purchases</span></p>
+        </div>
+
+        <div class="header-search">
+          <i data-lucide="search"></i>
+          <input type="text" id="globalSearch" placeholder="Search by invoice no., supplier or medicine...">
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn"><i data-lucide="printer"></i> <span>Print</span></button>
+          <div class="notification-badge">
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <span class="badge">3</span>
+          </div>
+          <button class="icon-btn"><i data-lucide="settings"></i></button>
+          <div class="user-profile">
+            <div class="user-info">
+              <span class="name">Admin</span>
+              <span class="role">Owner</span>
+            </div>
+            <div class="avatar"><i data-lucide="user"></i></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content Grid -->
+      <div class="content-grid">
+        <!-- Left Section -->
+        <div class="left-section">
+          <!-- Stat Cards -->
+          <div class="stats-cards">
+            <div class="card stat-card">
+              <div class="stat-icon icon-blue"><i data-lucide="file-text"></i></div>
+              <div class="stat-info">
+                <p>Total Purchases (This Month)</p>
+                <h3>Rs. 324,560</h3>
+                <span class="subtext green"><i data-lucide="arrow-up-right" style="width: 12px;"></i> 18.6% vs last month</span>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon icon-green"><i data-lucide="file-check"></i></div>
+              <div class="stat-info">
+                <p>Total Invoices</p>
+                <h3>58</h3>
+                <span class="subtext green"><i data-lucide="arrow-up-right" style="width: 12px;"></i> 6 this month</span>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon icon-purple"><i data-lucide="wallet"></i></div>
+              <div class="stat-info">
+                <p>Total Items Purchased</p>
+                <h3>1,840</h3>
+                <span class="subtext green"><i data-lucide="arrow-up-right" style="width: 12px;"></i> 230 this month</span>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon icon-orange"><i data-lucide="dollar-sign"></i></div>
+              <div class="stat-info">
+                <p>Total Paid Amount</p>
+                <h3>Rs. 246,110</h3>
+                <span class="subtext green"><i data-lucide="arrow-up-right" style="width: 12px;"></i> 22.4% vs last month</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table & Filter Container -->
+          <div class="card table-container">
+            <!-- Filter Controls -->
+            <div class="filter-bar">
+              <div class="filter-group">
+                <label>From Date</label>
+                <input type="text" value="01/05/2025">
+              </div>
+
+              <div class="filter-group">
+                <label>To Date</label>
+                <input type="text" value="17/05/2025">
+              </div>
+
+              <div class="filter-group">
+                <label>Supplier</label>
+                <select id="supplierFilter">
+                  <option value="All">All Suppliers</option>
+                  <option value="MediSource Pharma">MediSource Pharma</option>
+                  <option value="HealthCare Distributors">HealthCare Distributors</option>
+                  <option value="Pharma Plus">Pharma Plus</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Payment Status</label>
+                <select id="statusFilter">
+                  <option value="All">All</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Partial">Partial</option>
+                  <option value="Due">Due</option>
+                </select>
+              </div>
+
+              <div class="filter-actions-right">
+                <button class="btn-outline" type="button"><i data-lucide="filter" style="width: 14px;"></i> Filter</button>
+                <button class="btn-primary" id="newPurchaseButton" type="button"><i data-lucide="plus" style="width: 14px;"></i> New Purchase</button>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Invoice No.</th>
+                    <th>Invoice Date</th>
+                    <th>Supplier Name</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                    <th>Paid Amount</th>
+                    <th>Due Amount</th>
+                    <th>Payment Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="purchasesTableBody">
+                  <!-- JS dynamic content injection -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Footer Pagination -->
+            <div class="table-footer">
+              <div class="show-entries">
+                Show 
+                <select>
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+                entries
+              </div>
+              <div class="entry-info" id="purchaseEntryInfo">Showing 1 to 10 of 10 entries</div>
+              <div class="pagination">
+                <button class="page-btn">&lt;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn">6</button>
+                <button class="page-btn">&gt;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Panel -->
+        <div class="right-section">
+          <!-- Purchase Summary -->
+          <div class="card side-card">
+            <h3>Purchase Summary</h3>
+            <div class="summary-list">
+              <div class="summary-item">
+                <span>Total Purchases</span>
+                <span>Rs. 324,560</span>
+              </div>
+              <div class="summary-item">
+                <span>Total Paid Amount</span>
+                <span>Rs. 246,110</span>
+              </div>
+              <div class="summary-item">
+                <span>Total Payable Amount</span>
+                <span>Rs. 78,450</span>
+              </div>
+              <div class="summary-item">
+                <span>Total Invoices</span>
+                <span>58</span>
+              </div>
+              <div class="summary-item">
+                <span>Total Items Purchased</span>
+                <span>1,840</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Suppliers -->
+          <div class="card side-card">
+            <h3>Top Suppliers <span class="sub-title">(This Month)</span></h3>
+            <ul class="top-suppliers-list">
+              <li>
+                <div class="supplier-info">
+                  <i data-lucide="building-2"></i>
+                  <span>MediSource Pharma</span>
+                </div>
+                <span class="supplier-amount">Rs. 72,450</span>
+              </li>
+              <li>
+                <div class="supplier-info">
+                  <i data-lucide="building-2"></i>
+                  <span>HealthCare Distributors</span>
+                </div>
+                <span class="supplier-amount">Rs. 48,300</span>
+              </li>
+              <li>
+                <div class="supplier-info">
+                  <i data-lucide="building-2"></i>
+                  <span>Al-Shifa Distributors</span>
+                </div>
+                <span class="supplier-amount">Rs. 36,800</span>
+              </li>
+              <li>
+                <div class="supplier-info">
+                  <i data-lucide="building-2"></i>
+                  <span>Pharma Plus</span>
+                </div>
+                <span class="supplier-amount">Rs. 28,600</span>
+              </li>
+              <li>
+                <div class="supplier-info">
+                  <i data-lucide="building-2"></i>
+                  <span>Medline Enterprises</span>
+                </div>
+                <span class="supplier-amount">Rs. 24,950</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Recent Purchase Card -->
+          <div class="card side-card recent-purchase-card">
+            <h3>Recent Purchase</h3>
+            <div class="recent-header">
+              <span class="inv">PUR-2025-0018</span>
+              <span class="status-badge status-paid">Paid</span>
+            </div>
+            <div class="recent-supplier">MediSource Pharma</div>
+            <div class="recent-details">
+              <div>
+                <span class="items-count"><b>24</b> Items</span>
+              </div>
+              <div style="text-align: right;">
+                <div class="total-price">Rs. 18,450</div>
+                <span class="date-text">17 May 2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="newPurchaseDialog">
+    <form method="dialog" id="newPurchaseForm">
+      <div class="purchase-dialog-header">
+        <div>
+          <h2>New Purchase</h2>
+          <p>Add supplier invoice and payment details.</p>
+        </div>
+        <button type="button" class="icon-btn" id="cancelPurchaseButton" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="purchase-form-grid">
+        <div class="purchase-form-field">
+          <label for="purchaseInvoice">Invoice No.</label>
+          <input id="purchaseInvoice" name="invoice" required placeholder="PUR-2025-0019">
+        </div>
+        <div class="purchase-form-field">
+          <label for="purchaseSupplier">Supplier</label>
+          <select id="purchaseSupplier" name="supplier" required>
+            <option value="">Select supplier</option>
+            <option>MediSource Pharma</option>
+            <option>HealthCare Distributors</option>
+            <option>Pharma Plus</option>
+            <option>Zam Zam Pharma</option>
+          </select>
+        </div>
+        <div class="purchase-form-field">
+          <label for="purchaseItems">Items</label>
+          <input id="purchaseItems" name="items" type="number" min="1" required>
+        </div>
+        <div class="purchase-form-field">
+          <label for="purchaseTotal">Total Amount</label>
+          <input id="purchaseTotal" name="total" type="number" min="0" step="0.01" required>
+        </div>
+        <div class="purchase-form-field">
+          <label for="purchasePaid">Paid Amount</label>
+          <input id="purchasePaid" name="paid" type="number" min="0" step="0.01" required>
+        </div>
+      </div>
+      <div class="purchase-dialog-actions">
+        <button type="button" class="purchase-dialog-cancel" id="cancelPurchaseButtonBottom">Cancel</button>
+        <button type="submit" class="purchase-dialog-save">Save Purchase</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    // Lucide icons initialization
+    if (window.lucide) lucide.createIcons();
+
+    // Purchases Table Mock Data
+    let purchasesData = [
+      { id: 1, inv: "PUR-2025-0018", date: "17 May 2025", supplier: "MediSource Pharma", items: 24, total: "18,450", paid: "18,450", due: "0", status: "Paid" },
+      { id: 2, inv: "PUR-2025-0017", date: "16 May 2025", supplier: "HealthCare Distributors", items: 18, total: "12,300", paid: "12,300", due: "0", status: "Paid" },
+      { id: 3, inv: "PUR-2025-0016", date: "15 May 2025", supplier: "Pharma Plus", items: 15, total: "9,800", paid: "5,800", due: "4,000", status: "Partial" },
+      { id: 4, inv: "PUR-2025-0015", date: "14 May 2025", supplier: "Zam Zam Pharma", items: 12, total: "7,460", paid: "0", due: "7,460", status: "Due" },
+      { id: 5, inv: "PUR-2025-0014", date: "13 May 2025", supplier: "Al-Shifa Distributors", items: 20, total: "16,600", paid: "16,600", due: "0", status: "Paid" },
+      { id: 6, inv: "PUR-2025-0013", date: "12 May 2025", supplier: "Global Pharma", items: 22, total: "16,950", paid: "8,000", due: "8,950", status: "Partial" },
+      { id: 7, inv: "PUR-2025-0012", date: "11 May 2025", supplier: "Medline Enterprises", items: 16, total: "11,250", paid: "0", due: "11,250", status: "Due" },
+      { id: 8, inv: "PUR-2025-0011", date: "10 May 2025", supplier: "Modern Drugs House", items: 14, total: "8,200", paid: "8,200", due: "0", status: "Paid" },
+      { id: 9, inv: "PUR-2025-0010", date: "09 May 2025", supplier: "City Pharma", items: 10, total: "6,700", paid: "6,700", due: "0", status: "Paid" },
+      { id: 10, inv: "PUR-2025-0009", date: "08 May 2025", supplier: "Prime Distributors", items: 9, total: "5,900", paid: "0", due: "5,900", status: "Due" }
+    ];
+
+    try {
+      const savedPurchases = localStorage.getItem('medicalStorePurchases');
+      if (savedPurchases) {
+        const parsedPurchases = JSON.parse(savedPurchases);
+        if (Array.isArray(parsedPurchases)) purchasesData = parsedPurchases;
+      }
+    } catch (error) {
+      localStorage.removeItem('medicalStorePurchases');
+    }
+
+    function savePurchases() {
+      localStorage.setItem('medicalStorePurchases', JSON.stringify(purchasesData));
+    }
+
+    // Render Table Function
+    function renderPurchasesTable(data) {
+      const tbody = document.getElementById('purchasesTableBody');
+      const entryInfo = document.getElementById('purchaseEntryInfo');
+      tbody.innerHTML = '';
+
+      const visibleCount = data.length;
+      entryInfo.textContent = visibleCount
+        ? `Showing 1 to ${visibleCount} of ${purchasesData.length} entries`
+        : `Showing 0 to 0 of ${purchasesData.length} entries`;
+
+      data.forEach(item => {
+        let statusBadgeClass = '';
+        if (item.status === 'Paid') statusBadgeClass = 'status-paid';
+        else if (item.status === 'Partial') statusBadgeClass = 'status-partial';
+        else statusBadgeClass = 'status-due';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.id}</td>
+          <td><a href="#" class="inv-link">${item.inv}</a></td>
+          <td>${item.date}</td>
+          <td>${item.supplier}</td>
+          <td>${item.items}</td>
+          <td>Rs. ${item.total}</td>
+          <td>Rs. ${item.paid}</td>
+          <td>Rs. ${item.due}</td>
+          <td><span class="status-badge ${statusBadgeClass}">${item.status}</span></td>
+          <td>
+            <div class="action-btns">
+              <button type="button" data-action="view" data-id="${item.id}" title="View purchase" aria-label="View purchase"><i data-lucide="eye"></i></button>
+              <button type="button" data-action="print" data-id="${item.id}" title="Print purchase" aria-label="Print purchase"><i data-lucide="printer"></i></button>
+              <button type="button" data-action="delete" data-id="${item.id}" class="delete-action" title="Delete purchase" aria-label="Delete purchase"><i data-lucide="trash-2"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Refresh Lucide Icons after rendering
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Filter Logic
+    function applyFilters() {
+      const statusValue = document.getElementById('statusFilter').value;
+      const supplierValue = document.getElementById('supplierFilter').value;
+      const searchValue = document.getElementById('globalSearch').value.toLowerCase();
+
+      const filtered = purchasesData.filter(item => {
+        const matchesStatus = statusValue === 'All' || item.status === statusValue;
+        const matchesSupplier = supplierValue === 'All' || item.supplier === supplierValue;
+        const matchesSearch = item.inv.toLowerCase().includes(searchValue) || 
+                              item.supplier.toLowerCase().includes(searchValue);
+
+        return matchesStatus && matchesSupplier && matchesSearch;
+      });
+
+      renderPurchasesTable(filtered);
+    }
+
+    // Event Listeners for Dynamic Filtering
+    document.getElementById('statusFilter').addEventListener('change', applyFilters);
+    document.getElementById('supplierFilter').addEventListener('change', applyFilters);
+    document.getElementById('globalSearch').addEventListener('input', applyFilters);
+
+    document.getElementById('purchasesTableBody').addEventListener('click', (event) => {
+      const actionButton = event.target.closest('button[data-action]');
+      if (!actionButton) return;
+      const purchase = purchasesData.find(item => item.id === Number(actionButton.dataset.id));
+      if (!purchase) return;
+
+      if (actionButton.dataset.action === 'delete') {
+        if (!confirm(`Delete purchase ${purchase.inv}?`)) return;
+        const purchaseIndex = purchasesData.findIndex(item => item.id === purchase.id);
+        purchasesData.splice(purchaseIndex, 1);
+        savePurchases();
+        applyFilters();
+        return;
+      }
+
+      if (actionButton.dataset.action === 'view') {
+        alert(`Invoice: ${purchase.inv}\nSupplier: ${purchase.supplier}\nTotal: Rs. ${purchase.total}\nStatus: ${purchase.status}`);
+        return;
+      }
+
+      if (actionButton.dataset.action === 'print') {
+        window.print();
+      }
+    });
+
+    const newPurchaseDialog = document.getElementById('newPurchaseDialog');
+    document.getElementById('newPurchaseButton').addEventListener('click', () => newPurchaseDialog.showModal());
+    const closePurchaseDialog = () => newPurchaseDialog.close();
+    document.getElementById('cancelPurchaseButton').addEventListener('click', closePurchaseDialog);
+    document.getElementById('cancelPurchaseButtonBottom').addEventListener('click', closePurchaseDialog);
+
+    document.getElementById('newPurchaseForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const total = Number(formData.get('total'));
+      const paid = Number(formData.get('paid'));
+      if (paid > total) {
+        alert('Paid amount cannot be greater than total amount.');
+        return;
+      }
+      const nextId = purchasesData.reduce((highestId, item) => Math.max(highestId, Number(item.id) || 0), 0) + 1;
+      purchasesData.unshift({
+        id: nextId,
+        inv: formData.get('invoice'),
+        date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        supplier: formData.get('supplier'),
+        items: Number(formData.get('items')),
+        total: total.toLocaleString('en-IN'),
+        paid: paid.toLocaleString('en-IN'),
+        due: Math.max(total - paid, 0).toLocaleString('en-IN'),
+        status: paid >= total ? 'Paid' : paid > 0 ? 'Partial' : 'Due'
+      });
+      savePurchases();
+      event.currentTarget.reset();
+      newPurchaseDialog.close();
+      renderPurchasesTable(purchasesData);
+    });
+
+    // Initial Render
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.__medicalStoreAccessDenied) return;
+      renderPurchasesTable(purchasesData);
+    });
+  </script>
+  <script>
+    (function () {
+      if (!window.MedicalRBAC) return;
+      const route = { module: 'Purchases', action: 'view' };
+      const currentUser = window.MedicalRBAC.getCurrentUser();
+      if (!currentUser) {
+        window.location.href = 'merged_medical_store.html';
+        return;
+      }
+      if (!window.MedicalRBAC.hasAccess(route.module, route.action, currentUser)) {
+        window.MedicalRBAC.showAccessDenied({
+          title: 'Access Denied',
+          message: 'You do not have permission to view purchases.'
+        });
+        return;
+      }
+      window.MedicalRBAC.hideUnauthorizedControls();
+    })();
+  </script>
+</body>
+</html>

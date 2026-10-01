@@ -1,0 +1,2040 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Al-Hidayah Public School - Unified Dashboard</title>
+  <style>
+    :root {
+      --navy: #091f3a;
+      --navy-2: #123660;
+      --blue: #2b6eea;
+      --blue-soft: #eaf3ff;
+      --cyan: #0ea5e9;
+      --green: #10b981;
+      --green-soft: #e9faf4;
+      --amber: #f59e0b;
+      --amber-soft: #fff7e8;
+      --red: #ef4444;
+      --red-soft: #fff1f2;
+      --bg: #eef5fb;
+      --card: #ffffff;
+      --muted: #60718a;
+      --border: #dfeaf5;
+      --text: #1a2a3d;
+      --gold: #d4af37;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a { text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .school-app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 255px;
+      background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+      color: #fff;
+      padding: 18px 14px 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 8px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      margin-bottom: 14px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #62d1ff, #2563eb);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.1;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      color: #c8d9ee;
+      font-size: 11px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: #e8f2ff;
+      padding: 11px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(255,255,255,0.08);
+      border-left: 3px solid #7bb7ff;
+      padding-left: 9px;
+      color: #fff;
+    }
+
+    .side-box {
+      margin-top: 22px;
+      padding: 16px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dce9f9;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .side-box strong {
+      display: block;
+      font-size: 15px;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #fff;
+    }
+
+    .main {
+      flex: 1;
+      padding: 22px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+    }
+
+    .hero-title h1 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .hero-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid #d8e7ff;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .header-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: #f7fbff;
+      color: var(--navy);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .content-shell {
+      margin-top: 20px;
+    }
+
+    .app-section {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .app-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    .blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .green { background: linear-gradient(135deg, #10b981, #059669); }
+    .amber { background: linear-gradient(135deg, #f59e0b, #ea580c); }
+    .purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+    .metric small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .metric span {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(170px, 1fr));
+      gap: 14px;
+    }
+
+    .module-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff, #f9fbff);
+      padding: 14px 12px;
+      transition: transform 0.2s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(37, 99, 235, 0.08);
+    }
+
+    .module-card a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .module-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .module-card small {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      padding-left: 48px;
+    }
+
+    .status-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #edf3fa;
+    }
+
+    .status-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.12);
+    }
+
+    .dot.blue { background: var(--blue); box-shadow: 0 0 0 4px rgba(37,99,235,0.12); }
+    .dot.amber { background: var(--amber); box-shadow: 0 0 0 4px rgba(245,158,11,0.12); }
+    .dot.red { background: var(--red); box-shadow: 0 0 0 4px rgba(239,68,68,0.12); }
+
+    .status-item strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .status-item span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status-badge {
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid #dfeaff;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .panel-header h3,
+    .panel-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .panel-subtext {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .page-banner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(90deg, rgba(3,32,68,0.96), rgba(12,70,122,0.78)),
+                  url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1400&q=80') center/cover;
+      border-radius: 14px;
+      color: #fff;
+      padding: 22px 26px;
+      margin-bottom: 18px;
+    }
+
+    .page-banner-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .page-banner h1 {
+      margin: 0;
+      font-size: 28px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .page-banner p {
+      margin: 8px 0 0;
+      color: #dfeaf9;
+      font-size: 13px;
+    }
+
+    .page-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn:hover { opacity: 0.96; }
+    .btn.primary { background: var(--blue); color: #fff; }
+    .btn.secondary { background: #fff; color: var(--navy); border: 1px solid var(--border); }
+    .btn.success { background: var(--green); color: #fff; }
+    .btn.danger { background: var(--red); color: #fff; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .stat-box .row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #edf4ff;
+      color: var(--blue);
+    }
+
+    .stat-box:nth-child(2) .mini-icon { background: #ebfaf4; color: var(--green); }
+    .stat-box:nth-child(3) .mini-icon { background: #f3ebff; color: #7c3aed; }
+    .stat-box:nth-child(4) .mini-icon { background: #fff3e2; color: var(--amber); }
+
+    .stat-box label {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+    }
+
+    .stat-box strong {
+      font-size: 23px;
+      color: var(--navy);
+      display: block;
+      margin-top: 4px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .trend-up { color: var(--green); }
+    .trend-down { color: var(--red); }
+
+    .table-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 8px 19px rgba(15, 23, 42, 0.04);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 11px 10px;
+      border-bottom: 1px solid #edf2f8;
+      font-size: 12px;
+    }
+
+    th {
+      background: #f4f8fd;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .student-badge, .status-chip {
+      display: inline-block;
+      background: #dcfce7;
+      color: #0a8d58;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .status-chip.warning { background: #fff4d6; color: #a16207; }
+    .status-chip.danger { background: #ffe4e6; color: #be123c; }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 0;
+      cursor: pointer;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .mini-btn.danger {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .two-col-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 325px;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .donut {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(#ef4444 0 16%, #2563eb 16% 33%, #10b981 33% 47%, #8b5cf6 47% 60%, #f59e0b 60% 78%, #0ea5e9 78% 100%);
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .donut::before {
+      content: "";
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+    }
+
+    .donut strong {
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .legend span { display: flex; align-items: center; gap: 8px; }
+    .legend i {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      border-radius: 50%;
+    }
+
+    .small-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .small-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #edf2f8;
+    }
+
+    .small-item:last-child { border-bottom: 0; }
+
+    .small-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #dfeaff;
+      display: grid;
+      place-items: center;
+    }
+
+    .small-item strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .small-item span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .filters input,
+    .filters select,
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    .filters input,
+    .filters select { min-width: 140px; flex: 1; }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 31, 58, 0.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-box {
+      width: min(560px, 100%);
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(9, 31, 58, 0.25);
+      padding: 22px;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 22px;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 50%;
+      background: #f3f7ff;
+      color: var(--navy);
+      cursor: pointer;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    .form-grid label {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 0 0 12px;
+    }
+
+    .report-box {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .report-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .report-item small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+
+    .report-item strong {
+      font-size: 24px;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 10px;
+      background: #edf3fb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 18px;
+    }
+
+    .settings-nav {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .settings-nav button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      border-radius: 10px;
+      padding: 11px 10px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      margin-bottom: 6px;
+    }
+
+    .settings-nav button.active {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .settings-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .settings-panel h4 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .settings-grid .full { grid-column: 1 / -1; }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footerbar {
+      margin-top: 28px;
+      background: var(--navy);
+      color: #dfeaf7;
+      padding: 18px 20px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 1024px) {
+      .summary-grid { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+      .two-col, .two-col-panel { grid-template-columns: 1fr; }
+      .settings-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .school-app { display: block; }
+      .sidebar { width: 100%; height: auto; position: static; }
+      .main { padding: 16px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .stats-grid, .report-box { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .module-grid { grid-template-columns: 1fr; }
+      .settings-grid, .form-grid { grid-template-columns: 1fr; }
+      .footerbar { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="school-app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">🎓</div>
+        <div>
+          <h2>Al-Hidayah</h2>
+          <p>Public School</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-target="dashboard-section"><span>🏠</span> Dashboard</button>
+        <button class="nav-item" data-target="students-section"><span>👨‍🎓</span> Students</button>
+        <button class="nav-item" data-target="teachers-section"><span>👨‍🏫</span> Teachers</button>
+        <button class="nav-item" data-target="classes-section"><span>📚</span> Classes</button>
+        <button class="nav-item" data-target="attendance-section"><span>✅</span> Attendance</button>
+        <button class="nav-item" data-target="fees-section"><span>💰</span> Fees &amp; Accounts</button>
+        <button class="nav-item" data-target="exams-section"><span>📝</span> Exams &amp; Results</button>
+        <button class="nav-item" data-target="reports-section"><span>📊</span> Reports</button>
+        <button class="nav-item" data-target="expenses-section"><span>💵</span> Expenses</button>
+        <button class="nav-item" data-target="users-section"><span>👥</span> Users</button>
+        <button class="nav-item" data-target="academics-section"><span>🎓</span> Academics</button>
+        <button class="nav-item" data-target="timetable-section"><span>📅</span> Timetable</button>
+        <button class="nav-item" data-target="library-section"><span>📖</span> Library</button>
+        <button class="nav-item" data-target="transport-section"><span>🚌</span> Transport</button>
+        <button class="nav-item" data-target="parents-section"><span>👨‍👩‍👧</span> Parents</button>
+        <button class="nav-item" data-target="settings-section"><span>⚙️</span> Settings</button>
+      </nav>
+
+      <div class="side-box">
+        <strong>Better Education</strong>
+        <span>Brighter Future</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="hero-title">
+          <h1>School Management System</h1>
+          <p>Unified dashboard for administration, students, fees, and academics</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="pill">📅 Academic Year 2025–2026</span>
+          <button class="header-icon" type="button">🔔</button>
+          <button class="header-icon" type="button">👤</button>
+        </div>
+      </header>
+
+      <div class="content-shell">
+        <section id="dashboard-section" class="app-section active">
+          <div class="summary-grid">
+            <div class="card metric">
+              <div class="metric-icon blue">👥</div>
+              <div>
+                <small>Total Students</small>
+                <strong>1,248</strong>
+                <span>+5% this month</span>
+              </div>
+            </div>
+            <div class="card metric">
+              <div class="metric-icon green">👨‍🏫</div>
+              <div>
+                <small>Total Teachers</small>
+                <strong>68</strong>
+                <span>+2% this month</span>
+              </div>
+            </div>
+            <div class="card metric">
+              <div class="metric-icon amber">💰</div>
+              <div>
+                <small>Fees Collected</small>
+                <strong>Rs. 452,600</strong>
+                <span>+12% this month</span>
+              </div>
+            </div>
+            <div class="card metric">
+              <div class="metric-icon purple">🏫</div>
+              <div>
+                <small>Total Classes</small>
+                <strong>32</strong>
+                <span>+0% this month</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="card">
+              <div class="panel-header">
+                <h3>School Modules</h3>
+              </div>
+              <div class="module-grid">
+                <div class="module-card"><a href="#" data-target="students-section"><span class="module-icon">👨‍🎓</span> Students</a><small>Admissions, records, classes</small></div>
+                <div class="module-card"><a href="#" data-target="teachers-section"><span class="module-icon">👨‍🏫</span> Teachers</a><small>Staff directory and departments</small></div>
+                <div class="module-card"><a href="#" data-target="classes-section"><span class="module-icon">📚</span> Classes</a><small>Class schedules and sections</small></div>
+                <div class="module-card"><a href="#" data-target="attendance-section"><span class="module-icon">✅</span> Attendance</a><small>Daily attendance tracking</small></div>
+                <div class="module-card"><a href="#" data-target="fees-section"><span class="module-icon">💰</span> Fees</a><small>Fee collection and accounts</small></div>
+                <div class="module-card"><a href="#" data-target="exams-section"><span class="module-icon">📝</span> Exams</a><small>Results and grading</small></div>
+                <div class="module-card"><a href="#" data-target="reports-section"><span class="module-icon">📊</span> Reports</a><small>Analytics and performance</small></div>
+                <div class="module-card"><a href="#" data-target="expenses-section"><span class="module-icon">💵</span> Expenses</a><small>School spending overview</small></div>
+                <div class="module-card"><a href="#" data-target="users-section"><span class="module-icon">👥</span> Users</a><small>Staff access and roles</small></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="panel-header">
+                <h3>Quick Status</h3>
+              </div>
+              <div class="status-list">
+                <div class="status-item">
+                  <div class="status-left">
+                    <span class="dot"></span>
+                    <div>
+                      <strong>Students Present</strong>
+                      <span>Today</span>
+                    </div>
+                  </div>
+                  <span class="status-badge">1,180</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-left">
+                    <span class="dot blue"></span>
+                    <div>
+                      <strong>Pending Fees</strong>
+                      <span>Current term</span>
+                    </div>
+                  </div>
+                  <span class="status-badge">142</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-left">
+                    <span class="dot amber"></span>
+                    <div>
+                      <strong>Exams Scheduled</strong>
+                      <span>Next 7 days</span>
+                    </div>
+                  </div>
+                  <span class="status-badge">12</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-left">
+                    <span class="dot red"></span>
+                    <div>
+                      <strong>Alerts</strong>
+                      <span>Library/transport issues</span>
+                    </div>
+                  </div>
+                  <span class="status-badge">06</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="students-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">👨‍🎓</div>
+            <div>
+              <h1>Students</h1>
+              <p>Manage student records, admissions and academic progress.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn primary" type="button" id="addStudentBtn">+ Add Student</button>
+              <button class="btn secondary" type="button">Import</button>
+              <button class="btn secondary" type="button" id="exportStudentsBtn">Export</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="row">
+                <div class="mini-icon">👥</div>
+                <div>
+                  <label>Total Students</label>
+                  <strong id="studentsTotal">1248</strong>
+                </div>
+              </div>
+              <div class="trend-up">▲ 5% from last month</div>
+            </div>
+            <div class="stat-box">
+              <div class="row">
+                <div class="mini-icon">🎓</div>
+                <div>
+                  <label>New Admissions</label>
+                  <strong>86</strong>
+                </div>
+              </div>
+              <div class="trend-up">▲ 12% from last month</div>
+            </div>
+            <div class="stat-box">
+              <div class="row">
+                <div class="mini-icon">👨‍👩‍👧</div>
+                <div>
+                  <label>Active Students</label>
+                  <strong>1198</strong>
+                </div>
+              </div>
+              <div class="trend-up">▲ 4% from last month</div>
+            </div>
+            <div class="stat-box">
+              <div class="row">
+                <div class="mini-icon">📋</div>
+                <div>
+                  <label>Inactive</label>
+                  <strong>50</strong>
+                </div>
+              </div>
+              <div class="trend-down">▼ 2% from last month</div>
+            </div>
+          </div>
+
+          <div class="two-col-panel">
+            <div class="table-card">
+              <div class="panel-header">
+                <h2>Student List</h2>
+              </div>
+              <div class="filters">
+                <input id="studentSearch" type="text" placeholder="Search student..." />
+                <select id="studentClassFilter">
+                  <option value="">All Classes</option>
+                  <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                </select>
+                <select id="studentStatusFilter">
+                  <option value="">All Status</option>
+                  <option>Active</option><option>Inactive</option>
+                </select>
+                <button class="btn secondary" type="button" id="clearStudentFilters">Reset</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Photo</th>
+                      <th>Name</th>
+                      <th>Roll No</th>
+                      <th>Class</th>
+                      <th>Section</th>
+                      <th>Gender</th>
+                      <th>Phone</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="studentTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="side-panel">
+              <div class="card">
+                <div class="panel-header">
+                  <h3>Students by Class</h3>
+                </div>
+                <div class="donut-wrap">
+                  <div class="donut"><strong>1,248</strong></div>
+                  <div class="legend">
+                    <span><i style="background:#ef4444"></i>Class 6: 198</span>
+                    <span><i style="background:#2b6eea"></i>Class 7: 210</span>
+                    <span><i style="background:#10b981"></i>Class 8: 176</span>
+                    <span><i style="background:#8b5cf6"></i>Class 9: 160</span>
+                    <span><i style="background:#f59e0b"></i>Class 10: 154</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="panel-header">
+                  <h3>Recent Admissions</h3>
+                </div>
+                <div class="small-list">
+                  <div class="small-item"><div class="small-avatar">👨</div><div><strong>Hassan Ali</strong><span>Class 6 - A</span></div><span class="muted">15 Sep</span></div>
+                  <div class="small-item"><div class="small-avatar">👩</div><div><strong>Zainab Fatima</strong><span>Class 7 - B</span></div><span class="muted">14 Sep</span></div>
+                  <div class="small-item"><div class="small-avatar">👨</div><div><strong>Muhammad Bilal</strong><span>Class 8 - A</span></div><span class="muted">13 Sep</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="teachers-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">👨‍🏫</div>
+            <div>
+              <h1>Teachers</h1>
+              <p>Manage teacher profiles, subjects and staff information.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn primary" type="button" id="addTeacherBtn">+ Add Teacher</button>
+              <button class="btn secondary" type="button">Import</button>
+              <button class="btn secondary" type="button" id="exportTeachersBtn">Export</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box"><div class="row"><div class="mini-icon">👥</div><div><label>Total Teachers</label><strong>68</strong></div></div><div class="trend-up">▲ 6% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">👨</div><div><label>Male Teachers</label><strong>42</strong></div></div><div class="trend-up">▲ 5% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">👩</div><div><label>Female Teachers</label><strong>26</strong></div></div><div class="trend-up">▲ 8% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">🏢</div><div><label>Departments</label><strong>8</strong></div></div><div class="trend-up">▲ 1% from last month</div></div>
+          </div>
+
+          <div class="two-col-panel">
+            <div class="table-card">
+              <div class="panel-header">
+                <h2>Teacher List</h2>
+              </div>
+              <div class="filters">
+                <input id="teacherSearch" type="text" placeholder="Search teacher..." />
+                <select id="teacherDepartmentFilter">
+                  <option value="">All Departments</option>
+                  <option>Science</option><option>Arts</option><option>Computer</option><option>Languages</option><option>Mathematics</option><option>Administration</option>
+                </select>
+                <select id="teacherClassFilter">
+                  <option value="">All Classes</option>
+                  <option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option>
+                </select>
+                <button class="btn secondary" type="button" id="clearTeacherFilters">Reset</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Photo</th>
+                      <th>Name</th>
+                      <th>Designation</th>
+                      <th>Subject</th>
+                      <th>Department</th>
+                      <th>Phone</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="teacherTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="side-panel">
+              <div class="card">
+                <div class="panel-header"><h3>Quick Actions</h3></div>
+                <div class="row-actions" style="gap:10px; flex-direction:column;">
+                  <button class="btn primary" type="button" id="teacherSubAddBtn">Add Teacher</button>
+                  <button class="btn secondary" type="button">Import CSV</button>
+                  <button class="btn secondary" type="button">Generate Report</button>
+                </div>
+              </div>
+              <div class="card">
+                <div class="panel-header"><h3>Department Wise</h3></div>
+                <div class="bars">
+                  <div class="bar-row"><div class="bar-header"><span>Science</span><strong>26%</strong></div><div class="bar-track"><div class="bar-fill" style="width:78%;"></div></div></div>
+                  <div class="bar-row"><div class="bar-header"><span>Mathematics</span><strong>19%</strong></div><div class="bar-track"><div class="bar-fill" style="width:58%;"></div></div></div>
+                  <div class="bar-row"><div class="bar-header"><span>Arts</span><strong>17%</strong></div><div class="bar-track"><div class="bar-fill" style="width:51%;"></div></div></div>
+                  <div class="bar-row"><div class="bar-header"><span>Languages</span><strong>15%</strong></div><div class="bar-track"><div class="bar-fill" style="width:45%;"></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="classes-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">📚</div>
+            <div>
+              <h1>Classes</h1>
+              <p>Manage classes, sections, class teachers and student distribution.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button">+ Add Class</button></div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box"><div class="row"><div class="mini-icon">🏫</div><div><label>Total Classes</label><strong>32</strong></div></div><div class="trend-up">▲ 0% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">👥</div><div><label>Students/Class</label><strong>39</strong></div></div><div class="trend-up">▲ 2.4% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">🧑‍🏫</div><div><label>Class Teachers</label><strong>26</strong></div></div><div class="trend-up">▲ 4% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">🧾</div><div><label>Pending Tasks</label><strong>8</strong></div></div><div class="trend-down">▼ 1% from last month</div></div>
+          </div>
+
+          <div class="two-col-panel">
+            <div class="card">
+              <div class="panel-header"><h3>Class Overview</h3></div>
+              <table>
+                <thead><tr><th>Class</th><th>Section</th><th>Teacher</th><th>Strength</th><th>Capacity</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>6</td><td>A</td><td>Mr. Ali</td><td>38</td><td>40</td><td><span class="status-chip">Healthy</span></td></tr>
+                  <tr><td>7</td><td>B</td><td>Ms. Ayesha</td><td>42</td><td>45</td><td><span class="status-chip warning">Near Full</span></td></tr>
+                  <tr><td>8</td><td>A</td><td>Mr. Bilal</td><td>31</td><td>35</td><td><span class="status-chip">Healthy</span></td></tr>
+                  <tr><td>9</td><td>B</td><td>Ms. Sara</td><td>44</td><td>45</td><td><span class="status-chip warning">Near Full</span></td></tr>
+                  <tr><td>10</td><td>A</td><td>Mr. Ahmed</td><td>36</td><td>40</td><td><span class="status-chip">Healthy</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <div class="panel-header"><h3>Class Distribution</h3></div>
+              <div class="small-list">
+                <div class="small-item"><div class="small-avatar">6</div><div><strong>Class 6</strong><span>198 students</span></div><span class="muted">16%</span></div>
+                <div class="small-item"><div class="small-avatar">7</div><div><strong>Class 7</strong><span>210 students</span></div><span class="muted">17%</span></div>
+                <div class="small-item"><div class="small-avatar">8</div><div><strong>Class 8</strong><span>176 students</span></div><span class="muted">14%</span></div>
+                <div class="small-item"><div class="small-avatar">9</div><div><strong>Class 9</strong><span>160 students</span></div><span class="muted">13%</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="attendance-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">✅</div>
+            <div>
+              <h1>Attendance</h1>
+              <p>Track and manage student and staff attendance easily.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button">Mark Attendance</button></div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box"><div class="row"><div class="mini-icon">👥</div><div><label>Total Students</label><strong>1,205</strong></div></div><div class="trend-up">▲ 4% today</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">👨‍🏫</div><div><label>Total Teachers</label><strong>68</strong></div></div><div class="trend-up">▲ 1% today</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">📆</div><div><label>Today's Attendance</label><strong>94%</strong></div></div><div class="trend-up">▲ 3.2% vs yesterday</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">⚠️</div><div><label>Late Entries</label><strong>17</strong></div></div><div class="trend-down">▼ 2 last week</div></div>
+          </div>
+
+          <div class="two-col-panel">
+            <div class="card">
+              <div class="panel-header"><h3>Attendance by Class</h3></div>
+              <table>
+                <thead><tr><th>Class</th><th>Present</th><th>Absent</th><th>Attendance %</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>6-A</td><td>36</td><td>4</td><td>90%</td><td><button class="btn secondary" type="button">View</button></td></tr>
+                  <tr><td>7-B</td><td>38</td><td>5</td><td>88%</td><td><button class="btn secondary" type="button">View</button></td></tr>
+                  <tr><td>8-A</td><td>31</td><td>2</td><td>94%</td><td><button class="btn secondary" type="button">View</button></td></tr>
+                  <tr><td>9-B</td><td>39</td><td>6</td><td>87%</td><td><button class="btn secondary" type="button">View</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <div class="panel-header"><h3>Attendance Summary</h3></div>
+              <div class="bars">
+                <div class="bar-row"><div class="bar-header"><span>Class 6</span><strong>90%</strong></div><div class="bar-track"><div class="bar-fill" style="width:90%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Class 7</span><strong>88%</strong></div><div class="bar-track"><div class="bar-fill" style="width:88%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Class 8</span><strong>94%</strong></div><div class="bar-track"><div class="bar-fill" style="width:94%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Class 9</span><strong>87%</strong></div><div class="bar-track"><div class="bar-fill" style="width:87%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="fees-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">💰</div>
+            <div>
+              <h1>Fees &amp; Accounts</h1>
+              <p>Manage fee collection, dues and financial records.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button" id="addFeeBtn">+ Add Fee</button></div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box"><div class="row"><div class="mini-icon">💵</div><div><label>Collected</label><strong>Rs. 452,600</strong></div></div><div class="trend-up">▲ 12% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">📌</div><div><label>Pending</label><strong>Rs. 85,400</strong></div></div><div class="trend-down">▼ 3% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">🧾</div><div><label>Invoices</label><strong>1,680</strong></div></div><div class="trend-up">▲ 8% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">⏳</div><div><label>Overdue</label><strong>142</strong></div></div><div class="trend-down">▼ 2% from last month</div></div>
+          </div>
+
+          <div class="table-card">
+            <div class="panel-header"><h2>Fee Collection</h2></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Student</th><th>Class</th><th>Month</th><th>Due</th><th>Paid</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>Ahmed Raza</td><td>6-A</td><td>September</td><td>Rs. 6,500</td><td>Rs. 6,500</td><td><span class="status-chip">Paid</span></td><td><button class="mini-btn" type="button">👁</button></td></tr>
+                  <tr><td>Ayesha Khan</td><td>7-B</td><td>September</td><td>Rs. 6,800</td><td>Rs. 4,200</td><td><span class="status-chip warning">Partial</span></td><td><button class="mini-btn" type="button">👁</button></td></tr>
+                  <tr><td>Usman Ali</td><td>8-A</td><td>September</td><td>Rs. 7,400</td><td>Rs. 7,400</td><td><span class="status-chip">Paid</span></td><td><button class="mini-btn" type="button">👁</button></td></tr>
+                  <tr><td>Fatima Noor</td><td>9-B</td><td>September</td><td>Rs. 7,900</td><td>Rs. 0</td><td><span class="status-chip danger">Unpaid</span></td><td><button class="mini-btn" type="button">👁</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="exams-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">📝</div>
+            <div>
+              <h1>Exams &amp; Results</h1>
+              <p>Manage exam schedules, results and academic performance.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button">+ Add Exam</button></div>
+          </div>
+
+          <div class="report-box">
+            <div class="report-item"><small>Mid Year Results</small><strong>89%</strong></div>
+            <div class="report-item"><small>Top Score</small><strong>98.6%</strong></div>
+            <div class="report-item"><small>Pass Rate</small><strong>96%</strong></div>
+            <div class="report-item"><small>Students Appeared</small><strong>1,214</strong></div>
+          </div>
+
+          <div class="table-card">
+            <div class="panel-header"><h2>Result Sheet</h2></div>
+            <table>
+              <thead><tr><th>Student</th><th>Class</th><th>English</th><th>Math</th><th>Science</th><th>Average</th><th>Result</th></tr></thead>
+              <tbody>
+                <tr><td>Ayesha Khan</td><td>10-A</td><td>92</td><td>98</td><td>96</td><td>95.3</td><td><span class="status-chip">Pass</span></td></tr>
+                <tr><td>Muhammad Ali</td><td>9-B</td><td>90</td><td>95</td><td>94</td><td>93.0</td><td><span class="status-chip">Pass</span></td></tr>
+                <tr><td>Fatima Noor</td><td>8-A</td><td>88</td><td>92</td><td>90</td><td>90.0</td><td><span class="status-chip">Pass</span></td></tr>
+                <tr><td>Usman Raza</td><td>10-A</td><td>80</td><td>78</td><td>84</td><td>80.7</td><td><span class="status-chip warning">Borderline</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="reports-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">📊</div>
+            <div>
+              <h1>Reports &amp; Analytics</h1>
+              <p>Generate and review school performance reports.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button">Generate Report</button></div>
+          </div>
+
+          <div class="report-box">
+            <div class="report-item"><small>Total Reports</small><strong>48</strong></div>
+            <div class="report-item"><small>Fees Collection</small><strong>Rs. 452k</strong></div>
+            <div class="report-item"><small>Attendance</small><strong>94%</strong></div>
+            <div class="report-item"><small>Pass Rate</small><strong>96%</strong></div>
+          </div>
+
+          <div class="two-col-panel">
+            <div class="card">
+              <div class="panel-header"><h3>Performance Summary</h3></div>
+              <div class="bars">
+                <div class="bar-row"><div class="bar-header"><span>Admissions</span><strong>82%</strong></div><div class="bar-track"><div class="bar-fill" style="width:82%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Attendance</span><strong>94%</strong></div><div class="bar-track"><div class="bar-fill" style="width:94%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Academic Results</span><strong>96%</strong></div><div class="bar-track"><div class="bar-fill" style="width:96%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Fee Recovery</span><strong>89%</strong></div><div class="bar-track"><div class="bar-fill" style="width:89%;"></div></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="panel-header"><h3>Insights</h3></div>
+              <div class="small-list">
+                <div class="small-item"><div class="small-avatar">📈</div><div><strong>Fee Recovery</strong><span>Strong collection trend</span></div></div>
+                <div class="small-item"><div class="small-avatar">✅</div><div><strong>Attendance</strong><span>Above school target</span></div></div>
+                <div class="small-item"><div class="small-avatar">🧠</div><div><strong>Academic</strong><span>Top performers stable</span></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="expenses-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">💵</div>
+            <div>
+              <h1>Expenses</h1>
+              <p>Manage school expenditures and departmental spend.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button">+ Add Expense</button></div>
+          </div>
+
+          <div class="table-card">
+            <div class="panel-header"><h2>Expense Ledger</h2></div>
+            <table>
+              <thead><tr><th>Category</th><th>Vendor</th><th>Amount</th><th>Date</th><th>Reference</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Utilities</td><td>City Power</td><td>Rs. 48,500</td><td>15 Sep 2025</td><td>INV-2048</td><td><span class="status-chip">Approved</span></td></tr>
+                <tr><td>Laboratory</td><td>Science Supply Co.</td><td>Rs. 24,300</td><td>10 Sep 2025</td><td>INV-2041</td><td><span class="status-chip">Approved</span></td></tr>
+                <tr><td>Maintenance</td><td>BuildCare</td><td>Rs. 18,200</td><td>08 Sep 2025</td><td>INV-2039</td><td><span class="status-chip warning">Pending</span></td></tr>
+                <tr><td>Transport</td><td>City Transit</td><td>Rs. 35,900</td><td>06 Sep 2025</td><td>INV-2036</td><td><span class="status-chip">Approved</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="users-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">👥</div>
+            <div>
+              <h1>Users</h1>
+              <p>Manage staff roles, access levels, and system users.</p>
+            </div>
+            <div class="page-actions"><button class="btn primary" type="button">+ Add User</button></div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box"><div class="row"><div class="mini-icon">👤</div><div><label>Total Users</label><strong>18</strong></div></div><div class="trend-up">▲ 3% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">🛡️</div><div><label>Admins</label><strong>4</strong></div></div><div class="trend-up">▲ 1% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">📚</div><div><label>Teachers</label><strong>8</strong></div></div><div class="trend-up">▲ 2% from last month</div></div>
+            <div class="stat-box"><div class="row"><div class="mini-icon">🔒</div><div><label>Inactive</label><strong>2</strong></div></div><div class="trend-down">▼ 1% from last month</div></div>
+          </div>
+
+          <div class="table-card">
+            <div class="panel-header"><h2>System Users</h2></div>
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last Login</th></tr></thead>
+              <tbody>
+                <tr><td>Admin User</td><td>admin@school.com</td><td>Administrator</td><td><span class="status-chip">Active</span></td><td>Today</td></tr>
+                <tr><td>Mr. Ahmed</td><td>ahmed@school.com</td><td>Principal</td><td><span class="status-chip">Active</span></td><td>Yesterday</td></tr>
+                <tr><td>Miss Sara</td><td>sara@school.com</td><td>Teacher</td><td><span class="status-chip warning">Pending</span></td><td>2 days ago</td></tr>
+                <tr><td>Mr. Bilal</td><td>bilal@school.com</td><td>Accountant</td><td><span class="status-chip">Active</span></td><td>3 days ago</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="academics-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">🎓</div>
+            <div>
+              <h1>Academics</h1>
+              <p>Curriculum, learning progress and performance overview.</p>
+            </div>
+          </div>
+
+          <div class="two-col-panel">
+            <div class="card">
+              <div class="panel-header"><h3>Academic KPI</h3></div>
+              <div class="bars">
+                <div class="bar-row"><div class="bar-header"><span>Course Completion</span><strong>86%</strong></div><div class="bar-track"><div class="bar-fill" style="width:86%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Homework Submission</span><strong>91%</strong></div><div class="bar-track"><div class="bar-fill" style="width:91%;"></div></div></div>
+                <div class="bar-row"><div class="bar-header"><span>Class Participation</span><strong>88%</strong></div><div class="bar-track"><div class="bar-fill" style="width:88%;"></div></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="panel-header"><h3>Academic Focus</h3></div>
+              <div class="small-list">
+                <div class="small-item"><div class="small-avatar">📘</div><div><strong>Science Lab</strong><span>Practical sessions</span></div></div>
+                <div class="small-item"><div class="small-avatar">📐</div><div><strong>Math Circle</strong><span>Weekly practice</span></div></div>
+                <div class="small-item"><div class="small-avatar">🧪</div><div><strong>STEM</strong><span>Project-based learning</span></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="timetable-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">📅</div>
+            <div>
+              <h1>Timetable</h1>
+              <p>School schedules for classes and subjects.</p>
+            </div>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead><tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead>
+              <tbody>
+                <tr><td>08:30</td><td>Math</td><td>English</td><td>Science</td><td>Math</td><td>Computer</td></tr>
+                <tr><td>09:30</td><td>Physics</td><td>Biology</td><td>Math</td><td>English</td><td>Art</td></tr>
+                <tr><td>10:30</td><td>Break</td><td>Break</td><td>Break</td><td>Break</td><td>Break</td></tr>
+                <tr><td>11:00</td><td>History</td><td>Computer</td><td>English</td><td>Science</td><td>Math</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="library-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">📖</div>
+            <div>
+              <h1>Library</h1>
+              <p>Books, issue records and library resources.</p>
+            </div>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead><tr><th>Book</th><th>Category</th><th>Issued To</th><th>Issue Date</th><th>Return Date</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Modern Physics</td><td>Science</td><td>Ali Raza</td><td>01 Sep</td><td>15 Sep</td><td><span class="status-chip warning">Due Soon</span></td></tr>
+                <tr><td>English Literature</td><td>Arts</td><td>Fatima Noor</td><td>05 Sep</td><td>20 Sep</td><td><span class="status-chip">On Time</span></td></tr>
+                <tr><td>Algebra Basics</td><td>Math</td><td>Hassan Ali</td><td>03 Sep</td><td>10 Sep</td><td><span class="status-chip danger">Overdue</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="transport-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">🚌</div>
+            <div>
+              <h1>Transport</h1>
+              <p>School transport fleet and route tracking.</p>
+            </div>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead><tr><th>Vehicle</th><th>Route</th><th>Driver</th><th>Trips</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Bus-01</td><td>North Town</td><td>Farhan</td><td>06</td><td><span class="status-chip">On Route</span></td></tr>
+                <tr><td>Bus-04</td><td>Garden City</td><td>Aslam</td><td>05</td><td><span class="status-chip warning">Delayed</span></td></tr>
+                <tr><td>Van-02</td><td>Old City</td><td>Bilal</td><td>04</td><td><span class="status-chip">Available</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="parents-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">👨‍👩‍👧</div>
+            <div>
+              <h1>Parents</h1>
+              <p>Parent communication and student support contacts.</p>
+            </div>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead><tr><th>Parent</th><th>Student</th><th>Phone</th><th>Class</th><th>Last Message</th></tr></thead>
+              <tbody>
+                <tr><td>Mr. Raza</td><td>Ahmed Raza</td><td>0301-1234567</td><td>6-A</td><td>Fee update shared</td></tr>
+                <tr><td>Mrs. Khan</td><td>Ayesha Khan</td><td>0302-7654321</td><td>10-A</td><td>Exam schedule confirmed</td></tr>
+                <tr><td>Mr. Ali</td><td>Usman Ali</td><td>0305-1122334</td><td>8-A</td><td>Transport query resolved</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="settings-section" class="app-section">
+          <div class="page-banner">
+            <div class="page-banner-icon">⚙️</div>
+            <div>
+              <h1>Settings</h1>
+              <p>School configuration, profile and system preferences.</p>
+            </div>
+          </div>
+
+          <div class="settings-layout">
+            <div class="settings-nav">
+              <button class="active" type="button">School Info</button>
+              <button type="button">Notifications</button>
+              <button type="button">Security</button>
+              <button type="button">Appearance</button>
+            </div>
+            <div class="settings-panel">
+              <h4>School Information</h4>
+              <div class="settings-grid">
+                <div class="full"><label>School Name<input type="text" value="Al-Hidayah Public School" /></label></div>
+                <label>Principal<input type="text" value="Mr. Ahmed Raza" /></label>
+                <label>Academic Session<input type="text" value="2025-2026" /></label>
+                <label>Contact Number<input type="text" value="+92 300 1234567" /></label>
+                <label>Email<input type="email" value="admin@alhidayahschool.edu.pk" /></label>
+                <label>City<input type="text" value="Lahore" /></label>
+                <div class="full"><label>Address<textarea rows="3">Main Campus, Gulshan Road, Lahore</textarea></label></div>
+              </div>
+              <div class="modal-actions">
+                <button class="btn secondary" type="button">Cancel</button>
+                <button class="btn primary" type="button">Save Settings</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footerbar">
+        <span>© 2025 Al-Hidayah Public School Management System</span>
+        <span>Version 1.0</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="studentModal" class="modal" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="studentModalTitle">Add Student</h3>
+        <button class="close-btn" type="button" data-close="studentModal">×</button>
+      </div>
+      <div class="form-grid">
+        <label>Student Name<input id="studentName" type="text" /></label>
+        <label>Roll No<input id="studentRoll" type="text" /></label>
+        <label>Class<select id="studentClass"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></label>
+        <label>Section<select id="studentSection"><option>A</option><option>B</option><option>C</option></select></label>
+        <label>Gender<select id="studentGender"><option>Male</option><option>Female</option></select></label>
+        <label>Phone<input id="studentPhone" type="text" /></label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn secondary" type="button" data-close="studentModal">Cancel</button>
+        <button class="btn primary" type="button" id="saveStudentBtn">Save Student</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="teacherModal" class="modal" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="teacherModalTitle">Add Teacher</h3>
+        <button class="close-btn" type="button" data-close="teacherModal">×</button>
+      </div>
+      <div class="form-grid">
+        <label>Teacher Name<input id="teacherName" type="text" /></label>
+        <label>Phone<input id="teacherPhone" type="text" /></label>
+        <label>Designation<input id="teacherDesignation" type="text" /></label>
+        <label>Subject<input id="teacherSubject" type="text" /></label>
+        <label>Department<select id="teacherDepartment"><option>Science</option><option>Arts</option><option>Computer</option><option>Languages</option><option>Mathematics</option><option>Administration</option></select></label>
+        <label>Assigned Class<select id="teacherClassAssigned"><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select></label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn secondary" type="button" data-close="teacherModal">Cancel</button>
+        <button class="btn primary" type="button" id="saveTeacherBtn">Save Teacher</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const storageKeys = {
+      students: 'school_students',
+      teachers: 'school_teachers',
+      fees: 'school_fees'
+    };
+
+    const defaultStudents = [
+      { name: 'Ahmed Raza', roll: '001', className: '6', section: 'A', gender: 'Male', phone: '0301-1234567', status: 'Active' },
+      { name: 'Ayesha Khan', roll: '002', className: '6', section: 'A', gender: 'Female', phone: '0302-7654321', status: 'Active' },
+      { name: 'Ali Hamza', roll: '003', className: '7', section: 'B', gender: 'Male', phone: '0303-9876543', status: 'Active' },
+      { name: 'Fatima Noor', roll: '004', className: '7', section: 'B', gender: 'Female', phone: '0304-6543210', status: 'Active' },
+      { name: 'Usman Tariq', roll: '005', className: '8', section: 'A', gender: 'Male', phone: '0305-1122334', status: 'Active' }
+    ];
+
+    const defaultTeachers = [
+      { name: 'Ahmed Raza', designation: 'Principal', subject: '—', department: 'Administration', phone: '0301-1234567', className: 'Class 10', status: 'Active' },
+      { name: 'Sara Khan', designation: 'Senior Teacher', subject: 'Mathematics', department: 'Science', phone: '0302-7654321', className: 'Class 9', status: 'Active' },
+      { name: 'Usman Ali', designation: 'Teacher', subject: 'Physics', department: 'Science', phone: '0303-9876543', className: 'Class 8', status: 'Active' },
+      { name: 'Ayesha Malik', designation: 'Teacher', subject: 'English', department: 'Arts', phone: '0304-6543210', className: 'Class 7', status: 'Active' },
+      { name: 'Bilal Ahmed', designation: 'Teacher', subject: 'Computer', department: 'Computer', phone: '0305-1122334', className: 'Class 10', status: 'Active' }
+    ];
+
+    function readList(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function writeList(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    let students = readList(storageKeys.students, defaultStudents);
+    let teachers = readList(storageKeys.teachers, defaultTeachers);
+
+    const sectionButtons = document.querySelectorAll('.nav-item');
+    const sectionBlocks = document.querySelectorAll('.app-section');
+
+    function setActiveSection(targetId) {
+      sectionBlocks.forEach(section => {
+        section.classList.toggle('active', section.id === targetId);
+      });
+
+      sectionButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.target === targetId);
+      });
+    }
+
+    sectionButtons.forEach(btn => {
+      btn.addEventListener('click', () => setActiveSection(btn.dataset.target));
+    });
+
+    document.querySelectorAll('.nav-item, .module-card a').forEach(el => {
+      if (!el.dataset.target) return;
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveSection(el.dataset.target);
+      });
+    });
+
+    const studentTableBody = document.getElementById('studentTableBody');
+    const teacherTableBody = document.getElementById('teacherTableBody');
+
+    function renderStudents() {
+      const search = document.getElementById('studentSearch').value.toLowerCase().trim();
+      const classFilter = document.getElementById('studentClassFilter').value;
+      const statusFilter = document.getElementById('studentStatusFilter').value;
+
+      let filtered = students.filter(student => {
+        const matchesText = !search || [student.name, student.roll, student.className, student.section, student.phone].join(' ').toLowerCase().includes(search);
+        const matchesClass = !classFilter || student.className === classFilter;
+        const matchesStatus = !statusFilter || student.status === statusFilter;
+        return matchesText && matchesClass && matchesStatus;
+      });
+
+      studentTableBody.innerHTML = filtered.map((student, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td><div class="small-avatar">${student.gender === 'Female' ? '👩' : '👨'}</div></td>
+          <td>${student.name}</td>
+          <td>${student.roll}</td>
+          <td>${student.className}</td>
+          <td>${student.section}</td>
+          <td>${student.gender}</td>
+          <td>${student.phone}</td>
+          <td><span class="student-badge">${student.status}</span></td>
+          <td>
+            <div class="row-actions">
+              <button class="mini-btn" type="button" data-student-view="${student.name}">👁</button>
+              <button class="mini-btn" type="button" data-student-edit="${index}">✎</button>
+              <button class="mini-btn danger" type="button" data-student-delete="${index}">🗑</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('studentsTotal').textContent = students.length.toLocaleString();
+
+      studentTableBody.querySelectorAll('[data-student-view]').forEach(button => {
+        button.addEventListener('click', () => {
+          const name = button.dataset.studentView;
+          alert('Viewing student: ' + name);
+        });
+      });
+
+      studentTableBody.querySelectorAll('[data-student-edit]').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.studentEdit);
+          const item = students[index];
+          document.getElementById('studentModalTitle').textContent = 'Edit Student';
+          document.getElementById('studentName').value = item.name;
+          document.getElementById('studentRoll').value = item.roll;
+          document.getElementById('studentClass').value = item.className;
+          document.getElementById('studentSection').value = item.section;
+          document.getElementById('studentGender').value = item.gender;
+          document.getElementById('studentPhone').value = item.phone;
+          document.getElementById('studentModal').dataset.editIndex = String(index);
+          document.getElementById('studentModal').classList.add('show');
+        });
+      });
+
+      studentTableBody.querySelectorAll('[data-student-delete]').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.studentDelete);
+          if (confirm('Delete this student?')) {
+            students.splice(index, 1);
+            writeList(storageKeys.students, students);
+            renderStudents();
+          }
+        });
+      });
+    }
+
+    function renderTeachers() {
+      const search = document.getElementById('teacherSearch').value.toLowerCase().trim();
+      const deptFilter = document.getElementById('teacherDepartmentFilter').value;
+      const classFilter = document.getElementById('teacherClassFilter').value;
+
+      let filtered = teachers.filter(teacher => {
+        const matchesText = !search || [teacher.name, teacher.subject, teacher.department, teacher.designation].join(' ').toLowerCase().includes(search);
+        const matchesDept = !deptFilter || teacher.department === deptFilter;
+        const matchesClass = !classFilter || teacher.className === classFilter;
+        return matchesText && matchesDept && matchesClass;
+      });
+
+      teacherTableBody.innerHTML = filtered.map((teacher, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td><div class="small-avatar">${teacher.designation.includes('Principal') ? '👨' : '👩'}</div></td>
+          <td>${teacher.name}</td>
+          <td>${teacher.designation}</td>
+          <td>${teacher.subject}</td>
+          <td>${teacher.department}</td>
+          <td>${teacher.phone}</td>
+          <td><span class="student-badge">${teacher.status}</span></td>
+          <td>
+            <div class="row-actions">
+              <button class="mini-btn" type="button" data-teacher-edit="${index}">✎</button>
+              <button class="mini-btn danger" type="button" data-teacher-delete="${index}">🗑</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      teacherTableBody.querySelectorAll('[data-teacher-edit]').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.teacherEdit);
+          const item = teachers[index];
+          document.getElementById('teacherModalTitle').textContent = 'Edit Teacher';
+          document.getElementById('teacherName').value = item.name;
+          document.getElementById('teacherPhone').value = item.phone;
+          document.getElementById('teacherDesignation').value = item.designation;
+          document.getElementById('teacherSubject').value = item.subject;
+          document.getElementById('teacherDepartment').value = item.department;
+          document.getElementById('teacherClassAssigned').value = item.className;
+          document.getElementById('teacherModal').dataset.editIndex = String(index);
+          document.getElementById('teacherModal').classList.add('show');
+        });
+      });
+
+      teacherTableBody.querySelectorAll('[data-teacher-delete]').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.teacherDelete);
+          if (confirm('Delete this teacher?')) {
+            teachers.splice(index, 1);
+            writeList(storageKeys.teachers, teachers);
+            renderTeachers();
+          }
+        });
+      });
+    }
+
+    document.getElementById('studentSearch').addEventListener('input', renderStudents);
+    document.getElementById('studentClassFilter').addEventListener('change', renderStudents);
+    document.getElementById('studentStatusFilter').addEventListener('change', renderStudents);
+    document.getElementById('clearStudentFilters').addEventListener('click', () => {
+      document.getElementById('studentSearch').value = '';
+      document.getElementById('studentClassFilter').value = '';
+      document.getElementById('studentStatusFilter').value = '';
+      renderStudents();
+    });
+
+    document.getElementById('teacherSearch').addEventListener('input', renderTeachers);
+    document.getElementById('teacherDepartmentFilter').addEventListener('change', renderTeachers);
+    document.getElementById('teacherClassFilter').addEventListener('change', renderTeachers);
+    document.getElementById('clearTeacherFilters').addEventListener('click', () => {
+      document.getElementById('teacherSearch').value = '';
+      document.getElementById('teacherDepartmentFilter').value = '';
+      document.getElementById('teacherClassFilter').value = '';
+      renderTeachers();
+    });
+
+    document.getElementById('addStudentBtn').addEventListener('click', () => {
+      document.getElementById('studentModalTitle').textContent = 'Add Student';
+      document.getElementById('studentModal').dataset.editIndex = '';
+      document.getElementById('studentName').value = '';
+      document.getElementById('studentRoll').value = '';
+      document.getElementById('studentPhone').value = '';
+      document.getElementById('studentModal').classList.add('show');
+    });
+
+    document.getElementById('saveStudentBtn').addEventListener('click', () => {
+      const student = {
+        name: document.getElementById('studentName').value.trim(),
+        roll: document.getElementById('studentRoll').value.trim(),
+        className: document.getElementById('studentClass').value,
+        section: document.getElementById('studentSection').value,
+        gender: document.getElementById('studentGender').value,
+        phone: document.getElementById('studentPhone').value.trim(),
+        status: 'Active'
+      };
+
+      if (!student.name || !student.roll) return alert('Please complete required fields.');
+
+      const editIndex = document.getElementById('studentModal').dataset.editIndex;
+      if (editIndex !== undefined && editIndex !== '') {
+        students[Number(editIndex)] = student;
+      } else {
+        students.push(student);
+      }
+
+      writeList(storageKeys.students, students);
+      document.getElementById('studentModal').classList.remove('show');
+      renderStudents();
+    });
+
+    document.getElementById('addTeacherBtn').addEventListener('click', () => {
+      document.getElementById('teacherModalTitle').textContent = 'Add Teacher';
+      document.getElementById('teacherModal').dataset.editIndex = '';
+      document.getElementById('teacherName').value = '';
+      document.getElementById('teacherPhone').value = '';
+      document.getElementById('teacherDesignation').value = '';
+      document.getElementById('teacherSubject').value = '';
+      document.getElementById('teacherModal').classList.add('show');
+    });
+
+    document.getElementById('saveTeacherBtn').addEventListener('click', () => {
+      const teacher = {
+        name: document.getElementById('teacherName').value.trim(),
+        phone: document.getElementById('teacherPhone').value.trim(),
+        designation: document.getElementById('teacherDesignation').value.trim() || 'Teacher',
+        subject: document.getElementById('teacherSubject').value.trim() || '—',
+        department: document.getElementById('teacherDepartment').value,
+        className: document.getElementById('teacherClassAssigned').value,
+        status: 'Active'
+      };
+
+      if (!teacher.name) return alert('Teacher name is required.');
+
+      const editIndex = document.getElementById('teacherModal').dataset.editIndex;
+      if (editIndex !== undefined && editIndex !== '') {
+        teachers[Number(editIndex)] = teacher;
+      } else {
+        teachers.push(teacher);
+      }
+
+      writeList(storageKeys.teachers, teachers);
+      document.getElementById('teacherModal').classList.remove('show');
+      renderTeachers();
+    });
+
+    document.querySelectorAll('[data-close]').forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.close;
+        const modal = document.getElementById(target);
+        if (modal) modal.classList.remove('show');
+      });
+    });
+
+    document.getElementById('exportStudentsBtn').addEventListener('click', () => {
+      const csv = ['Name,Roll No,Class,Section,Gender,Phone,Status', ...students.map(s => [s.name, s.roll, s.className, s.section, s.gender, s.phone, s.status].join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'students.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('exportTeachersBtn').addEventListener('click', () => {
+      const csv = ['Name,Designation,Subject,Department,Phone,Class,Status', ...teachers.map(t => [t.name, t.designation, t.subject, t.department, t.phone, t.className, t.status].join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'teachers.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    renderStudents();
+    renderTeachers();
+  </script>
+</body>
+</html>

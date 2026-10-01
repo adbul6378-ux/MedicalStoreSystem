@@ -1,0 +1,2782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Al-Hidayah Public School - Parents</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#0b2a5b;
+    color:white;
+    padding:20px 15px;
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 25px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    background:#2563eb;
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:21px;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    color:#b9c7dd;
+    font-size:11px;
+}
+
+.menu-title{
+    color:#8fa5c5;
+    font-size:11px;
+    margin:25px 10px 10px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    padding:12px 13px;
+    margin:4px 0;
+
+    color:#c9d5e8;
+    text-decoration:none;
+
+    border-radius:8px;
+    font-size:14px;
+
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    background:#2563eb;
+    color:white;
+}
+
+.menu a span:first-child{
+    width:22px;
+    text-align:center;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+    height:70px;
+    background:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    border-bottom:1px solid #e5eaf1;
+}
+
+.search{
+    width:330px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+
+    padding:11px 15px 11px 40px;
+
+    border:1px solid #dbe3ef;
+    border-radius:8px;
+
+    outline:none;
+    font-size:13px;
+}
+
+.search-icon{
+    position:absolute;
+    left:14px;
+    top:11px;
+
+    color:#64748b;
+}
+
+.top-right{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.notification{
+    position:relative;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.notification b{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+
+    width:16px;
+    height:16px;
+
+    background:#ef4444;
+    color:white;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:9px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profile-img{
+    width:38px;
+    height:38px;
+
+    background:#dbeafe;
+    color:#2563eb;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+}
+
+.profile small{
+    color:#64748b;
+    font-size:11px;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    padding:30px;
+}
+
+
+/* =========================
+   BANNER
+========================= */
+
+.banner{
+    background:linear-gradient(
+        135deg,
+        #0b2a5b,
+        #2563eb
+    );
+
+    color:white;
+
+    padding:28px;
+
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.banner h1{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+.banner p{
+    color:#dbeafe;
+    font-size:13px;
+}
+
+.banner-icon{
+    width:75px;
+    height:75px;
+
+    background:rgba(255,255,255,.15);
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:38px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+
+    border:1px solid #e5eaf1;
+    border-radius:12px;
+
+    padding:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.stat-info p{
+    color:#64748b;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.stat-info h2{
+    font-size:25px;
+}
+
+.stat-icon{
+    width:48px;
+    height:48px;
+
+    background:#eff6ff;
+    color:#2563eb;
+
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:22px;
+}
+
+.stat-card:nth-child(2) .stat-icon{
+    background:#ecfdf5;
+    color:#16a34a;
+}
+
+.stat-card:nth-child(3) .stat-icon{
+    background:#fff7ed;
+    color:#ea580c;
+}
+
+.stat-card:nth-child(4) .stat-icon{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.parents-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:22px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    background:white;
+
+    border:1px solid #e5eaf1;
+    border-radius:12px;
+
+    padding:20px;
+
+    margin-bottom:20px;
+}
+
+.card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:20px;
+}
+
+.card-header h3{
+    font-size:17px;
+}
+
+.card-header p{
+    color:#64748b;
+    font-size:12px;
+    margin-top:5px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+    border:none;
+
+    background:#2563eb;
+    color:white;
+
+    padding:10px 15px;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.btn.green{
+    background:#16a34a;
+}
+
+.btn.red{
+    background:#dc2626;
+}
+
+.btn.gray{
+    background:#64748b;
+}
+
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.toolbar input,
+.toolbar select{
+    padding:10px 12px;
+
+    border:1px solid #dbe3ef;
+
+    border-radius:7px;
+
+    outline:none;
+
+    font-size:12px;
+}
+
+.toolbar input{
+    flex:1;
+}
+
+
+/* =========================
+   PARENTS TABLE
+========================= */
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f8fafc;
+
+    color:#64748b;
+
+    text-align:left;
+
+    padding:13px 10px;
+
+    font-size:10px;
+
+    white-space:nowrap;
+}
+
+td{
+    padding:13px 10px;
+
+    border-bottom:1px solid #edf1f5;
+
+    font-size:12px;
+
+    white-space:nowrap;
+}
+
+.parent-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.parent-avatar{
+    width:36px;
+    height:36px;
+
+    background:#dbeafe;
+    color:#2563eb;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+}
+
+.parent-info strong{
+    font-size:12px;
+}
+
+.parent-info small{
+    display:block;
+
+    color:#64748b;
+
+    margin-top:3px;
+
+    font-size:10px;
+}
+
+.status{
+    padding:5px 9px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.status.active{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status.pending{
+    background:#fef3c7;
+    color:#b45309;
+}
+
+.action-btn{
+    border:none;
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    padding:7px 9px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    font-size:11px;
+
+    margin-right:3px;
+}
+
+.action-btn:hover{
+    background:#dbeafe;
+}
+
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-actions{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+}
+
+.quick{
+    border:1px solid #e5eaf1;
+
+    border-radius:8px;
+
+    padding:15px 10px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.quick:hover{
+    border-color:#2563eb;
+    background:#f8fbff;
+}
+
+.quick div{
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+.quick span{
+    color:#475569;
+    font-size:11px;
+}
+
+
+/* =========================
+   RECENT COMMUNICATION
+========================= */
+
+.message{
+    display:flex;
+
+    gap:12px;
+
+    padding:13px 0;
+
+    border-bottom:1px solid #edf1f5;
+}
+
+.message:last-child{
+    border-bottom:none;
+}
+
+.message-icon{
+    width:36px;
+    height:36px;
+
+    border-radius:8px;
+
+    background:#eff6ff;
+    color:#2563eb;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.message h4{
+    font-size:12px;
+    margin-bottom:4px;
+}
+
+.message p{
+    color:#64748b;
+    font-size:10px;
+}
+
+.message time{
+    display:block;
+    color:#94a3b8;
+    font-size:9px;
+    margin-top:4px;
+}
+
+
+/* =========================
+   PARENT SUMMARY
+========================= */
+
+.summary-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #edf1f5;
+}
+
+.summary-row:last-child{
+    border-bottom:none;
+}
+
+.summary-label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    color:#475569;
+
+    font-size:12px;
+}
+
+.summary-icon{
+    width:30px;
+    height:30px;
+
+    background:#eff6ff;
+    color:#2563eb;
+
+    border-radius:7px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:1000;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-box{
+    width:470px;
+    max-width:92%;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:20px;
+}
+
+.modal-header h3{
+    font-size:18px;
+}
+
+.close{
+    font-size:24px;
+
+    color:#64748b;
+
+    cursor:pointer;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+
+    color:#475569;
+
+    font-size:11px;
+
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+
+    padding:10px;
+
+    border:1px solid #dbe3ef;
+
+    border-radius:7px;
+
+    outline:none;
+}
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+}
+
+.form-buttons{
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    margin-top:20px;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    background:#0f172a;
+    color:white;
+
+    padding:13px 18px;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+    display:none;
+
+    z-index:2000;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .parents-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span:last-child{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .banner{
+        padding:20px;
+    }
+
+    .banner-icon{
+        display:none;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .toolbar input{
+        min-width:100%;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🏫
+        </div>
+
+        <div>
+            <h2>Al-Hidayah</h2>
+            <span>Public School</span>
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <div class="menu">
+
+        <a href="#">
+            <span>📊</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#">
+            <span>👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+        <a href="#">
+            <span>👨‍🏫</span>
+            <span>Teachers</span>
+        </a>
+
+        <a href="#">
+            <span>🏫</span>
+            <span>Classes</span>
+        </a>
+
+        <a href="#">
+            <span>📝</span>
+            <span>Attendance</span>
+        </a>
+
+        <a href="#">
+            <span>💰</span>
+            <span>Fees & Accounts</span>
+        </a>
+
+        <a href="#">
+            <span>📚</span>
+            <span>Exams & Results</span>
+        </a>
+
+        <a href="#">
+            <span>📖</span>
+            <span>Academics</span>
+        </a>
+
+        <a href="#">
+            <span>🕐</span>
+            <span>Timetable</span>
+        </a>
+
+        <a href="#">
+            <span>📚</span>
+            <span>Library</span>
+        </a>
+
+        <a href="#">
+            <span>🚌</span>
+            <span>Transport</span>
+        </a>
+
+        <a href="#">
+            <span>❤️</span>
+            <span>Health</span>
+        </a>
+
+        <a class="active" href="#">
+            <span>👪</span>
+            <span>Parents</span>
+        </a>
+
+        <a href="#">
+            <span>💬</span>
+            <span>Communication</span>
+        </a>
+
+        <a href="#">
+            <span>📈</span>
+            <span>Reports</span>
+        </a>
+
+    </div>
+
+
+    <div class="menu-title">
+        System
+    </div>
+
+
+    <div class="menu">
+
+        <a href="#">
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <a href="#">
+            <span>🚪</span>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="search">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+            <input
+                type="text"
+                id="globalSearch"
+                placeholder="Search parents..."
+            >
+
+        </div>
+
+
+        <div class="top-right">
+
+            <div class="notification">
+
+                🔔
+
+                <b>5</b>
+
+            </div>
+
+
+            <div class="profile">
+
+                <div class="profile-img">
+                    AM
+                </div>
+
+                <div>
+
+                    <strong style="font-size:13px;">
+                        Admin
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <!-- BANNER -->
+
+        <div class="banner">
+
+            <div>
+
+                <h1>
+                    Parents Management
+                </h1>
+
+                <p>
+                    Manage parents, guardians, student relationships and communication.
+                </p>
+
+            </div>
+
+
+            <div class="banner-icon">
+                👪
+            </div>
+
+        </div>
+
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>
+                        Total Parents
+                    </p>
+
+                    <h2>
+                        842
+                    </h2>
+
+                </div>
+
+                <div class="stat-icon">
+                    👪
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>
+                        Active Parents
+                    </p>
+
+                    <h2>
+                        816
+                    </h2>
+
+                </div>
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>
+                        Linked Students
+                    </p>
+
+                    <h2>
+                        1,124
+                    </h2>
+
+                </div>
+
+                <div class="stat-icon">
+                    👨‍🎓
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>
+                        Pending Requests
+                    </p>
+
+                    <h2>
+                        26
+                    </h2>
+
+                </div>
+
+                <div class="stat-icon">
+                    🔔
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- MAIN GRID -->
+
+        <div class="parents-grid">
+
+
+            <!-- LEFT SIDE -->
+
+            <div>
+
+
+                <!-- PARENTS TABLE -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Parents & Guardians
+                            </h3>
+
+                            <p>
+                                Manage registered parents and guardians
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="btn"
+                            onclick="openModal()"
+                        >
+                            + Add Parent
+                        </button>
+
+                    </div>
+
+
+
+                    <!-- TOOLBAR -->
+
+                    <div class="toolbar">
+
+                        <input
+                            type="text"
+                            id="parentSearch"
+                            placeholder="Search parent, student or phone..."
+                        >
+
+
+                        <select id="parentStatus">
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="pending">
+                                Pending
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- TABLE -->
+
+                    <div class="table-container">
+
+                        <table id="parentTable">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        PARENT
+                                    </th>
+
+                                    <th>
+                                        RELATION
+                                    </th>
+
+                                    <th>
+                                        STUDENT
+                                    </th>
+
+                                    <th>
+                                        PHONE
+                                    </th>
+
+                                    <th>
+                                        EMAIL
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                    <th>
+                                        ACTION
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+
+                            <tbody>
+
+
+                                <tr data-status="active">
+
+                                    <td>
+
+                                        <div class="parent-info">
+
+                                            <div class="parent-avatar">
+                                                AK
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Ahmed Khan
+                                                </strong>
+
+                                                <small>
+                                                    Parent ID: P-1001
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        Father
+                                    </td>
+
+
+                                    <td>
+                                        Ali Khan
+                                    </td>
+
+
+                                    <td>
+                                        0300-1234567
+                                    </td>
+
+
+                                    <td>
+                                        ahmed@email.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status active">
+                                            Active
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="viewParent('Ahmed Khan')"
+                                        >
+                                            View
+                                        </button>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="showToast('Parent information opened')"
+                                        >
+                                            Edit
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+
+                                <tr data-status="active">
+
+                                    <td>
+
+                                        <div class="parent-info">
+
+                                            <div class="parent-avatar">
+                                                SA
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Sana Ahmed
+                                                </strong>
+
+                                                <small>
+                                                    Parent ID: P-1002
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        Mother
+                                    </td>
+
+
+                                    <td>
+                                        Ayesha Ahmed
+                                    </td>
+
+
+                                    <td>
+                                        0312-7654321
+                                    </td>
+
+
+                                    <td>
+                                        sana@email.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status active">
+                                            Active
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="viewParent('Sana Ahmed')"
+                                        >
+                                            View
+                                        </button>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="showToast('Parent information opened')"
+                                        >
+                                            Edit
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+
+                                <tr data-status="pending">
+
+                                    <td>
+
+                                        <div class="parent-info">
+
+                                            <div class="parent-avatar">
+                                                MR
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Muhammad Raza
+                                                </strong>
+
+                                                <small>
+                                                    Parent ID: P-1003
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        Father
+                                    </td>
+
+
+                                    <td>
+                                        Hamza Raza
+                                    </td>
+
+
+                                    <td>
+                                        0333-9876543
+                                    </td>
+
+
+                                    <td>
+                                        raza@email.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="viewParent('Muhammad Raza')"
+                                        >
+                                            View
+                                        </button>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="approveParent(this)"
+                                        >
+                                            Approve
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+
+                                <tr data-status="active">
+
+                                    <td>
+
+                                        <div class="parent-info">
+
+                                            <div class="parent-avatar">
+                                                FI
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Fatima Iqbal
+                                                </strong>
+
+                                                <small>
+                                                    Parent ID: P-1004
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        Mother
+                                    </td>
+
+
+                                    <td>
+                                        Usman Iqbal
+                                    </td>
+
+
+                                    <td>
+                                        0321-4567890
+                                    </td>
+
+
+                                    <td>
+                                        fatima@email.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status active">
+                                            Active
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="viewParent('Fatima Iqbal')"
+                                        >
+                                            View
+                                        </button>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="showToast('Parent information opened')"
+                                        >
+                                            Edit
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+
+                                <tr data-status="active">
+
+                                    <td>
+
+                                        <div class="parent-info">
+
+                                            <div class="parent-avatar">
+                                                BM
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Bilal Mahmood
+                                                </strong>
+
+                                                <small>
+                                                    Parent ID: P-1005
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        Guardian
+                                    </td>
+
+
+                                    <td>
+                                        Zain Mahmood
+                                    </td>
+
+
+                                    <td>
+                                        0345-1122334
+                                    </td>
+
+
+                                    <td>
+                                        bilal@email.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status active">
+                                            Active
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="viewParent('Bilal Mahmood')"
+                                        >
+                                            View
+                                        </button>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="showToast('Parent information opened')"
+                                        >
+                                            Edit
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RECENT COMMUNICATION -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Recent Parent Communication
+                            </h3>
+
+                            <p>
+                                Latest messages and notifications
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="btn"
+                            onclick="showToast('Communication section opened')"
+                        >
+                            View All
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="message">
+
+                        <div class="message-icon">
+                            📩
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Fee Reminder Sent
+                            </h4>
+
+                            <p>
+                                Fee reminder sent to 28 parents.
+                            </p>
+
+                            <time>
+                                Today, 10:30 AM
+                            </time>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="message">
+
+                        <div class="message-icon">
+                            📢
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                School Announcement
+                            </h4>
+
+                            <p>
+                                Annual function notification sent.
+                            </p>
+
+                            <time>
+                                Yesterday, 02:15 PM
+                            </time>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="message">
+
+                        <div class="message-icon">
+                            💬
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Teacher Message
+                            </h4>
+
+                            <p>
+                                New teacher-parent messages received.
+                            </p>
+
+                            <time>
+                                Yesterday, 11:45 AM
+                            </time>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RIGHT SIDE -->
+
+            <div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Quick Actions
+                            </h3>
+
+                            <p>
+                                Common parent tasks
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="quick-actions">
+
+
+                        <div
+                            class="quick"
+                            onclick="openModal()"
+                        >
+
+                            <div>
+                                👪
+                            </div>
+
+                            <span>
+                                Add Parent
+                            </span>
+
+                        </div>
+
+
+
+                        <div
+                            class="quick"
+                            onclick="showToast('Student linking opened')"
+                        >
+
+                            <div>
+                                🔗
+                            </div>
+
+                            <span>
+                                Link Student
+                            </span>
+
+                        </div>
+
+
+
+                        <div
+                            class="quick"
+                            onclick="showToast('Message composer opened')"
+                        >
+
+                            <div>
+                                💬
+                            </div>
+
+                            <span>
+                                Send Message
+                            </span>
+
+                        </div>
+
+
+
+                        <div
+                            class="quick"
+                            onclick="showToast('Parent report generated')"
+                        >
+
+                            <div>
+                                📊
+                            </div>
+
+                            <span>
+                                Parent Report
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PARENT SUMMARY -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Parent Summary
+                            </h3>
+
+                            <p>
+                                Account overview
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-label">
+
+                            <div class="summary-icon">
+                                👪
+                            </div>
+
+                            Registered Parents
+
+                        </div>
+
+                        <strong>
+                            842
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-label">
+
+                            <div class="summary-icon">
+                                ✓
+                            </div>
+
+                            Verified Accounts
+
+                        </div>
+
+                        <strong>
+                            816
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-label">
+
+                            <div class="summary-icon">
+                                🔗
+                            </div>
+
+                            Linked Students
+
+                        </div>
+
+                        <strong>
+                            1,124
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-label">
+
+                            <div class="summary-icon">
+                                ⏳
+                            </div>
+
+                            Pending Requests
+
+                        </div>
+
+                        <strong>
+                            26
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- PARENT NOTIFICATIONS -->
+
+                <div class="card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Notifications
+                            </h3>
+
+                            <p>
+                                Parent-related alerts
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="message">
+
+                        <div class="message-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                12 New Requests
+                            </h4>
+
+                            <p>
+                                New parent registration requests.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="message">
+
+                        <div class="message-icon">
+                            📱
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                8 Unread Messages
+                            </h4>
+
+                            <p>
+                                Parents have unread messages.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="message">
+
+                        <div class="message-icon">
+                            📄
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                6 Pending Profiles
+                            </h4>
+
+                            <p>
+                                Profiles need verification.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================
+     ADD PARENT MODAL
+========================= -->
+
+<div class="modal" id="parentModal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h3>
+                Add New Parent
+            </h3>
+
+            <span
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </span>
+
+        </div>
+
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Parent Name
+                </label>
+
+                <input
+                    type="text"
+                    id="parentName"
+                    placeholder="Enter parent name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Relation
+                </label>
+
+                <select id="relation">
+
+                    <option>
+                        Father
+                    </option>
+
+                    <option>
+                        Mother
+                    </option>
+
+                    <option>
+                        Guardian
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone
+                </label>
+
+                <input
+                    type="text"
+                    id="phone"
+                    placeholder="03XX-XXXXXXX"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="parent@email.com"
+            >
+
+        </div>
+
+
+
+        <div class="form-buttons">
+
+            <button
+                class="btn gray"
+                onclick="closeModal()"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                class="btn"
+                onclick="addParent()"
+            >
+                Add Parent
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<script>
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.style.display = "block";
+
+    setTimeout(function(){
+
+        toast.style.display = "none";
+
+    },2500);
+
+}
+
+
+/* =========================
+   OPEN MODAL
+========================= */
+
+function openModal(){
+
+    document.getElementById("parentModal")
+        .style.display = "flex";
+
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeModal(){
+
+    document.getElementById("parentModal")
+        .style.display = "none";
+
+}
+
+
+/* =========================
+   ADD PARENT
+========================= */
+
+function addParent(){
+
+    const name =
+        document.getElementById("parentName").value.trim();
+
+    const student =
+        document.getElementById("studentName").value.trim();
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const relation =
+        document.getElementById("relation").value;
+
+
+    if(
+        name === "" ||
+        student === "" ||
+        phone === ""
+    ){
+
+        showToast(
+            "Please fill all required fields"
+        );
+
+        return;
+
+    }
+
+
+    const initials =
+        name
+        .split(" ")
+        .map(word => word.charAt(0))
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+
+    const table =
+        document.querySelector(
+            "#parentTable tbody"
+        );
+
+
+    const row =
+        document.createElement("tr");
+
+
+    row.setAttribute(
+        "data-status",
+        "active"
+    );
+
+
+    row.innerHTML = `
+
+        <td>
+
+            <div class="parent-info">
+
+                <div class="parent-avatar">
+                    ${initials}
+                </div>
+
+                <div>
+
+                    <strong>
+                        ${name}
+                    </strong>
+
+                    <small>
+                        Parent ID: P-NEW
+                    </small>
+
+                </div>
+
+            </div>
+
+        </td>
+
+
+        <td>
+            ${relation}
+        </td>
+
+
+        <td>
+            ${student}
+        </td>
+
+
+        <td>
+            ${phone}
+        </td>
+
+
+        <td>
+            ${email || "—"}
+        </td>
+
+
+        <td>
+
+            <span class="status active">
+                Active
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <button
+                class="action-btn"
+                onclick="viewParent('${name}')"
+            >
+                View
+            </button>
+
+            <button
+                class="action-btn"
+                onclick="showToast('Parent information opened')"
+            >
+                Edit
+            </button>
+
+        </td>
+
+    `;
+
+
+    table.appendChild(row);
+
+
+    /* CLEAR FORM */
+
+    document.getElementById("parentName")
+        .value = "";
+
+    document.getElementById("studentName")
+        .value = "";
+
+    document.getElementById("phone")
+        .value = "";
+
+    document.getElementById("email")
+        .value = "";
+
+
+    closeModal();
+
+
+    showToast(
+        "Parent added successfully"
+    );
+
+}
+
+
+/* =========================
+   SEARCH + FILTER
+========================= */
+
+document
+    .getElementById("parentSearch")
+    .addEventListener(
+        "input",
+        filterParents
+    );
+
+
+document
+    .getElementById("parentStatus")
+    .addEventListener(
+        "change",
+        filterParents
+    );
+
+
+function filterParents(){
+
+    const search =
+        document
+        .getElementById("parentSearch")
+        .value
+        .toLowerCase();
+
+
+    const status =
+        document
+        .getElementById("parentStatus")
+        .value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#parentTable tbody tr"
+        );
+
+
+    rows.forEach(function(row){
+
+        const text =
+            row.innerText.toLowerCase();
+
+
+        const rowStatus =
+            row.getAttribute(
+                "data-status"
+            );
+
+
+        const searchMatch =
+            text.includes(search);
+
+
+        const statusMatch =
+            status === "all" ||
+            rowStatus === status;
+
+
+        if(
+            searchMatch &&
+            statusMatch
+        ){
+
+            row.style.display = "";
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   GLOBAL SEARCH
+========================= */
+
+document
+    .getElementById("globalSearch")
+    .addEventListener(
+        "input",
+        function(){
+
+            document
+                .getElementById("parentSearch")
+                .value = this.value;
+
+            filterParents();
+
+        }
+    );
+
+
+/* =========================
+   VIEW PARENT
+========================= */
+
+function viewParent(name){
+
+    showToast(
+        "Viewing profile: " + name
+    );
+
+}
+
+
+/* =========================
+   APPROVE PARENT
+========================= */
+
+function approveParent(button){
+
+    const row =
+        button.closest("tr");
+
+
+    row.setAttribute(
+        "data-status",
+        "active"
+    );
+
+
+    const status =
+        row.querySelector(
+            ".status"
+        );
+
+
+    status.className =
+        "status active";
+
+
+    status.innerText =
+        "Active";
+
+
+    button.innerText =
+        "Edit";
+
+
+    button.onclick =
+        function(){
+
+            showToast(
+                "Parent information opened"
+            );
+
+        };
+
+
+    showToast(
+        "Parent approved successfully"
+    );
+
+}
+
+
+/* =========================
+   SIDEBAR ACTIVE MENU
+========================= */
+
+document
+    .querySelectorAll(".menu a")
+    .forEach(function(item){
+
+        item.addEventListener(
+            "click",
+            function(){
+
+                document
+                    .querySelectorAll(".menu a")
+                    .forEach(function(link){
+
+                        link.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                this.classList.add(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   CLOSE MODAL OUTSIDE
+========================= */
+
+window.addEventListener(
+    "click",
+    function(event){
+
+        const modal =
+            document.getElementById(
+                "parentModal"
+            );
+
+
+        if(event.target === modal){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

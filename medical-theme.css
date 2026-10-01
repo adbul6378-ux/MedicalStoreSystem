@@ -1,0 +1,73 @@
+html[data-theme="emerald"] {
+  --primary-blue: #0d9488 !important;
+  --primary-green: #16a34a !important;
+  --sidebar-bg: #083344 !important;
+  --sidebar-hover: #115e59 !important;
+  --bg-color: #ecfeff !important;
+  --bg: #ecfeff !important;
+  --background: #ecfeff !important;
+  --card-bg: #ffffff !important;
+  --text-main: #134e4a !important;
+  --text: #134e4a !important;
+  --border-color: #bae6fd !important;
+  --border: #bae6fd !important;
+}
+
+html[data-theme="sunrise"] {
+  --primary-blue: #ea580c !important;
+  --primary-green: #16a34a !important;
+  --sidebar-bg: #422006 !important;
+  --sidebar-hover: #7c2d12 !important;
+  --bg-color: #fff7ed !important;
+  --bg: #fff7ed !important;
+  --background: #fff7ed !important;
+  --text-main: #431407 !important;
+  --text: #431407 !important;
+  --border-color: #fed7aa !important;
+  --border: #fed7aa !important;
+}
+
+html[data-theme="graphite"] {
+  --primary-blue: #4b5563 !important;
+  --primary-green: #059669 !important;
+  --sidebar-bg: #111827 !important;
+  --sidebar-hover: #374151 !important;
+  --bg-color: #f3f4f6 !important;
+  --bg: #f3f4f6 !important;
+  --background: #f3f4f6 !important;
+  --text-main: #1f2937 !important;
+  --text: #1f2937 !important;
+  --border-color: #d1d5db !important;
+  --border: #d1d5db !important;
+}
+
+html.compact-mode .card,
+html.compact-mode .panel,
+html.compact-mode .table-card,
+html.compact-mode .stat-card { padding: 16px !important; }
+
+html.compact-mode table td,
+html.compact-mode table th { padding-top: 8px !important; padding-bottom: 8px !important; }
+
+.medical-dashboard-return {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  align-items: center;
+  margin: 0 0 16px auto;
+  padding: 9px 13px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 7px;
+  background: var(--card-bg, #fff);
+  color: var(--primary-blue, #2563eb);
+  font: 600 13px/1.2 "Segoe UI", sans-serif;
+  text-decoration: none;
+}
+
+.medical-dashboard-return:hover {
+  background: var(--bg-color, #f4f6f9);
+}
+
+@media print {
+  .medical-dashboard-return { display: none !important; }
+}

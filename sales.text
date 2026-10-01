@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Store - New Sale / Invoice</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --sidebar-bg: #0d1e32;
+            --sidebar-hover: #172b43;
+            --primary-blue: #2563eb;
+            --primary-green: #10b981;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 15px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+        }
+
+        .brand-icon {
+            background-color: var(--primary-green);
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-text h2 { font-size: 15px; font-weight: 700; }
+        .brand-text p { font-size: 11px; color: #9ca3af; }
+
+        .nav-list { list-style: none; margin-top: 5px; }
+        .nav-item { margin-bottom: 3px; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            color: #9ca3af;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link-content { display: flex; align-items: center; gap: 12px; }
+        .nav-link:hover { color: #ffffff; background-color: var(--sidebar-hover); }
+        .nav-link.active { background-color: var(--primary-blue); color: #ffffff; }
+
+        .sub-menu { list-style: none; padding-left: 36px; margin-top: 4px; }
+        .sub-menu li a {
+            display: block;
+            padding: 6px 0;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .sub-menu li a.active, .sub-menu li a:hover { color: #ffffff; }
+
+        .quick-add {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .quick-add h4 { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin-bottom: 10px; }
+
+        .btn-sidebar {
+            width: 100%;
+            padding: 9px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .btn-green { background-color: var(--primary-green); }
+        .btn-blue { background-color: var(--primary-blue); }
+
+        /* --- Main Content --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Top Header */
+        header {
+            background-color: var(--card-bg);
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .breadcrumb {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .breadcrumb span {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .search-box {
+            position: relative;
+            width: 380px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #f9fafb;
+            font-size: 13px;
+            outline: none;
+        }
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 18px; }
+        .header-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 1px solid var(--border-color);
+            padding-left: 18px;
+        }
+        .user-info { text-align: right; }
+        .user-info h4 { font-size: 13px; font-weight: 600; }
+        .user-info p { font-size: 11px; color: var(--text-muted); }
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* --- Dashboard Body Layout --- */
+        .content-area {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Form Layouts */
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 13px;
+            outline: none;
+            background-color: #fff;
+        }
+        .form-control:disabled, .form-control[readonly] {
+            background-color: #f3f4f6;
+        }
+
+        /* Add Medicines Bar */
+        .add-med-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .add-med-bar input { flex: 1; }
+        .btn-add-med {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        /* Table Design */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        td {
+            padding: 8px;
+            font-size: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+        .input-qty, .input-discount {
+            width: 50px;
+            padding: 4px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 12px;
+        }
+        .btn-delete {
+            color: #9ca3af;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-delete:hover { color: #ef4444; }
+
+        /* Summary Calculations */
+        .calc-area {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 10px;
+        }
+        .btn-clear {
+            background: #f3f4f6;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--text-muted);
+            height: fit-content;
+        }
+        .calc-table {
+            width: 260px;
+        }
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .calc-row input {
+            width: 60px;
+            padding: 4px;
+            text-align: right;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .total-highlight {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* Bottom Controls */
+        .bottom-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-action {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background: white;
+        }
+        .btn-action.draft { border-color: var(--primary-blue); color: var(--primary-blue); }
+        .btn-action.print-pay { background: var(--primary-green); color: white; border: none; }
+
+        /* Right Side: Invoice Preview */
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .preview-header h3 { font-size: 14px; font-weight: 600; }
+
+        .thermal-receipt {
+            background: #fff;
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            color: #000;
+            border-radius: 6px;
+        }
+        .receipt-header { text-align: center; margin-bottom: 10px; }
+        .receipt-header .logo-circle {
+            width: 36px;
+            height: 36px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 6px;
+            font-size: 18px;
+        }
+        .receipt-header h2 { font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .receipt-header p { font-size: 10px; margin-top: 2px; }
+        .receipt-divider { border-top: 1px dashed #000; margin: 8px 0; }
+        .receipt-meta { margin-bottom: 8px; }
+        .receipt-meta div { display: flex; justify-content: space-between; margin-bottom: 2px; }
+
+        .receipt-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+        .receipt-table th { font-size: 10px; border-bottom: 1px dashed #000; padding: 4px 0; color: #000; }
+        .receipt-table td { font-size: 10px; border-bottom: none; padding: 3px 0; }
+
+        .receipt-calc { margin-top: 5px; }
+        .receipt-calc div { display: flex; justify-content: space-between; margin-bottom: 2px; }
+        .receipt-footer { text-align: center; margin-top: 12px; font-size: 10px; }
+
+        /* Action Buttons Grid below preview */
+        .preview-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .btn-preview {
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            background: #f9fafb;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn-preview.btn-blue-fill { background: var(--primary-blue); color: white; border: none; }
+
+        .print-settings {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            background: #f9fafb;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Bottom Stats Grid */
+        .stats-grid-bottom {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .stat-card-sm {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+        }
+        .stat-text p { font-size: 11px; color: var(--text-muted); }
+        .stat-text h4 { font-size: 15px; font-weight: 700; }
+
+        select.form-control {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <div class="brand-icon">+</div>
+                <div class="brand-text">
+                    <h2>Medical Store</h2>
+                    <p>Management System</p>
+                </div>
+            </div>
+
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-chart-pie"></i> Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-capsules"></i> Medicine</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active"><span class="nav-link-content"><i class="fa-solid fa-cart-shopping"></i> Sales</span> <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i></a>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="active">• New Sale</a></li>
+                        <li><a href="#">• Sales List</a></li>
+                        <li><a href="#">• Quotation</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-user-group"></i> Customers</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-truck"></i> Suppliers</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-bag-shopping"></i> Purchases</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-boxes-stacked"></i> Stock</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-chart-line"></i> Reports</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-receipt"></i> Expenses</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-users"></i> Users</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-gear"></i> Settings</span></a></li>
+            </ul>
+        </div>
+
+        <div class="quick-add">
+            <h4>Quick Add</h4>
+            <button class="btn-sidebar btn-green"><i class="fa-solid fa-plus"></i> Add Medicine</button>
+            <button class="btn-sidebar btn-blue"><i class="fa-solid fa-plus"></i> New Sale</button>
+        </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header>
+            <div class="breadcrumb">
+                New Sale <span>/ Invoice</span>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search medicines by name, generic or company...">
+            </div>
+            <div class="header-actions">
+                <button class="header-btn"><i class="fa-solid fa-print"></i> Print</button>
+                <i class="fa-regular fa-bell header-btn" style="font-size: 16px;"></i>
+                <i class="fa-solid fa-gear header-btn" style="font-size: 16px;"></i>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <h4>Admin</h4>
+                        <p>Owner</p>
+                    </div>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="content-area">
+            <!-- Left Side POS Section -->
+            <div class="pos-section">
+                
+                <!-- Customer & Invoice Details -->
+                <div class="form-row-2">
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-user"></i> Customer Information</div>
+                        <div class="form-group">
+                            <select class="form-control" id="customerType">
+                                <option>Walk-in Customer</option>
+                                <option>Registered Customer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Customer Name (Walk-in)">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <input type="text" class="form-control" placeholder="Phone (Optional)">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Invoice Details</div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>Invoice No.</label>
+                                <input type="text" class="form-control" value="INV-2025-0018" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="text" class="form-control" value="17 May 2025">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>Payment Method</label>
+                            <select class="form-control">
+                                <option>Cash</option>
+                                <option>Card</option>
+                                <option>Online Transfer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Medicines Table Card -->
+                <div class="card">
+                    <div class="card-title">Add Medicines</div>
+                    
+                    <div class="add-med-bar">
+                        <input type="text" id="medSearch" class="form-control" placeholder="Search medicine by name, barcode or company...">
+                        <button class="btn-add-med" id="btnAddMed"><i class="fa-solid fa-plus"></i> Add Medicine</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Medicine Name</th>
+                                    <th>Batch No.</th>
+                                    <th>Expiry Date</th>
+                                    <th>MRP (Rs.)</th>
+                                    <th>Sell Price (Rs.)</th>
+                                    <th>Qty</th>
+                                    <th>Discount</th>
+                                    <th>Total (Rs.)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartTableBody">
+                                <!-- Dynamic Cart Items -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Clear & Calculations -->
+                    <div class="calc-area">
+                        <button class="btn-clear" id="btnClearAll"><i class="fa-regular fa-trash-can"></i> Clear All</button>
+                        <div class="calc-table">
+                            <div class="calc-row">
+                                <span>Subtotal</span>
+                                <span style="font-weight: 600;" id="subtotalVal">Rs. 105.00</span>
+                            </div>
+                            <div class="calc-row">
+                                <span>Discount (%)</span>
+                                <input type="number" id="discountInput" value="0" min="0">
+                                <span id="discountVal">Rs. 0.00</span>
+                            </div>
+                            <div class="calc-row">
+                                <span>Tax / GST (%)</span>
+                                <input type="number" id="taxInput" value="0" min="0">
+                                <span id="taxVal">Rs. 0.00</span>
+                            </div>
+                            <div class="calc-row" style="margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 8px;">
+                                <span style="font-weight: 700;">Total Amount</span>
+                                <span class="total-highlight" id="grandTotalVal">Rs. 105.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes & Payment Input -->
+                <div class="form-row-2">
+                    <div class="card">
+                        <label style="font-size: 12px; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 6px;">Notes (Optional)</label>
+                        <textarea class="form-control" rows="3" placeholder="Add notes here..."></textarea>
+                    </div>
+
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+                        <div class="form-group">
+                            <label>Payment Received</label>
+                            <input type="number" id="paidInput" class="form-control" value="105.00" style="font-weight: 600;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>Change Return</label>
+                            <input type="text" id="changeVal" class="form-control" value="0.00" readonly style="background: #ecfdf5; color: #047857; font-weight: 700;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Buttons -->
+                <div class="bottom-actions">
+                    <button class="btn-action">Cancel</button>
+                    <button class="btn-action draft">Save Draft</button>
+                    <button class="btn-action print-pay"><i class="fa-solid fa-print"></i> Print & Pay</button>
+                </div>
+
+            </div>
+
+            <!-- Right Side Invoice Preview Section -->
+            <div class="preview-section">
+                <div class="card" style="height: 100%; margin-bottom: 0;">
+                    <div class="preview-header">
+                        <h3>Invoice Preview</h3>
+                        <select class="form-control" style="width: auto; padding: 4px 8px; font-size: 11px;">
+                            <option>Thermal (80mm)</option>
+                            <option>A4 Sheet</option>
+                        </select>
+                    </div>
+
+                    <!-- Thermal Receipt Paper Box -->
+                    <div class="thermal-receipt">
+                        <div class="receipt-header">
+                            <div class="logo-circle"><i class="fa-solid fa-plus"></i></div>
+                            <h2>Your Medical Store</h2>
+                            <p>Quality Medicine, Better Health</p>
+                            <p>Main Market, Your City</p>
+                            <p>Phone: 0300-1234567</p>
+                        </div>
+
+                        <div class="receipt-divider"></div>
+                        <div style="text-align: center; font-weight: bold;">INVOICE</div>
+                        <div class="receipt-divider"></div>
+
+                        <div class="receipt-meta">
+                            <div><span>Invoice No.</span> <span>: INV-2025-0018</span></div>
+                            <div><span>Date</span> <span>: 17 May 2025</span></div>
+                            <div><span>Customer</span> <span>: Walk-in Customer</span></div>
+                            <div><span>Phone</span> <span>: -</span></div>
+                            <div><span>Payment Method</span> <span>: Cash</span></div>
+                        </div>
+
+                        <table class="receipt-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">#</th>
+                                    <th style="text-align: left;">Medicine Name</th>
+                                    <th style="text-align: center;">Qty</th>
+                                    <th style="text-align: right;">Price</th>
+                                    <th style="text-align: right;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptItems">
+                                <!-- Dynamic Receipt Rows -->
+                            </tbody>
+                        </table>
+
+                        <div class="receipt-divider"></div>
+
+                        <div class="receipt-calc">
+                            <div><span>Subtotal</span> <span id="rSubtotal">Rs. 105.00</span></div>
+                            <div><span>Discount</span> <span id="rDiscount">Rs. 0.00</span></div>
+                            <div><span>Tax / GST</span> <span id="rTax">Rs. 0.00</span></div>
+                        </div>
+
+                        <div class="receipt-divider"></div>
+
+                        <div class="receipt-calc" style="font-weight: bold; font-size: 12px;">
+                            <div><span>TOTAL</span> <span id="rTotal">Rs. 105.00</span></div>
+                        </div>
+
+                        <div class="receipt-calc" style="margin-top: 4px;">
+                            <div><span>Paid Amount</span> <span id="rPaid">Rs. 105.00</span></div>
+                            <div><span>Change Return</span> <span id="rChange">Rs. 0.00</span></div>
+                        </div>
+
+                        <div class="receipt-divider"></div>
+
+                        <div class="receipt-footer">
+                            <p>Thank you for visiting!</p>
+                            <p>Please visit again.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons Below Receipt -->
+                    <div class="preview-actions">
+                        <button class="btn-preview btn-blue-fill"><i class="fa-solid fa-print"></i> Print</button>
+                        <button class="btn-preview"><i class="fa-solid fa-download"></i> Download PDF</button>
+                        <button class="btn-preview"><i class="fa-solid fa-share-nodes"></i> Share</button>
+                    </div>
+
+                    <div class="print-settings">
+                        <span>Print Settings</span>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <select style="border: 1px solid #d1d5db; font-size: 11px; border-radius: 4px; padding: 2px 4px;">
+                                <option>Thermal (80mm)</option>
+                            </select>
+                            <span>Copies:</span>
+                            <input type="number" value="1" min="1" style="width: 35px; text-align: center; border: 1px solid #d1d5db; border-radius: 4px; font-size: 11px;">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Bottom Quick Metrics Row -->
+            <div class="stats-grid-bottom">
+                <div class="stat-card-sm">
+                    <div class="stat-icon" style="background-color: #3b82f6;"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <div class="stat-text">
+                        <p>Today's Sales</p>
+                        <h4>Rs. 45,860</h4>
+                    </div>
+                </div>
+
+                <div class="stat-card-sm">
+                    <div class="stat-icon" style="background-color: #10b981;"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="stat-text">
+                        <p>Today's Profit</p>
+                        <h4>Rs. 15,240</h4>
+                    </div>
+                </div>
+
+                <div class="stat-card-sm">
+                    <div class="stat-icon" style="background-color: #6366f1;"><i class="fa-solid fa-receipt"></i></div>
+                    <div class="stat-text">
+                        <p>Total Orders</p>
+                        <h4>68</h4>
+                    </div>
+                </div>
+
+                <div class="stat-card-sm">
+                    <div class="stat-icon" style="background-color: #f97316;"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-text">
+                        <p>Total Customers</p>
+                        <h4>842</h4>
+                    </div>
+                </div>
+
+                <div class="stat-card-sm">
+                    <div class="stat-icon" style="background-color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-text">
+                        <p>Low Stock Items</p>
+                        <h4>12</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript logic for dynamic functionality -->
+    <script>
+        // Sample Medicine Data
+        let cartItems = [
+            { id: 1, name: 'Paracetamol 500mg (Tab)', batch: 'PCT500-0525', expiry: '05/2026', mrp: 15.00, price: 10.00, qty: 2, discount: 0 },
+            { id: 2, name: 'Amoxicillin 500mg (Cap)', batch: 'AMX500-0326', expiry: '03/2026', mrp: 30.00, price: 22.00, qty: 1, discount: 0 },
+            { id: 3, name: 'Omeprazole 20mg (Cap)', batch: 'OMP20-0626', expiry: '06/2026', mrp: 25.00, price: 18.00, qty: 2, discount: 0 },
+            { id: 4, name: 'Vitamin C 500mg (Tab)', batch: 'VC500-0726', expiry: '07/2026', mrp: 20.00, price: 15.00, qty: 1, discount: 0 },
+            { id: 5, name: 'Cetirizine 10mg (Tab)', batch: 'CET10-0526', expiry: '05/2026', mrp: 18.00, price: 12.00, qty: 1, discount: 0 }
+        ];
+
+        // Render Cart Items & Update Totals
+        function renderCart() {
+            const tbody = document.getElementById('cartTableBody');
+            const receiptBody = document.getElementById('receiptItems');
+            
+            tbody.innerHTML = '';
+            receiptBody.innerHTML = '';
+
+            let subtotal = 0;
+
+            cartItems.forEach((item, index) => {
+                const itemTotal = (item.price * item.qty) - item.discount;
+                subtotal += itemTotal;
+
+                // Main Table Row
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td style="font-weight: 500;">${item.name}</td>
+                    <td style="color: var(--text-muted);">${item.batch}</td>
+                    <td style="color: var(--text-muted);">${item.expiry}</td>
+                    <td>${item.mrp.toFixed(2)}</td>
+                    <td>${item.price.toFixed(2)}</td>
+                    <td><input type="number" class="input-qty" value="${item.qty}" min="1" onchange="updateQty(${item.id}, this.value)"></td>
+                    <td><input type="number" class="input-discount" value="${item.discount.toFixed(2)}" min="0" onchange="updateDiscount(${item.id}, this.value)"></td>
+                    <td style="font-weight: 700;">${itemTotal.toFixed(2)}</td>
+                    <td><button class="btn-delete" onclick="removeItem(${item.id})"><i class="fa-regular fa-trash-can"></i></button></td>
+                `;
+                tbody.appendChild(tr);
+
+                // Thermal Receipt Row
+                const rTr = document.createElement('tr');
+                rTr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td style="text-align: center;">${item.qty}</td>
+                    <td style="text-align: right;">${item.price.toFixed(2)}</td>
+                    <td style="text-align: right;">${itemTotal.toFixed(2)}</td>
+                `;
+                receiptBody.appendChild(rTr);
+            });
+
+            // Calculate overall totals
+            const discountPercent = parseFloat(document.getElementById('discountInput').value) || 0;
+            const taxPercent = parseFloat(document.getElementById('taxInput').value) || 0;
+
+            const discountAmount = (subtotal * discountPercent) / 100;
+            const taxAmount = ((subtotal - discountAmount) * taxPercent) / 100;
+            const grandTotal = subtotal - discountAmount + taxAmount;
+
+            // Update UI Total elements
+            document.getElementById('subtotalVal').innerText = `Rs. ${subtotal.toFixed(2)}`;
+            document.getElementById('discountVal').innerText = `Rs. ${discountAmount.toFixed(2)}`;
+            document.getElementById('taxVal').innerText = `Rs. ${taxAmount.toFixed(2)}`;
+            document.getElementById('grandTotalVal').innerText = `Rs. ${grandTotal.toFixed(2)}`;
+
+            // Thermal Receipt Totals
+            document.getElementById('rSubtotal').innerText = `Rs. ${subtotal.toFixed(2)}`;
+            document.getElementById('rDiscount').innerText = `Rs. ${discountAmount.toFixed(2)}`;
+            document.getElementById('rTax').innerText = `Rs. ${taxAmount.toFixed(2)}`;
+            document.getElementById('rTotal').innerText = `Rs. ${grandTotal.toFixed(2)}`;
+
+            // Change Return Calculation
+            const paidVal = parseFloat(document.getElementById('paidInput').value) || 0;
+            const change = paidVal - grandTotal;
+            document.getElementById('changeVal').value = change >= 0 ? change.toFixed(2) : '0.00';
+            
+            document.getElementById('rPaid').innerText = `Rs. ${paidVal.toFixed(2)}`;
+            document.getElementById('rChange').innerText = `Rs. ${(change >= 0 ? change : 0).toFixed(2)}`;
+        }
+
+        // Functions for Interactive Table
+        function updateQty(id, newQty) {
+            const item = cartItems.find(i => i.id === id);
+            if (item) {
+                item.qty = parseInt(newQty) || 1;
+                renderCart();
+            }
+        }
+
+        function updateDiscount(id, newDisc) {
+            const item = cartItems.find(i => i.id === id);
+            if (item) {
+                item.discount = parseFloat(newDisc) || 0;
+                renderCart();
+            }
+        }
+
+        function removeItem(id) {
+            cartItems = cartItems.filter(i => i.id !== id);
+            renderCart();
+        }
+
+        document.getElementById('btnClearAll').addEventListener('click', () => {
+            cartItems = [];
+            renderCart();
+        });
+
+        // Event listeners for Inputs
+        document.getElementById('discountInput').addEventListener('input', renderCart);
+        document.getElementById('taxInput').addEventListener('input', renderCart);
+        document.getElementById('paidInput').addEventListener('input', renderCart);
+
+        // Initial Load
+        renderCart();
+    </script>
+</body>
+</html>

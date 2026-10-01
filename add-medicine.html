@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script><script src="rbac.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Medicine - Modal</title>
+  
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-overlay: rgba(15, 23, 42, 0.4);
+      --modal-bg: #ffffff;
+      --primary-blue: #1d61e8;
+      --primary-green: #10b981;
+      --primary-green-hover: #059669;
+      --icon-blue-bg: #eff6ff;
+      --icon-blue-text: #2563eb;
+      --icon-green-bg: #ecfdf5;
+      --icon-green-text: #059669;
+      --icon-purple-bg: #f3e8ff;
+      --icon-purple-text: #7c3aed;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --input-bg: #ffffff;
+      --cancel-btn-bg: #f1f5f9;
+      --cancel-btn-hover: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Modal Container Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-overlay);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    /* Modal Box */
+    .modal-card {
+      background: var(--modal-bg);
+      width: 100%;
+      max-width: 920px;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      overflow: hidden;
+    }
+
+    /* Modal Header */
+    .modal-header {
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .modal-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    /* Modal Body / Form */
+    .modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #addMedicineForm {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+
+    /* Section Styling */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .section-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-icon.blue { background-color: var(--icon-blue-bg); color: var(--icon-blue-text); }
+    .section-icon.green { background-color: var(--icon-green-bg); color: var(--icon-green-text); }
+    .section-icon.purple { background-color: var(--icon-purple-bg); color: var(--icon-purple-text); }
+
+    /* Form Layout Grids */
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px 16px;
+    }
+
+    .form-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px 16px;
+    }
+
+    .form-grid-2-1 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-group label .required {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+
+    .form-group label .optional {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Input Fields & Selects */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--text-main);
+      background-color: var(--input-bg);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 2px rgba(29, 97, 232, 0.1);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #94a3b8;
+    }
+
+    /* Input Accessories (Suffix/Icons) */
+    .input-suffix {
+      position: absolute;
+      right: 10px;
+      font-size: 10px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 10px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Upload Box */
+    .upload-box {
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      background-color: #f8fafc;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 100%;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .upload-box:hover {
+      background-color: #f1f5f9;
+      border-color: var(--primary-blue);
+    }
+
+    .upload-icon-wrapper {
+      color: var(--primary-blue);
+    }
+
+    .upload-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .upload-subtitle {
+      font-size: 8px;
+      color: var(--text-muted);
+    }
+
+    /* Modal Footer */
+    .modal-footer {
+      padding: 12px 24px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background-color: #fff;
+    }
+
+    .btn {
+      padding: 7px 18px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel {
+      background-color: var(--cancel-btn-bg);
+      color: var(--text-main);
+    }
+
+    .btn-cancel:hover {
+      background-color: var(--cancel-btn-hover);
+    }
+
+    .btn-save {
+      background-color: var(--primary-green);
+      color: #ffffff;
+    }
+
+    .btn-save:hover {
+      background-color: var(--primary-green-hover);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .form-grid-3, .form-grid-4, .form-grid-2-1 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay">
+    <div class="modal-card">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h2>Add New Medicine</h2>
+        <button class="close-btn" id="closeModalBtn">
+          <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body Form -->
+      <form id="addMedicineForm">
+        <div class="modal-body">
+          
+          <!-- SECTION 1: Basic Information -->
+          <div class="form-section">
+            <div class="section-title">
+              <div class="section-icon blue">
+                <i data-lucide="file-text" style="width: 13px; height: 13px;"></i>
+              </div>
+              <span>Basic Information</span>
+            </div>
+
+            <!-- Row 1 -->
+            <div class="form-grid-3" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label>Medicine Name <span class="required">*</span></label>
+                <input name="name" type="text" placeholder="Enter medicine name" required>
+              </div>
+
+              <div class="form-group">
+                <label>Generic Name <span class="required">*</span></label>
+                <input name="generic" type="text" placeholder="Enter generic name" required>
+              </div>
+
+              <div class="form-group">
+                <label>Category <span class="required">*</span></label>
+                <select name="category" required>
+                  <option value="" disabled selected>Select category</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="capsule">Capsule</option>
+                  <option value="syrup">Syrup</option>
+                  <option value="injection">Injection</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-grid-4" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label>Form / Type <span class="required">*</span></label>
+                <select name="type" required>
+                  <option value="" disabled selected>Select type</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="syrup">Syrup</option>
+                  <option value="injection">Injection</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Strength</label>
+                <input name="strength" type="text" placeholder="e.g. 500mg">
+              </div>
+
+              <div class="form-group">
+                <label>Unit</label>
+                <div class="input-wrapper">
+                  <select name="unit">
+                    <option value="" disabled selected>Select unit</option>
+                    <option value="mg">mg</option>
+                    <option value="ml">ml</option>
+                    <option value="gm">gm</option>
+                  </select>
+                  <i data-lucide="help-circle" class="input-icon" style="width: 12px; height: 12px; right: 24px;"></i>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Company</label>
+                <input name="company" type="text" placeholder="Enter company name">
+              </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label>Barcode</label>
+                <input name="barcode" type="text" placeholder="Scan or enter barcode">
+              </div>
+
+              <div class="form-group">
+                <label>HSN Code <span class="optional">(Optional)</span></label>
+                <input name="hsn" type="text" placeholder="Enter HSN code">
+              </div>
+
+              <div class="form-group">
+                <label>Description <span class="optional">(Optional)</span></label>
+                <input name="description" type="text" placeholder="Enter short description...">
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Pricing & Stock -->
+          <div class="form-section">
+            <div class="section-title">
+              <div class="section-icon green">
+                <i data-lucide="dollar-sign" style="width: 13px; height: 13px;"></i>
+              </div>
+              <span>Pricing & Stock</span>
+            </div>
+
+            <!-- Row 1 -->
+            <div class="form-grid-4" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label>MRP (Rs.) <span class="required">*</span></label>
+                <input name="mrp" type="number" step="0.01" min="0" value="0.00" required>
+              </div>
+
+              <div class="form-group">
+                <label>Sell Price (Rs.) <span class="required">*</span></label>
+                <input name="sell" type="number" step="0.01" min="0" value="0.00" required>
+              </div>
+
+              <div class="form-group">
+                <label>Purchase Price (Rs.) <span class="required">*</span></label>
+                <input name="purchase" type="number" step="0.01" min="0" value="0.00" required>
+              </div>
+
+              <div class="form-group">
+                <label>Tax (%)</label>
+                <div class="input-wrapper">
+                  <input name="tax" type="number" min="0" value="0">
+                  <span class="input-suffix">%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-grid-4" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label>Opening Stock <span class="required">*</span></label>
+                <input name="stock" type="number" min="0" value="0" required>
+              </div>
+
+              <div class="form-group">
+                <label>Batch No.</label>
+                <input name="batch" type="text" placeholder="Enter batch number">
+              </div>
+
+              <div class="form-group">
+                <label>Mfg. Date</label>
+                <div class="input-wrapper">
+                  <input name="mfgDate" type="text" placeholder="dd/mm/yyyy" onfocus="(this.type='date')" onblur="(this.type='text')">
+                  <i data-lucide="calendar" class="input-icon" style="width: 12px; height: 12px;"></i>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Expiry Date</label>
+                <div class="input-wrapper">
+                  <input name="expiry" type="text" placeholder="dd/mm/yyyy" onfocus="(this.type='date')" onblur="(this.type='text')">
+                  <i data-lucide="calendar" class="input-icon" style="width: 12px; height: 12px;"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label>Reorder Level <span class="optional">[Low Stock Alert]</span></label>
+                <input name="reorderLevel" type="text" placeholder="e.g. 10">
+              </div>
+
+              <div class="form-group">
+                <label>Shelf / Rack</label>
+                <input name="shelf" type="text" placeholder="e.g. A-1">
+              </div>
+
+              <div class="form-group">
+                <label>Supplier <span class="optional">(Optional)</span></label>
+                <select name="supplier">
+                  <option value="" disabled selected>Select supplier</option>
+                  <option value="supplier1">ABC Pharma</option>
+                  <option value="supplier2">XYZ Distribution</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: Additional Information & Image Upload -->
+          <div class="form-section">
+            <div class="section-title">
+              <div class="section-icon purple">
+                <i data-lucide="info" style="width: 13px; height: 13px;"></i>
+              </div>
+              <span>Additional Information</span>
+            </div>
+
+            <div class="form-grid-2-1">
+              <!-- Notes Area -->
+              <div class="form-group">
+                <label>Notes <span class="optional">(Optional)</span></label>
+                <textarea name="notes" rows="4" placeholder="Add any additional notes..."></textarea>
+              </div>
+
+              <!-- Drag & Drop Upload Box -->
+              <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 4px;">
+                  <i data-lucide="info" style="width: 11px; height: 11px; color: var(--text-muted);"></i>
+                  Upload Medicine Image <span class="optional">(Optional)</span>
+                </label>
+                <div class="upload-box" id="dropZone">
+                  <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display: none;">
+                  <div class="upload-icon-wrapper">
+                    <i data-lucide="cloud-upload" style="width: 22px; height: 22px;"></i>
+                  </div>
+                  <div class="upload-title">Click to upload or drag & drop</div>
+                  <div class="upload-subtitle">PNG, JPG up to 2MB</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-save">Save Medicine</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    // Elements
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const form = document.getElementById('addMedicineForm');
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+
+    // Close Modal Handler
+    const closeModal = () => {
+      window.location.href = 'medicine.html';
+    };
+
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Form Submit Handler
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (window.MedicalRBAC && !window.MedicalRBAC.requirePermission('Medicine', 'add')) return;
+
+      const values = Object.fromEntries(new FormData(form).entries());
+      const medicineName = String(values.name || '').trim();
+      const barcode = String(values.barcode || '').trim();
+      const mrp = Number(values.mrp || 0);
+      const sell = Number(values.sell || 0);
+      const purchase = Number(values.purchase || 0);
+      const stock = Number(values.stock || 0);
+      if (!medicineName || !values.generic || !values.category || !values.type) return;
+      if ([mrp, sell, purchase, stock].some((value) => !Number.isFinite(value) || value < 0)) {
+        window.alert('Prices and stock must be valid non-negative numbers.');
+        return;
+      }
+
+      const medicines = JSON.parse(localStorage.getItem('medicalStoreMedicines') || '[]');
+      if (barcode && medicines.some((medicine) => medicine.barcode === barcode)) {
+        window.alert('This barcode already exists. Please use a different barcode.');
+        return;
+      }
+      medicines.push({
+        id: `medicine-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        name: medicineName,
+        generic: String(values.generic).trim(),
+        category: values.category,
+        type: values.type,
+        strength: String(values.strength || '').trim(),
+        unit: values.unit || '',
+        company: String(values.company || '').trim(),
+        barcode,
+        hsn: String(values.hsn || '').trim(),
+        description: String(values.description || '').trim(),
+        mrp,
+        sell,
+        purchase,
+        tax: Number(values.tax || 0),
+        stock,
+        batch: String(values.batch || '').trim(),
+        mfgDate: values.mfgDate || '',
+        expiry: values.expiry || '',
+        reorderLevel: Number(values.reorderLevel || 0),
+        shelf: String(values.shelf || '').trim(),
+        supplier: values.supplier || '',
+        notes: String(values.notes || '').trim(),
+        createdAt: new Date().toISOString()
+      });
+      localStorage.setItem('medicalStoreMedicines', JSON.stringify(medicines));
+      if (window.MedicalRBAC) window.MedicalRBAC.logAudit('Create Medicine', 'Medicine', 'Success', { reference: medicineName });
+      window.location.href = 'medicine.html';
+    });
+
+    const handleImageFile = (file) => {
+      if (!file) return;
+      if (!['image/png', 'image/jpeg'].includes(file.type)) {
+        window.alert('Only PNG and JPG images are allowed.');
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        window.alert('Medicine image must be smaller than 2MB.');
+        return;
+      }
+      dropZone.querySelector('.upload-title').textContent = file.name;
+      dropZone.querySelector('.upload-subtitle').textContent = 'Image selected';
+    };
+
+    // File Upload Drag and Drop
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = 'var(--primary-blue)';
+      dropZone.style.backgroundColor = '#eff6ff';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.style.borderColor = 'var(--border-color)';
+      dropZone.style.backgroundColor = '#f8fafc';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = 'var(--border-color)';
+      dropZone.style.backgroundColor = '#f8fafc';
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) handleImageFile(files[0]);
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) handleImageFile(fileInput.files[0]);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Store - Settings</title>
+  
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --sidebar-bg: #071931;
+      --primary-blue: #1d61e8;
+      --primary-green: #10b981;
+      --light-green-bg: #d1fae5;
+      --light-green-text: #047857;
+      --red: #ef4444;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-size: 12px;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 210px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 10px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 10px 20px 10px;
+    }
+
+    .logo-icon {
+      background: var(--primary-green);
+      border-radius: 6px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text h2 { font-size: 13px; font-weight: 700; }
+    .logo-text p { font-size: 9px; color: #9ca3af; }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .nav-item i { width: 15px; height: 15px; }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--primary-blue);
+      color: #fff;
+    }
+
+    .quick-add {
+      margin-top: 15px;
+      border-top: 1px solid #1f2937;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-add span { font-size: 10px; color: #6b7280; }
+
+    .btn {
+      border: none;
+      padding: 7px 10px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .btn-green { background-color: #059669; }
+    .btn-blue { background-color: var(--primary-blue); }
+
+    /* Main Content */
+    .main-content {
+      flex-grow: 1;
+      padding: 15px 20px;
+      overflow-x: hidden;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .page-title h1 { font-size: 18px; font-weight: 700; }
+    .breadcrumb { font-size: 11px; color: var(--text-muted); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .notification-badge { position: relative; }
+
+    .badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: var(--red);
+      color: #fff;
+      font-size: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 12px;
+    }
+
+    .user-info { text-align: right; }
+    .user-info .name { font-weight: 700; font-size: 11px; display: block; }
+    .user-info .role { font-size: 9px; color: var(--text-muted); display: block; }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      background: #e5e7eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Settings Layout Grid */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr 280px;
+      gap: 15px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      border: 1px solid #f0f0f0;
+    }
+
+    /* Left Settings Navigation */
+    .settings-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0;
+    }
+
+    .settings-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: var(--text-main);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .settings-tab i {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+
+    .settings-tab-text h4 {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .settings-tab-text p {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    .settings-tab:hover, .settings-tab.active {
+      background-color: #eff6ff;
+    }
+
+    .settings-tab.active .settings-tab-text h4 {
+      color: var(--primary-blue);
+    }
+
+    .settings-tab.active i {
+      color: var(--primary-blue);
+    }
+
+    /* Middle Settings Form */
+    .settings-form-card .card-title h2 {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .settings-form-card .card-title p {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 11px;
+      outline: none;
+      background: #fff;
+    }
+
+    .logo-upload-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .logo-preview-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-box {
+      width: 42px;
+      height: 42px;
+      background: var(--primary-green);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .file-input-btn {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .save-btn {
+      background: var(--primary-blue);
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    /* Right Side Panels */
+    .right-panels {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    .info-item span:first-child { color: var(--text-muted); }
+    .info-item span:last-child { font-weight: 600; }
+
+    .status-badge {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 600;
+    }
+
+    .status-connected { background: var(--light-green-bg); color: var(--light-green-text); }
+
+    .quick-actions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .action-item-btn {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+      transition: all 0.2s;
+    }
+
+    .action-item-btn:hover {
+      background: #f9fafb;
+    }
+
+    /* Recent Activity List */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 8px;
+    }
+
+    .activity-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary-blue);
+    }
+
+    .activity-details h5 {
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .activity-details p {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    .activity-details span {
+      font-size: 8px;
+      color: #9ca3af;
+    }
+
+    .view-all-btn {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      color: var(--primary-blue);
+      cursor: pointer;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"><i data-lucide="plus"></i></div>
+        <div class="logo-text">
+          <h2>Medical Store</h2>
+          <p>Management System</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="merged_medical_store.html" class="nav-item"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="medicine.html" class="nav-item"><i data-lucide="pill"></i> Medicine</a>
+        <a href="sales.html" class="nav-item"><i data-lucide="shopping-cart"></i> Sales</a>
+        <a href="customer.html" class="nav-item"><i data-lucide="user"></i> Customers</a>
+        <a href="suppliers.html" class="nav-item"><i data-lucide="truck"></i> Suppliers</a>
+        <a href="purchases.html" class="nav-item"><i data-lucide="shopping-bag"></i> Purchases</a>
+        <a href="stock.html" class="nav-item"><i data-lucide="package"></i> Stock</a>
+        <a href="medical-reports.html" class="nav-item"><i data-lucide="file-text"></i> Reports</a>
+        <a href="expenses.html" class="nav-item"><i data-lucide="wallet"></i> Expenses</a>
+        <a href="users.html" class="nav-item"><i data-lucide="users"></i> Users</a>
+        <a href="medical-settings.html" class="nav-item active"><i data-lucide="settings"></i> Settings</a>
+      </nav>
+
+      <div class="quick-add">
+        <span>Quick Add</span>
+        <button class="btn btn-green" id="settingsAddMedicine"><i data-lucide="plus"></i> Add Medicine</button>
+        <button class="btn btn-blue" id="settingsNewSale"><i data-lucide="plus"></i> New Sale</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="page-title">
+          <h1>Settings</h1>
+          <p class="breadcrumb">Dashboard &gt; <span>Settings</span></p>
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn" id="settingsPrint" type="button"><i data-lucide="printer"></i> <span>Print</span></button>
+          <div class="notification-badge">
+            <button class="icon-btn" id="settingsAlerts" type="button" aria-label="Open expiry alerts"><i data-lucide="bell"></i></button>
+            <span class="badge">3</span>
+          </div>
+          <button class="icon-btn" id="settingsCurrent" type="button" aria-label="Current settings"><i data-lucide="settings"></i></button>
+          <div class="user-profile">
+            <div class="user-info">
+              <span class="name">Admin</span>
+              <span class="role">Owner</span>
+            </div>
+            <div class="avatar"><i data-lucide="user"></i></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Settings Layout -->
+      <div class="settings-grid">
+        <!-- Left Navigation -->
+        <div class="card settings-nav">
+          <div class="settings-tab active">
+            <i data-lucide="sliders"></i>
+            <div class="settings-tab-text">
+              <h4>General Settings</h4>
+              <p>Basic store information</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="building"></i>
+            <div class="settings-tab-text">
+              <h4>Business Settings</h4>
+              <p>Tax, currency and business setup</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="file-text"></i>
+            <div class="settings-tab-text">
+              <h4>Invoice Settings</h4>
+              <p>Invoice format and print settings</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="package"></i>
+            <div class="settings-tab-text">
+              <h4>Stock Settings</h4>
+              <p>Stock alerts and expiry settings</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="credit-card"></i>
+            <div class="settings-tab-text">
+              <h4>Payment Settings</h4>
+              <p>Payment methods and options</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="shield-check"></i>
+            <div class="settings-tab-text">
+              <h4>User Permissions</h4>
+              <p>Manage roles and permissions</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="rotate-ccw"></i>
+            <div class="settings-tab-text">
+              <h4>Backup & Restore</h4>
+              <p>Backup data and restore</p>
+            </div>
+          </div>
+
+          <div class="settings-tab">
+            <i data-lucide="cpu"></i>
+            <div class="settings-tab-text">
+              <h4>System Settings</h4>
+              <p>System preferences</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Settings Form -->
+        <div class="card settings-form-card">
+          <div class="card-title">
+            <h2>General Settings</h2>
+            <p>Update your store information and contact details</p>
+          </div>
+
+          <form id="settingsForm" onsubmit="event.preventDefault();">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Store Name</label>
+                <input type="text" value="Care Life Medical Store">
+              </div>
+
+              <div class="form-group">
+                <label>Currency</label>
+                <select>
+                  <option selected>PKR (Rs.)</option>
+                  <option>USD ($)</option>
+                  <option>EUR (€)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Store Owner</label>
+                <input type="text" value="Admin Owner">
+              </div>
+
+              <div class="form-group">
+                <label>Date Format</label>
+                <select>
+                  <option selected>DD/MM/YYYY</option>
+                  <option>MM/DD/YYYY</option>
+                  <option>YYYY-MM-DD</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" value="0300-1234567">
+              </div>
+
+              <div class="form-group">
+                <label>Time Format</label>
+                <select>
+                  <option selected>12 Hour (AM/PM)</option>
+                  <option>24 Hour</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" value="carelife@medicalstore.com">
+              </div>
+
+              <div class="form-group">
+                <label>Language</label>
+                <select>
+                  <option selected>English</option>
+                  <option>Urdu</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label>Store Address</label>
+                <input type="text" value="123, Main Road, Model Town, Lahore, Pakistan">
+              </div>
+
+              <div class="form-group full-width">
+                <label>Default Theme</label>
+                <select>
+                  <option selected>Light</option>
+                  <option>Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="logo-upload-container">
+              <div>
+                <label style="font-size: 10px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 5px;">Store Logo</label>
+                <div class="logo-preview-box">
+                  <div class="logo-box">
+                    <i data-lucide="plus"></i>
+                  </div>
+                  <div>
+                    <label class="file-input-btn">
+                      <i data-lucide="upload" style="width: 12px;"></i> Choose File
+                      <input type="file" style="display: none;">
+                    </label>
+                    <p style="font-size: 8px; color: var(--text-muted); margin-top: 4px;">PNG, JPG up to 2MB</p>
+                  </div>
+                </div>
+              </div>
+
+              <button class="save-btn" id="saveSettings" type="submit">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Panels -->
+        <div class="right-panels">
+          <!-- System Information -->
+          <div class="card">
+            <h3 style="font-size: 12px; font-weight: 700;">System Information</h3>
+            <div class="info-list">
+              <div class="info-item">
+                <span>System Version</span>
+                <span>v1.0.0</span>
+              </div>
+              <div class="info-item">
+                <span>Last Updated</span>
+                <span>17/05/2025</span>
+              </div>
+              <div class="info-item">
+                <span>Database Status</span>
+                <span class="status-badge status-connected">Connected</span>
+              </div>
+              <div class="info-item">
+                <span>Backup Status</span>
+                <span style="color: var(--primary-green);">Up to date</span>
+              </div>
+              <div class="info-item">
+                <span>Server Time</span>
+                <span>17/05/2025 10:35 AM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <h3 style="font-size: 12px; font-weight: 700;">Quick Actions</h3>
+            <div class="quick-actions-list">
+              <button class="action-item-btn" id="backupNow" type="button">
+                <i data-lucide="cloud-upload" style="width: 14px;"></i> Backup Now
+              </button>
+              <button class="action-item-btn" id="clearCache" type="button">
+                <i data-lucide="trash-2" style="width: 14px;"></i> Clear Cache
+              </button>
+              <button class="action-item-btn" id="viewLogs" type="button">
+                <i data-lucide="file-text" style="width: 14px;"></i> System Logs
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="card">
+            <h3 style="font-size: 12px; font-weight: 700;">Recent Activity</h3>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon"><i data-lucide="user" style="width: 12px;"></i></div>
+                <div class="activity-details">
+                  <h5>Admin User</h5>
+                  <p>Updated general settings</p>
+                  <span>17/05/2025 10:30 AM</span>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon" style="color: var(--red);"><i data-lucide="user-plus" style="width: 12px;"></i></div>
+                <div class="activity-details">
+                  <h5>Ali Raza</h5>
+                  <p>Added new user</p>
+                  <span>17/05/2025 09:45 AM</span>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon" style="color: var(--primary-green);"><i data-lucide="pill" style="width: 12px;"></i></div>
+                <div class="activity-details">
+                  <h5>Sara Khan</h5>
+                  <p>Updated medicine categories</p>
+                  <span>17/05/2025 09:20 AM</span>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon"><i data-lucide="database" style="width: 12px;"></i></div>
+                <div class="activity-details">
+                  <h5>System</h5>
+                  <p>Database backup completed</p>
+                  <span>17/05/2025 02:00 AM</span>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon" style="color: #8b5cf6;"><i data-lucide="log-in" style="width: 12px;"></i></div>
+                <div class="activity-details">
+                  <h5>Usman Ahmed</h5>
+                  <p>Logged in to the system</p>
+                  <span>16/05/2025 05:20 PM</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="view-all-btn">View All Activity</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    const settingsForm = document.getElementById('settingsForm');
+    const settingsStorageKey = 'medicalStoreSettings';
+    const savedSettings = JSON.parse(localStorage.getItem(settingsStorageKey) || '{}');
+    Array.from(settingsForm.elements).forEach((field, index) => {
+      if (savedSettings[index] !== undefined) field.value = savedSettings[index];
+    });
+    settingsForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const values = {};
+      Array.from(settingsForm.elements).forEach((field, index) => { if (field.name || field.value) values[index] = field.value; });
+      localStorage.setItem(settingsStorageKey, JSON.stringify(values));
+      const saveButton = document.getElementById('saveSettings');
+      saveButton.textContent = 'Saved';
+      setTimeout(() => { saveButton.textContent = 'Save Changes'; }, 1400);
+    });
+    document.getElementById('settingsPrint').addEventListener('click', () => window.print());
+    document.getElementById('settingsAlerts').addEventListener('click', () => { window.location.href = 'expiry-alerts.html'; });
+    document.getElementById('settingsCurrent').addEventListener('click', () => document.getElementById('settingsForm').scrollIntoView({ behavior: 'smooth' }));
+    document.getElementById('settingsAddMedicine').addEventListener('click', () => { window.location.href = 'add-medicine.html'; });
+    document.getElementById('settingsNewSale').addEventListener('click', () => { window.location.href = 'new-sale.html'; });
+    document.getElementById('backupNow').addEventListener('click', () => {
+      const backup = { settings: JSON.parse(localStorage.getItem(settingsStorageKey) || '{}'), customers: JSON.parse(localStorage.getItem('medicalStoreCustomers') || '[]'), createdAt: new Date().toISOString() };
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }));
+      link.download = 'medical-store-backup.json';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+    document.getElementById('clearCache').addEventListener('click', () => {
+      ['medicalStoreDashboardDate', 'medicalStoreLastPrintedInvoice', 'medicalStorePendingPrint', 'medicalStoreSaleDraft'].forEach(key => localStorage.removeItem(key));
+      alert('Temporary cache cleared successfully.');
+    });
+    document.getElementById('viewLogs').addEventListener('click', () => alert('System logs are available in the browser console.'));
+
+    // Tab Switch Interaction
+    const tabs = document.querySelectorAll('.settings-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

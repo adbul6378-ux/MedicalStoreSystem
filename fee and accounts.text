@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Fees & Accounts</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    background:#eef6ff;
+    color:#102d5c;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:255px;
+    height:100vh;
+    background:linear-gradient(180deg,#061d3c,#052957);
+    color:white;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo-area{
+    height:105px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#f9b62d,#fff0a5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:29px;
+    color:#092750;
+}
+
+.logo-text h2{
+    font-family:Georgia,serif;
+    font-size:18px;
+    line-height:21px;
+}
+
+.logo-text p{
+    font-size:10px;
+    color:#d7e5f9;
+    margin-top:5px;
+}
+
+.menu{
+    padding:14px 10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#e5efff;
+    text-decoration:none;
+    padding:11px 14px;
+    margin:3px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.09);
+}
+
+.menu a.active{
+    background:linear-gradient(90deg,#0865d8,#147ee8);
+    color:white;
+    font-weight:600;
+}
+
+.menu-icon{
+    width:22px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-bottom{
+    height:145px;
+    padding:55px 22px 15px;
+    background:linear-gradient(transparent,rgba(3,25,53,.9));
+}
+
+.quote{
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:20px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:68px;
+    background:white;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    gap:25px;
+    border-bottom:1px solid #dce9f7;
+}
+
+.hamburger{
+    font-size:25px;
+    color:#092e61;
+    cursor:pointer;
+}
+
+.search{
+    width:440px;
+    height:39px;
+    background:#edf5fd;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    color:#7590b1;
+}
+
+.search input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding-left:10px;
+}
+
+.top-space{
+    flex:1;
+}
+
+.notification{
+    position:relative;
+    font-size:21px;
+}
+
+.notification span{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:#e7292f;
+    color:white;
+    font-size:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.profile-img{
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    background:#dce9f7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.profile-info small{
+    color:#7890ad;
+    font-size:9px;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:18px 16px 25px;
+}
+
+.page-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 295px;
+    gap:18px;
+}
+
+/* ================= BANNER ================= */
+
+.banner{
+    height:98px;
+    border-radius:10px;
+    background:
+    linear-gradient(90deg,rgba(4,35,73,.97),rgba(7,59,103,.65)),
+    linear-gradient(135deg,#315b77,#9ab79d);
+    display:flex;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+.banner-icon{
+    width:56px;
+    height:56px;
+    border-radius:13px;
+    background:#e8f3ff;
+    color:#0871dc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    margin-right:15px;
+}
+
+.banner h1{
+    font-family:Georgia,serif;
+    font-size:25px;
+}
+
+.banner p{
+    font-size:12px;
+    margin-top:5px;
+}
+
+.banner-quote{
+    margin-left:auto;
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:13px;
+    text-align:center;
+}
+
+/* ================= STAT CARDS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:11px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+}
+
+.stat-card{
+    min-height:120px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.stat-icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.blue{
+    background:#e0f0ff;
+    color:#1478e5;
+}
+
+.green{
+    background:#dcf7eb;
+    color:#07986b;
+}
+
+.orange{
+    background:#fff0d8;
+    color:#dc8c0a;
+}
+
+.purple{
+    background:#eee5ff;
+    color:#6438d5;
+}
+
+.stat-info{
+    flex:1;
+}
+
+.stat-info p{
+    font-size:11px;
+    color:#174680;
+}
+
+.stat-info h2{
+    font-size:23px;
+    color:#092e68;
+    margin:4px 0;
+}
+
+.stat-info small{
+    font-size:9px;
+    color:#617e9f;
+}
+
+.stat-info .up{
+    color:#07986b;
+}
+
+/* ================= MIDDLE CARDS ================= */
+
+.middle{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+    margin-top:14px;
+}
+
+.panel{
+    padding:17px;
+    min-height:245px;
+}
+
+.panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    font-weight:700;
+    color:#0b2e62;
+    margin-bottom:17px;
+}
+
+.panel-title a{
+    font-size:9px;
+    color:#0872df;
+    text-decoration:none;
+}
+
+/* COLLECTION CHART */
+
+.chart{
+    height:170px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-around;
+    border-bottom:1px solid #dbe8f5;
+}
+
+.chart-group{
+    height:155px;
+    width:12%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:4px;
+    position:relative;
+}
+
+.chart-bar{
+    width:15px;
+    border-radius:4px 4px 0 0;
+}
+
+.collected{
+    height:115px;
+    background:#159d76;
+}
+
+.pending{
+    height:55px;
+    background:#f3a62c;
+}
+
+.chart-label{
+    position:absolute;
+    bottom:-22px;
+    font-size:9px;
+    color:#5c789d;
+}
+
+/* EXPENSE LIST */
+
+.expense{
+    display:flex;
+    align-items:center;
+    margin:14px 0;
+    gap:10px;
+}
+
+.expense-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:#edf5ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+}
+
+.expense-info{
+    flex:1;
+}
+
+.expense-info strong{
+    display:block;
+    font-size:11px;
+    color:#244e82;
+}
+
+.expense-info small{
+    font-size:9px;
+    color:#7890ad;
+}
+
+.expense-amount{
+    font-weight:700;
+    font-size:11px;
+    color:#193f72;
+}
+
+/* ================= TABLE ================= */
+
+.table-card{
+    margin-top:14px;
+    overflow:hidden;
+}
+
+.table-header{
+    padding:15px 17px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    border-bottom:1px solid #e2edf7;
+}
+
+.table-header h3{
+    font-size:14px;
+    margin-right:auto;
+}
+
+.select,
+.search-input{
+    height:32px;
+    border:1px solid #d9e7f5;
+    border-radius:7px;
+    outline:none;
+    background:white;
+    color:#385a85;
+    padding:0 10px;
+    font-size:10px;
+}
+
+.search-input{
+    width:190px;
+}
+
+.add-btn{
+    height:32px;
+    border:none;
+    background:#0872df;
+    color:white;
+    border-radius:7px;
+    padding:0 14px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:10px;
+}
+
+thead{
+    background:#f7fbff;
+}
+
+th{
+    padding:11px 8px;
+    text-align:left;
+    color:#173f72;
+    font-size:9px;
+}
+
+td{
+    padding:10px 8px;
+    border-top:1px solid #edf3f9;
+    color:#345b89;
+}
+
+.student{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:500;
+    color:#214d82;
+}
+
+.student-photo{
+    width:29px;
+    height:29px;
+    border-radius:50%;
+    background:#dce8f5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.amount{
+    font-weight:700;
+    color:#153e73;
+}
+
+.paid{
+    padding:5px 10px;
+    border-radius:15px;
+    background:#d8f5eb;
+    color:#078e68;
+    font-size:9px;
+}
+
+.pending-status{
+    padding:5px 10px;
+    border-radius:15px;
+    background:#fff0d9;
+    color:#ce8105;
+    font-size:9px;
+}
+
+.overdue{
+    padding:5px 10px;
+    border-radius:15px;
+    background:#ffe0e2;
+    color:#df3038;
+    font-size:9px;
+}
+
+.action-btn{
+    border:none;
+    background:#edf5ff;
+    color:#0872df;
+    width:28px;
+    height:28px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* ================= RIGHT SIDEBAR ================= */
+
+.right{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.right-card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+    padding:15px;
+}
+
+.right-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:700;
+    color:#0b2e62;
+    margin-bottom:13px;
+}
+
+/* QUICK ACTIONS */
+
+.quick button{
+    width:100%;
+    height:38px;
+    border-radius:7px;
+    border:1px solid #dce9f5;
+    margin-bottom:9px;
+    text-align:left;
+    padding:0 12px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+.receive{
+    background:#328be5;
+    color:white;
+}
+
+.fee-report{
+    background:#d9f5ee;
+    color:#078d6a;
+}
+
+.expense-btn{
+    background:#eee6ff;
+    color:#6033c6;
+}
+
+.reminder{
+    background:#fff0dc;
+    color:#b56d08;
+}
+
+/* FEE SUMMARY */
+
+.progress-box{
+    margin:14px 0;
+}
+
+.progress-head{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    margin-bottom:7px;
+}
+
+.progress{
+    width:100%;
+    height:9px;
+    background:#e8f0f7;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:82%;
+    background:#159c75;
+    border-radius:20px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+    font-size:10px;
+}
+
+.summary-row strong{
+    color:#153d71;
+}
+
+/* RECENT PAYMENTS */
+
+.payment-item{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:10px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.payment-icon{
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    background:#e7f3ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.payment-info{
+    flex:1;
+}
+
+.payment-info strong{
+    display:block;
+    font-size:10px;
+}
+
+.payment-info small{
+    color:#7890ad;
+    font-size:8px;
+}
+
+.payment-money{
+    color:#078e68;
+    font-size:10px;
+    font-weight:bold;
+}
+
+/* ================= PAGINATION ================= */
+
+.pagination{
+    padding:13px 17px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+    color:#58789f;
+}
+
+.pages{
+    display:flex;
+    gap:5px;
+}
+
+.page-btn{
+    width:28px;
+    height:28px;
+    border:1px solid #e0ebf6;
+    background:white;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.page-btn.active{
+    background:#0872df;
+    color:white;
+    border-color:#0872df;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#082f68;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    font-size:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+    display:none;
+    z-index:9999;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .page-grid{
+        grid-template-columns:1fr;
+    }
+
+    .right{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        left:-255px;
+        transition:.3s;
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .search{
+        width:220px;
+    }
+
+    .stats,
+    .middle,
+    .right{
+        grid-template-columns:1fr;
+    }
+
+    .banner-quote{
+        display:none;
+    }
+
+    .table-card{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:850px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo-area">
+        <div class="logo">📖</div>
+
+        <div class="logo-text">
+            <h2>Al-Hidayah<br>Public School</h2>
+            <p>Learn • Grow • Succeed</p>
+        </div>
+    </div>
+
+    <nav class="menu">
+
+        <a href="#"><span class="menu-icon">⌂</span>Dashboard</a>
+        <a href="#"><span class="menu-icon">👥</span>Students</a>
+        <a href="#"><span class="menu-icon">👨‍🏫</span>Teachers</a>
+        <a href="#"><span class="menu-icon">📖</span>Classes</a>
+        <a href="#"><span class="menu-icon">☑</span>Attendance</a>
+
+        <a href="#" class="active">
+            <span class="menu-icon">💵</span>
+            Fees & Accounts
+        </a>
+
+        <a href="#"><span class="menu-icon">📋</span>Exams & Results</a>
+        <a href="#"><span class="menu-icon">🎓</span>Academics</a>
+        <a href="#"><span class="menu-icon">🗓</span>Timetable</a>
+        <a href="#"><span class="menu-icon">📚</span>Library</a>
+        <a href="#"><span class="menu-icon">🚌</span>Transport</a>
+        <a href="#"><span class="menu-icon">♥</span>Health</a>
+        <a href="#"><span class="menu-icon">👨‍👩‍👧</span>Parents</a>
+        <a href="#"><span class="menu-icon">💬</span>Communication</a>
+        <a href="#"><span class="menu-icon">📑</span>Reports</a>
+        <a href="#"><span class="menu-icon">⚙</span>Settings</a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="quote">
+            Discipline<br>
+            Builds<br>
+            Bright Futures
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="hamburger" id="hamburger">☰</div>
+
+        <div class="search">
+            🔍
+            <input
+                type="text"
+                id="globalSearch"
+                placeholder="Search students, invoices, transactions..."
+            >
+        </div>
+
+        <div class="top-space"></div>
+
+        <div class="notification">
+            🔔
+            <span>3</span>
+        </div>
+
+        <div class="profile">
+
+            <div class="profile-img">👨🏻</div>
+
+            <div class="profile-info">
+                <strong>Admin</strong>
+                <small>Administrator</small>
+            </div>
+
+            <span>⌄</span>
+
+        </div>
+
+    </header>
+
+
+    <div class="content">
+
+        <div class="page-grid">
+
+            <!-- ================= LEFT ================= -->
+
+            <section>
+
+                <!-- BANNER -->
+
+                <div class="banner">
+
+                    <div class="banner-icon">💵</div>
+
+                    <div>
+                        <h1>Fees & Accounts</h1>
+                        <p>
+                            Manage student fees, payments and school accounts easily.
+                        </p>
+                    </div>
+
+                    <div class="banner-quote">
+                        “Smart Accounts<br>
+                        Better Management”
+                    </div>
+
+                </div>
+
+
+                <!-- STAT CARDS -->
+
+                <div class="stats">
+
+                    <div class="card stat-card">
+
+                        <div class="stat-icon blue">💰</div>
+
+                        <div class="stat-info">
+                            <p>Total Fee Collection</p>
+                            <h2 id="totalCollection">Rs. 4.82M</h2>
+                            <small class="up">⬆ +8.5% than last month</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="stat-icon green">✓</div>
+
+                        <div class="stat-info">
+                            <p>Collected</p>
+                            <h2>Rs. 4.12M</h2>
+                            <small class="up">85.5% collected</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="stat-icon orange">⏳</div>
+
+                        <div class="stat-info">
+                            <p>Pending Fees</p>
+                            <h2>Rs. 70.4K</h2>
+                            <small>14.5% pending</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="stat-icon purple">📊</div>
+
+                        <div class="stat-info">
+                            <p>Monthly Expenses</p>
+                            <h2>Rs. 1.26M</h2>
+                            <small class="up">⬇ 3.2% than last month</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CHARTS -->
+
+                <div class="middle">
+
+                    <!-- COLLECTION CHART -->
+
+                    <div class="card panel">
+
+                        <div class="panel-title">
+
+                            <span>📊 Fee Collection Overview</span>
+
+                            <a href="#">View Report →</a>
+
+                        </div>
+
+                        <div class="chart">
+
+                            <div class="chart-group">
+                                <div class="chart-bar collected"
+                                     style="height:90px"></div>
+                                <div class="chart-bar pending"
+                                     style="height:40px"></div>
+                                <span class="chart-label">Jan</span>
+                            </div>
+
+                            <div class="chart-group">
+                                <div class="chart-bar collected"
+                                     style="height:110px"></div>
+                                <div class="chart-bar pending"
+                                     style="height:45px"></div>
+                                <span class="chart-label">Feb</span>
+                            </div>
+
+                            <div class="chart-group">
+                                <div class="chart-bar collected"
+                                     style="height:100px"></div>
+                                <div class="chart-bar pending"
+                                     style="height:50px"></div>
+                                <span class="chart-label">Mar</span>
+                            </div>
+
+                            <div class="chart-group">
+                                <div class="chart-bar collected"
+                                     style="height:125px"></div>
+                                <div class="chart-bar pending"
+                                     style="height:35px"></div>
+                                <span class="chart-label">Apr</span>
+                            </div>
+
+                            <div class="chart-group">
+                                <div class="chart-bar collected"
+                                     style="height:115px"></div>
+                                <div class="chart-bar pending"
+                                     style="height:42px"></div>
+                                <span class="chart-label">May</span>
+                            </div>
+
+                            <div class="chart-group">
+                                <div class="chart-bar collected"
+                                     style="height:135px"></div>
+                                <div class="chart-bar pending"
+                                     style="height:30px"></div>
+                                <span class="chart-label">Jun</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EXPENSES -->
+
+                    <div class="card panel">
+
+                        <div class="panel-title">
+                            <span>💳 Recent Expenses</span>
+                            <a href="#">View All →</a>
+                        </div>
+
+
+                        <div class="expense">
+
+                            <div class="expense-icon">👨‍🏫</div>
+
+                            <div class="expense-info">
+                                <strong>Staff Salaries</strong>
+                                <small>September 2025</small>
+                            </div>
+
+                            <div class="expense-amount">
+                                Rs. 650K
+                            </div>
+
+                        </div>
+
+
+                        <div class="expense">
+
+                            <div class="expense-icon">⚡</div>
+
+                            <div class="expense-info">
+                                <strong>Electricity Bill</strong>
+                                <small>School Utilities</small>
+                            </div>
+
+                            <div class="expense-amount">
+                                Rs. 82K
+                            </div>
+
+                        </div>
+
+
+                        <div class="expense">
+
+                            <div class="expense-icon">📚</div>
+
+                            <div class="expense-info">
+                                <strong>Books & Stationery</strong>
+                                <small>Academic Supplies</small>
+                            </div>
+
+                            <div class="expense-amount">
+                                Rs. 125K
+                            </div>
+
+                        </div>
+
+
+                        <div class="expense">
+
+                            <div class="expense-icon">🛠</div>
+
+                            <div class="expense-info">
+                                <strong>Maintenance</strong>
+                                <small>School Building</small>
+                            </div>
+
+                            <div class="expense-amount">
+                                Rs. 74K
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEE TABLE -->
+
+                <div class="card table-card">
+
+                    <div class="table-header">
+
+                        <h3>💳 Student Fee Records</h3>
+
+                        <select class="select" id="classFilter">
+
+                            <option value="All">All Classes</option>
+                            <option value="6A">Class 6A</option>
+                            <option value="7A">Class 7A</option>
+                            <option value="8A">Class 8A</option>
+                            <option value="9A">Class 9A</option>
+                            <option value="10A">Class 10A</option>
+                            <option value="11A">Class 11A</option>
+                            <option value="12A">Class 12A</option>
+
+                        </select>
+
+                        <input
+                            class="search-input"
+                            id="studentSearch"
+                            type="text"
+                            placeholder="🔍 Search student..."
+                        >
+
+                        <button class="add-btn" id="addPayment">
+                            + Receive Payment
+                        </button>
+
+                    </div>
+
+
+                    <div style="overflow-x:auto">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th>Class</th>
+                                    <th>Fee Month</th>
+                                    <th>Total Fee</th>
+                                    <th>Paid</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="feeTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="pagination">
+
+                        <span id="showing">
+                            Showing 1 to 8 of 20 records
+                        </span>
+
+                        <div class="pages">
+
+                            <button class="page-btn" id="prev">‹</button>
+
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+
+                            <button class="page-btn" id="next">›</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= RIGHT ================= -->
+
+            <aside class="right">
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="right-card quick">
+
+                    <div class="right-title">
+                        ⚡ Quick Actions
+                    </div>
+
+                    <button class="receive" id="receiveBtn">
+                        💵 &nbsp; Receive Fee Payment
+                    </button>
+
+                    <button class="fee-report" id="feeReport">
+                        📊 &nbsp; Fee Collection Report
+                    </button>
+
+                    <button class="expense-btn" id="expenseBtn">
+                        💳 &nbsp; Add New Expense
+                    </button>
+
+                    <button class="reminder" id="reminderBtn">
+                        🔔 &nbsp; Send Fee Reminder
+                    </button>
+
+                </div>
+
+
+                <!-- MONTHLY SUMMARY -->
+
+                <div class="right-card">
+
+                    <div class="right-title">
+                        📈 Monthly Fee Summary
+                    </div>
+
+                    <div class="progress-box">
+
+                        <div class="progress-head">
+                            <span>Collection Progress</span>
+                            <strong>85.5%</strong>
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-fill"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-row">
+                        <span>Total Fees</span>
+                        <strong>Rs. 4.82M</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Collected</span>
+                        <strong style="color:#078e68">
+                            Rs. 4.12M
+                        </strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Pending</span>
+                        <strong style="color:#dc8b08">
+                            Rs. 704K
+                        </strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Overdue</span>
+                        <strong style="color:#e0333b">
+                            Rs. 185K
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT PAYMENTS -->
+
+                <div class="right-card">
+
+                    <div class="right-title">
+                        💵 Recent Payments
+                    </div>
+
+
+                    <div class="payment-item">
+
+                        <div class="payment-icon">✓</div>
+
+                        <div class="payment-info">
+                            <strong>Ahmed Raza</strong>
+                            <small>Fee - September</small>
+                        </div>
+
+                        <div class="payment-money">
+                            +18K
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-item">
+
+                        <div class="payment-icon">✓</div>
+
+                        <div class="payment-info">
+                            <strong>Ayesha Khan</strong>
+                            <small>Fee - September</small>
+                        </div>
+
+                        <div class="payment-money">
+                            +15K
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-item">
+
+                        <div class="payment-icon">✓</div>
+
+                        <div class="payment-info">
+                            <strong>Bilal Ahmed</strong>
+                            <small>Fee - September</small>
+                        </div>
+
+                        <div class="payment-money">
+                            +20K
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-item">
+
+                        <div class="payment-icon">✓</div>
+
+                        <div class="payment-info">
+                            <strong>Fatima Noor</strong>
+                            <small>Fee - September</small>
+                        </div>
+
+                        <div class="payment-money">
+                            +18K
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOUNT SUMMARY -->
+
+                <div class="right-card">
+
+                    <div class="right-title">
+                        🧾 Account Summary
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Opening Balance</span>
+                        <strong>Rs. 1.25M</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Total Income</span>
+                        <strong style="color:#078e68">
+                            Rs. 4.82M
+                        </strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Total Expense</span>
+                        <strong style="color:#e0333b">
+                            Rs. 1.26M
+                        </strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Current Balance</span>
+                        <strong>
+                            Rs. 4.81M
+                        </strong>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================================
+   FEE DATA
+========================================= */
+
+const feeRecords = [
+
+    {
+        name:"Ahmed Raza",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:18000,
+        status:"Paid"
+    },
+
+    {
+        name:"Ayesha Khan",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:15000,
+        status:"Pending"
+    },
+
+    {
+        name:"Ali Hamza",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:12000,
+        status:"Pending"
+    },
+
+    {
+        name:"Fatima Noor",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:18000,
+        status:"Paid"
+    },
+
+    {
+        name:"Usman Tariq",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:0,
+        status:"Overdue"
+    },
+
+    {
+        name:"Sara Ahmed",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:10000,
+        status:"Pending"
+    },
+
+    {
+        name:"Zainab Fatima",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:18000,
+        status:"Paid"
+    },
+
+    {
+        name:"Bilal Ahmed",
+        class:"6A",
+        month:"September",
+        total:18000,
+        paid:18000,
+        status:"Paid"
+    },
+
+    {
+        name:"Hassan Ali",
+        class:"7A",
+        month:"September",
+        total:19500,
+        paid:19500,
+        status:"Paid"
+    },
+
+    {
+        name:"Maryam Shah",
+        class:"7A",
+        month:"September",
+        total:19500,
+        paid:12000,
+        status:"Pending"
+    },
+
+    {
+        name:"Hamza Aslam",
+        class:"8A",
+        month:"September",
+        total:21000,
+        paid:21000,
+        status:"Paid"
+    },
+
+    {
+        name:"Iqra Noor",
+        class:"8A",
+        month:"September",
+        total:21000,
+        paid:15000,
+        status:"Pending"
+    },
+
+    {
+        name:"Danish Ahmed",
+        class:"9A",
+        month:"September",
+        total:22500,
+        paid:0,
+        status:"Overdue"
+    },
+
+    {
+        name:"Hira Khan",
+        class:"9A",
+        month:"September",
+        total:22500,
+        paid:22500,
+        status:"Paid"
+    },
+
+    {
+        name:"Saad Malik",
+        class:"10A",
+        month:"September",
+        total:24000,
+        paid:18000,
+        status:"Pending"
+    },
+
+    {
+        name:"Anaya Ali",
+        class:"10A",
+        month:"September",
+        total:24000,
+        paid:24000,
+        status:"Paid"
+    },
+
+    {
+        name:"Usman Shah",
+        class:"11A",
+        month:"September",
+        total:26000,
+        paid:15000,
+        status:"Pending"
+    },
+
+    {
+        name:"Laiba Tariq",
+        class:"11A",
+        month:"September",
+        total:26000,
+        paid:26000,
+        status:"Paid"
+    },
+
+    {
+        name:"Abdullah Khan",
+        class:"12A",
+        month:"September",
+        total:28000,
+        paid:20000,
+        status:"Pending"
+    },
+
+    {
+        name:"Areeba Fatima",
+        class:"12A",
+        month:"September",
+        total:28000,
+        paid:28000,
+        status:"Paid"
+    }
+
+];
+
+
+/* =========================================
+   FORMAT MONEY
+========================================= */
+
+function money(number){
+
+    return "Rs. " +
+        number.toLocaleString("en-PK");
+
+}
+
+
+/* =========================================
+   RENDER TABLE
+========================================= */
+
+const feeTable =
+    document.getElementById("feeTable");
+
+function renderTable(){
+
+    const search =
+        document.getElementById("studentSearch")
+        .value.toLowerCase();
+
+    const selectedClass =
+        document.getElementById("classFilter").value;
+
+
+    const filtered =
+        feeRecords.filter(record => {
+
+            const classMatch =
+                selectedClass === "All" ||
+                record.class === selectedClass;
+
+            const searchMatch =
+                record.name.toLowerCase()
+                .includes(search);
+
+            return classMatch && searchMatch;
+
+        });
+
+
+    feeTable.innerHTML = "";
+
+
+    filtered.slice(0,8).forEach((record,index)=>{
+
+        const balance =
+            record.total - record.paid;
+
+
+        let statusClass = "";
+
+        if(record.status === "Paid"){
+            statusClass = "paid";
+        }
+
+        else if(record.status === "Pending"){
+            statusClass = "pending-status";
+        }
+
+        else{
+            statusClass = "overdue";
+        }
+
+
+        const row =
+        document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <input type="checkbox" class="feeCheck">
+            </td>
+
+            <td>${index + 1}</td>
+
+            <td>
+                <div class="student">
+
+                    <div class="student-photo">
+                        👤
+                    </div>
+
+                    ${record.name}
+
+                </div>
+            </td>
+
+            <td>${record.class}</td>
+
+            <td>${record.month}</td>
+
+            <td class="amount">
+                ${money(record.total)}
+            </td>
+
+            <td style="color:#078e68;font-weight:600">
+                ${money(record.paid)}
+            </td>
+
+            <td style="color:#d98508;font-weight:600">
+                ${money(balance)}
+            </td>
+
+            <td>
+                <span class="${statusClass}">
+                    ${record.status}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                    class="action-btn"
+                    onclick="viewFee(${feeRecords.indexOf(record)})">
+                    👁
+                </button>
+
+            </td>
+
+        `;
+
+        feeTable.appendChild(row);
+
+    });
+
+
+    document.getElementById("showing").innerText =
+        `Showing 1 to ${Math.min(filtered.length,8)}
+         of ${filtered.length} records`;
+
+}
+
+
+/* =========================================
+   VIEW FEE
+========================================= */
+
+function viewFee(index){
+
+    const student = feeRecords[index];
+
+    const balance =
+        student.total - student.paid;
+
+    showToast(
+        `${student.name}: Paid ${money(student.paid)},
+        Balance ${money(balance)}`
+    );
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+document
+.getElementById("studentSearch")
+.addEventListener("input",renderTable);
+
+
+/* GLOBAL SEARCH */
+
+document
+.getElementById("globalSearch")
+.addEventListener("input",function(){
+
+    document.getElementById("studentSearch").value =
+        this.value;
+
+    renderTable();
+
+});
+
+
+/* =========================================
+   CLASS FILTER
+========================================= */
+
+document
+.getElementById("classFilter")
+.addEventListener("change",function(){
+
+    renderTable();
+
+});
+
+
+/* =========================================
+   SELECT ALL
+========================================= */
+
+document
+.getElementById("selectAll")
+.addEventListener("change",function(){
+
+    document
+    .querySelectorAll(".feeCheck")
+    .forEach(check=>{
+
+        check.checked = this.checked;
+
+    });
+
+});
+
+
+/* =========================================
+   RECEIVE PAYMENT
+========================================= */
+
+function receivePayment(){
+
+    showToast(
+        "Payment window opened. Select student and enter payment amount."
+    );
+
+}
+
+document
+.getElementById("receiveBtn")
+.addEventListener("click",receivePayment);
+
+document
+.getElementById("addPayment")
+.addEventListener("click",receivePayment);
+
+
+/* =========================================
+   REPORT
+========================================= */
+
+document
+.getElementById("feeReport")
+.addEventListener("click",function(){
+
+    showToast(
+        "Fee Collection Report generated successfully."
+    );
+
+});
+
+
+/* =========================================
+   EXPENSE
+========================================= */
+
+document
+.getElementById("expenseBtn")
+.addEventListener("click",function(){
+
+    showToast(
+        "Add Expense form opened."
+    );
+
+});
+
+
+/* =========================================
+   REMINDER
+========================================= */
+
+document
+.getElementById("reminderBtn")
+.addEventListener("click",function(){
+
+    showToast(
+        "Fee reminder message prepared."
+    );
+
+});
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+document
+.getElementById("hamburger")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("show");
+
+});
+
+
+/* =========================================
+   SIDEBAR MENU
+========================================= */
+
+document
+.querySelectorAll(".menu a")
+.forEach(link=>{
+
+    link.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+        document
+        .querySelectorAll(".menu a")
+        .forEach(item=>
+            item.classList.remove("active")
+        );
+
+        this.classList.add("active");
+
+        if(this.innerText.trim() !== "Fees & Accounts"){
+
+            showToast(
+                this.innerText.trim() +
+                " section selected."
+            );
+
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+let currentPage = 1;
+
+
+document
+.querySelectorAll(".pages .page-btn")
+.forEach((button,index)=>{
+
+    if(index > 0 && index < 4){
+
+        button.addEventListener("click",function(){
+
+            document
+            .querySelectorAll(".pages .page-btn")
+            .forEach(btn=>
+                btn.classList.remove("active")
+            );
+
+            this.classList.add("active");
+
+            currentPage =
+                Number(this.innerText);
+
+            showToast(
+                "Page " + currentPage + " selected."
+            );
+
+        });
+
+    }
+
+});
+
+
+document
+.getElementById("prev")
+.addEventListener("click",function(){
+
+    if(currentPage > 1){
+
+        currentPage--;
+
+        showToast(
+            "Page " + currentPage
+        );
+
+    }
+
+});
+
+
+document
+.getElementById("next")
+.addEventListener("click",function(){
+
+    if(currentPage < 3){
+
+        currentPage++;
+
+        showToast(
+            "Page " + currentPage
+        );
+
+    }
+
+});
+
+
+/* =========================================
+   TOAST MESSAGE
+========================================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.style.display = "block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(function(){
+
+            toast.style.display = "none";
+
+        },2500);
+
+}
+
+
+/* =========================================
+   INITIAL LOAD
+========================================= */
+
+renderTable();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medical Store Invoice</title>
+<style>
+@page{size:80mm auto;margin:5mm}*{box-sizing:border-box}body{margin:0;background:#fff;color:#111;font-family:Arial,sans-serif}.receipt{width:80mm;margin:0 auto;padding:8px}.center{text-align:center}.logo{margin:0 auto 6px;width:28px;height:28px;border-radius:50%;background:#111;color:#fff;text-align:center;line-height:28px;font-size:20px}.title{font-size:15px;margin:0 0 3px}.small{font-size:10px;margin:2px 0}.line{border-top:1px dashed #111;margin:9px 0}.meta div,.total div{display:flex;justify-content:space-between;gap:12px;margin:4px 0;font-size:11px}.meta span:last-child,.total span:last-child{text-align:right}.total .grand{font-weight:700;font-size:13px;margin-top:7px}.items{width:100%;border-collapse:collapse;font-size:10px}.items th{border-bottom:1px dashed #111;padding:4px 0;text-align:left}.items td{padding:4px 0;vertical-align:top}.items th:nth-child(n+3),.items td:nth-child(n+3){text-align:right}.footer{text-align:center;font-size:10px;margin-top:14px}.actions{text-align:center;margin:18px auto;width:80mm}.actions button{border:0;border-radius:6px;padding:10px 18px;background:#2563eb;color:#fff;font-weight:600;cursor:pointer}.actions a{display:block;margin-top:10px;color:#2563eb;font-size:12px}@media print{.actions{display:none}}
+</style>
+</head>
+<body>
+<main class="receipt" id="receipt"><div class="center"><div class="logo">+</div><h1 class="title">Your Medical Store</h1><p class="small">Quality Medicine, Better Health</p><p class="small">Main Market, Your City</p><p class="small">Phone: 0300-1234567</p></div><div class="line"></div><div class="center"><strong>INVOICE</strong></div><div class="line"></div><div class="meta" id="meta"></div><table class="items"><thead><tr><th>#</th><th>Medicine</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody id="items"></tbody></table><div class="line"></div><div class="total" id="totals"></div><div class="line"></div><div class="footer">Thank you for visiting!<br>Please visit again.</div></main>
+<div class="actions"><button id="print">Print Invoice</button><a href="sales.html">Back to Sale</a></div>
+<script>
+const escapeText=(value)=>String(value??'').replace(/[&<>"']/g,(character)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+let data=null;
+try{data=JSON.parse(localStorage.getItem('medicalStorePendingPrint')||'null');}catch(error){data=null;}
+if(data&&!Array.isArray(data.items))data=null;
+if(!data){document.getElementById('receipt').innerHTML='<p>No invoice data found. Please return to the sale page.</p>';}
+else{
+ const number=(value)=>Number(value)||0;
+ document.getElementById('meta').innerHTML=`<div><span>Invoice No.</span><span>${escapeText(data.invoice)}</span></div><div><span>Date</span><span>${escapeText(data.date)}</span></div><div><span>Customer</span><span>${escapeText(data.customer)}</span></div><div><span>Phone</span><span>${escapeText(data.phone)}</span></div><div><span>Payment</span><span>${escapeText(data.payment)}</span></div>`;
+ document.getElementById('items').innerHTML=data.items.map((item,index)=>`<tr><td>${index+1}</td><td>${escapeText(item.name)}</td><td>${number(item.qty)}</td><td>${number(item.price).toFixed(2)}</td><td>${((number(item.price)*number(item.qty))-number(item.discount)).toFixed(2)}</td></tr>`).join('');
+ document.getElementById('totals').innerHTML=`<div><span>Subtotal</span><span>Rs. ${number(data.subtotal).toFixed(2)}</span></div><div><span>Discount</span><span>Rs. ${number(data.discount).toFixed(2)}</span></div><div><span>Tax / GST</span><span>Rs. ${number(data.tax).toFixed(2)}</span></div><div class="grand"><span>TOTAL</span><span>Rs. ${number(data.total).toFixed(2)}</span></div><div><span>Paid Amount</span><span>Rs. ${number(data.paid).toFixed(2)}</span></div><div><span>Change Return</span><span>Rs. ${number(data.change).toFixed(2)}</span></div>`;
+}
+document.getElementById('print').onclick=()=>window.print();
+</script>
+</body>
+</html>

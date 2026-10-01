@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script><script src="rbac.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Store Management System</title>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --sidebar-bg: #0d1e32;
+      --sidebar-hover: #132742;
+      --primary-blue: #1d61e8;
+      --primary-green: #10b981;
+      --light-green-bg: #d1fae5;
+      --light-green-text: #047857;
+      --orange: #f59e0b;
+      --light-orange-bg: #fef3c7;
+      --light-orange-text: #b45309;
+      --red: #ef4444;
+      --light-red-bg: #fee2e2;
+      --light-red-text: #b91c1c;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 220px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 10px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 10px 20px 10px;
+    }
+
+    .logo-icon {
+      background: var(--primary-green);
+      border-radius: 6px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text h2 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .logo-text p {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .nav-item i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--primary-blue);
+      color: #fff;
+    }
+
+    .nav-item.dropdown {
+      justify-content: space-between;
+    }
+
+    .nav-item .chevron {
+      margin-left: auto;
+      width: 14px;
+      height: 14px;
+    }
+
+    .quick-add {
+      margin-top: 20px;
+      border-top: 1px solid #1f2937;
+      padding-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-add span {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .btn {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .btn-green { background-color: #059669; }
+    .btn-blue { background-color: var(--primary-blue); }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 15px 25px;
+      overflow-x: auto;
+      overflow-y: auto;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .page-title h1 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb span {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .header-search {
+      position: relative;
+      width: 350px;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      color: var(--text-muted);
+    }
+
+    .header-search input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      outline: none;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-muted);
+    }
+
+    .notification-badge {
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--red);
+      color: #fff;
+      font-size: 9px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 15px;
+    }
+
+    .user-info {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-info .name { font-weight: 700; font-size: 12px; }
+    .user-info .role { font-size: 10px; color: var(--text-muted); }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      background: #e5e7eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Layout Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #f0f0f0;
+    }
+
+    /* Stats Cards */
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .icon-blue { background-color: var(--primary-blue); }
+    .icon-green { background-color: var(--primary-green); }
+    .icon-orange { background-color: var(--orange); }
+    .icon-red { background-color: var(--red); }
+
+    .stat-info p { color: var(--text-muted); font-size: 11px; }
+    .stat-info h3 { font-size: 18px; font-weight: 700; }
+    .stat-info .subtext { font-size: 10px; color: var(--text-muted); }
+    .stat-info .subtext.green { color: var(--primary-green); }
+    .stat-info .subtext.orange { color: var(--orange); }
+    .stat-info .subtext.red { color: var(--red); }
+
+    /* Table Container */
+    .table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .table-search {
+      position: relative;
+      width: 300px;
+    }
+
+    .table-search i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      color: var(--text-muted);
+    }
+
+    .table-search input {
+      width: 100%;
+      padding: 6px 10px 6px 30px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-outline, .select-control, .btn-primary {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .avatar-button {
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+    .page-btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .select-control {
+      border: 1px solid var(--border-color);
+      background: #fff;
+    }
+
+    .btn-primary {
+      background: var(--primary-blue);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 11px;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      background-color: #fafafa;
+    }
+
+    .status-badge {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 10px;
+      display: inline-block;
+    }
+
+    .status-instock { background: var(--light-green-bg); color: var(--light-green-text); }
+    .status-lowstock { background: var(--light-orange-bg); color: var(--light-orange-text); }
+    .status-outofstock { background: var(--light-red-bg); color: var(--light-red-text); }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      color: var(--primary-blue);
+      cursor: pointer;
+    }
+      .stock-action {
+        border: 0;
+        padding: 2px;
+        background: transparent;
+        color: var(--primary-blue);
+        cursor: pointer;
+      }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .pagination {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .page-btn {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 3px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .page-btn.active {
+      background: var(--primary-blue);
+      color: #fff;
+      border-color: var(--primary-blue);
+    }
+
+    /* Right Section Styles */
+    .right-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .summary-card h3, .alert-header h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .chart-container {
+      width: 130px;
+      margin: 0 auto 15px auto;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .legend-item .label {
+      flex-grow: 1;
+      margin-left: 8px;
+      color: var(--text-muted);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.blue { background: var(--primary-blue); }
+    .dot.orange { background: var(--orange); }
+    .dot.red { background: var(--red); }
+
+    .alert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .view-all {
+      font-size: 10px;
+      color: var(--primary-blue);
+      text-decoration: none;
+    }
+
+    .alert-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .alert-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .alert-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stock-count {
+      color: var(--text-muted);
+    }
+
+    .total-value-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+    }
+
+    .total-value-card span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .total-value-card h2 {
+      font-size: 14px;
+      color: var(--primary-green);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"><i data-lucide="plus"></i></div>
+        <div class="logo-text">
+          <h2>Medical Store</h2>
+          <p>Management System</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="merged_medical_store.html" class="nav-item"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="medicine.html" class="nav-item"><i data-lucide="pill"></i> Medicine</a>
+        <a href="sales.html" class="nav-item dropdown"><i data-lucide="shopping-cart"></i> Sales <i data-lucide="chevron-down" class="chevron"></i></a>
+        <a href="customer.html" class="nav-item"><i data-lucide="user"></i> Customers</a>
+        <a href="suppliers.html" class="nav-item"><i data-lucide="truck"></i> Suppliers</a>
+        <a href="purchases.html" class="nav-item"><i data-lucide="shopping-bag"></i> Purchases</a>
+        <a href="stock.html" class="nav-item active"><i data-lucide="package"></i> Stock</a>
+        <a href="medical-reports.html" class="nav-item"><i data-lucide="file-text"></i> Reports</a>
+        <a href="expenses.html" class="nav-item"><i data-lucide="wallet"></i> Expenses</a>
+        <a href="users.html" class="nav-item"><i data-lucide="users"></i> Users</a>
+        <a href="medical-settings.html" class="nav-item"><i data-lucide="settings"></i> Settings</a>
+      </nav>
+
+      <div class="quick-add">
+        <span>Quick Add</span>
+        <button class="btn btn-green" onclick="window.location.href='add-medicine.html'"><i data-lucide="plus"></i> Add Medicine</button>
+        <button class="btn btn-blue" onclick="window.location.href='new-sale.html'"><i data-lucide="plus"></i> New Sale</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="page-title">
+          <h1>Stock</h1>
+          <p class="breadcrumb">Dashboard &gt; Stock &gt; <span>All Medicines</span></p>
+        </div>
+
+        <div class="header-search">
+          <i data-lucide="search"></i>
+          <input type="search" id="stockTopSearch" placeholder="Search medicine by name, generic or barcode..." aria-label="Search stock">
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn" id="stockPrintBtn" type="button"><i data-lucide="printer"></i> <span>Print</span></button>
+          <div class="notification-badge">
+            <button class="icon-btn" id="stockAlertsBtn" type="button" aria-label="Open expiry alerts"><i data-lucide="bell"></i></button>
+            <span class="badge">3</span>
+          </div>
+          <button class="icon-btn" id="stockSettingsBtn" type="button" aria-label="Open settings"><i data-lucide="settings"></i></button>
+          <div class="user-profile">
+            <div class="user-info">
+              <span class="name">Admin</span>
+              <span class="role">Owner</span>
+            </div>
+            <button class="avatar avatar-button" id="stockUserBtn" type="button" aria-label="Open users"><i data-lucide="user"></i></button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Grid -->
+      <div class="content-grid">
+        <!-- Left Section (Stats, Table) -->
+        <div class="left-section">
+          <!-- Stat Cards -->
+          <div class="stats-cards">
+            <div class="card stat-card">
+              <div class="stat-icon icon-blue"><i data-lucide="package"></i></div>
+              <div class="stat-info">
+                <p>Total Medicines</p>
+                <h3>1,256</h3>
+                <span class="subtext">All Medicines</span>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon icon-green"><i data-lucide="check-circle"></i></div>
+              <div class="stat-info">
+                <p>In Stock</p>
+                <h3>1,102</h3>
+                <span class="subtext green">87.7% of total</span>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon icon-orange"><i data-lucide="alert-triangle"></i></div>
+              <div class="stat-info">
+                <p>Low Stock</p>
+                <h3>112</h3>
+                <span class="subtext orange">8.9% of total</span>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon icon-red"><i data-lucide="x-circle"></i></div>
+              <div class="stat-info">
+                <p>Out of Stock</p>
+                <h3>42</h3>
+                <span class="subtext red">3.4% of total</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="card table-container">
+            <!-- Table Controls -->
+            <div class="table-controls">
+              <div class="table-search">
+                <i data-lucide="search"></i>
+                <input type="text" id="tableSearch" placeholder="Search medicine by name, generic or barcode...">
+              </div>
+              <div class="table-actions">
+                <button class="btn-outline" id="stockFilterBtn" type="button"><i data-lucide="filter"></i> Filter</button>
+                <select class="select-control" id="stockCategoryFilter" aria-label="Filter by category">
+                  <option>Category</option>
+                  <option>Tablet</option>
+                  <option>Capsule</option>
+                  <option>Inhaler</option>
+                </select>
+                <button class="btn-primary" id="stockExportBtn" type="button"><i data-lucide="download"></i> Export</button>
+              </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Medicine Name</th>
+                    <th>Generic Name</th>
+                    <th>Category</th>
+                    <th>Batch No.</th>
+                    <th>Expiry Date</th>
+                    <th>MRP (Rs.)</th>
+                    <th>Sale Price (Rs.)</th>
+                    <th>Stock Qty</th>
+                    <th>Stock Value (Rs.)</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="medicineTableBody">
+                  <!-- JS Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer / Pagination -->
+            <div class="table-footer">
+              <div class="show-entries">
+                Show 
+                <select id="stockEntriesPerPage" aria-label="Entries per page">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+                entries
+              </div>
+              <div class="entry-info" id="stockEntriesInfo">Showing 1 to 8 of 8 entries</div>
+              <div class="pagination" id="stockPagination">
+                <button class="page-btn">&lt;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <span>...</span>
+                <button class="page-btn">126</button>
+                <button class="page-btn">&gt;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Section (Charts & Alerts) -->
+        <div class="right-section">
+          <!-- Stock Summary Card -->
+          <div class="card summary-card">
+            <h3>Stock Summary</h3>
+            <div class="chart-container">
+              <canvas id="stockChart"></canvas>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <span class="dot blue"></span>
+                <span class="label">In Stock (87.7%)</span>
+                <span class="value">1,102</span>
+              </div>
+              <div class="legend-item">
+                <span class="dot orange"></span>
+                <span class="label">Low Stock (8.9%)</span>
+                <span class="value">112</span>
+              </div>
+              <div class="legend-item">
+                <span class="dot red"></span>
+                <span class="label">Out of Stock (3.4%)</span>
+                <span class="value">42</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Low Stock Alert Card -->
+          <div class="card alert-card">
+            <div class="alert-header">
+              <h3>Low Stock Alert</h3>
+              <a href="expiry-alerts.html" class="view-all">View All</a>
+            </div>
+            <ul class="alert-list">
+              <li>
+                <div class="alert-info">
+                  <span class="dot orange"></span>
+                  <span class="med-name">Cetirizine 10mg (Tab)</span>
+                </div>
+                <span class="stock-count">Stock: <b>35</b></span>
+              </li>
+              <li>
+                <div class="alert-info">
+                  <span class="dot orange"></span>
+                  <span class="med-name">Azithromycin 500mg (Tab)</span>
+                </div>
+                <span class="stock-count">Stock: <b>18</b></span>
+              </li>
+              <li>
+                <div class="alert-info">
+                  <span class="dot orange"></span>
+                  <span class="med-name">Salbutamol 100mcg (Inhaler)</span>
+                </div>
+                <span class="stock-count">Stock: <b>5</b></span>
+              </li>
+              <li>
+                <div class="alert-info">
+                  <span class="dot orange"></span>
+                  <span class="med-name">Diclofenac 50mg (Tab)</span>
+                </div>
+                <span class="stock-count">Stock: <b>4</b></span>
+              </li>
+              <li>
+                <div class="alert-info">
+                  <span class="dot orange"></span>
+                  <span class="med-name">Losartan 50mg (Tab)</span>
+                </div>
+                <span class="stock-count">Stock: <b>3</b></span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Total Value Box -->
+          <div class="card total-value-card">
+            <span>Total Stock Value (Selling Price)</span>
+            <h2>Rs. 1,245,680</h2>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Lucide icons initialize
+    if (window.lucide) lucide.createIcons();
+
+    // Sample Data Table
+    const medicines = [
+      { id: 1, name: "Paracetamol 500mg (Tab)", generic: "Paracetamol", category: "Tablet", batch: "PCT500-0525", expiry: "05/2026", mrp: "15.00", sale: "10.00", qty: 250, value: "2,500.00", status: "In Stock" },
+      { id: 2, name: "Amoxicillin 500mg (Cap)", generic: "Amoxicillin", category: "Capsule", batch: "AMX500-0326", expiry: "03/2026", mrp: "30.00", sale: "22.00", qty: 120, value: "2,640.00", status: "In Stock" },
+      { id: 3, name: "Omeprazole 20mg (Cap)", generic: "Omeprazole", category: "Capsule", batch: "OMP20-0626", expiry: "06/2026", mrp: "25.00", sale: "18.00", qty: 80, value: "1,440.00", status: "In Stock" },
+      { id: 4, name: "Vitamin C 500mg (Tab)", generic: "Ascorbic Acid", category: "Tablet", batch: "VC500-0726", expiry: "07/2026", mrp: "20.00", sale: "15.00", qty: 60, value: "900.00", status: "In Stock" },
+      { id: 5, name: "Cetirizine 10mg (Tab)", generic: "Cetirizine", category: "Tablet", batch: "CET10-0526", expiry: "05/2026", mrp: "18.00", sale: "12.00", qty: 35, value: "420.00", status: "Low Stock" },
+      { id: 6, name: "Azithromycin 500mg (Tab)", generic: "Azithromycin", category: "Tablet", batch: "AZI500-0226", expiry: "02/2026", mrp: "40.00", sale: "28.00", qty: 18, value: "504.00", status: "Low Stock" },
+      { id: 7, name: "Salbutamol 100mcg (Inhaler)", generic: "Salbutamol", category: "Inhaler", batch: "SAL100-0126", expiry: "01/2026", mrp: "120.00", sale: "85.00", qty: 5, value: "425.00", status: "Low Stock" },
+      { id: 8, name: "Metformin 500mg (Tab)", generic: "Metformin", category: "Tablet", batch: "MET500-1125", expiry: "11/2025", mrp: "12.00", sale: "8.00", qty: 0, value: "0.00", status: "Out of Stock" }
+    ];
+
+    // Table Render Function
+    let filteredStock = medicines;
+    let currentStockPage = 1;
+    let stockEntriesPerPage = 10;
+
+    function renderTable(data) {
+      const tbody = document.getElementById('medicineTableBody');
+      tbody.innerHTML = '';
+      filteredStock = data;
+      const totalPages = Math.max(1, Math.ceil(data.length / stockEntriesPerPage));
+      currentStockPage = Math.min(currentStockPage, totalPages);
+      const startIndex = (currentStockPage - 1) * stockEntriesPerPage;
+      const visibleItems = data.slice(startIndex, startIndex + stockEntriesPerPage);
+
+      visibleItems.forEach(item => {
+        let statusClass = '';
+        if (item.status === 'In Stock') statusClass = 'status-instock';
+        else if (item.status === 'Low Stock') statusClass = 'status-lowstock';
+        else statusClass = 'status-outofstock';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.id}</td>
+          <td><b>${item.name}</b></td>
+          <td>${item.generic}</td>
+          <td>${item.category}</td>
+          <td>${item.batch}</td>
+          <td>${item.expiry}</td>
+          <td>${item.mrp}</td>
+          <td>${item.sale}</td>
+          <td>${item.qty}</td>
+          <td>${item.value}</td>
+          <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+          <td>
+            <div class="action-btns">
+              <button class="stock-action" type="button" data-action="view" data-id="${item.id}" aria-label="View stock"><i data-lucide="eye" style="width:14px;"></i></button>
+              <button class="stock-action" type="button" data-action="edit" data-id="${item.id}" aria-label="Edit medicine"><i data-lucide="edit-2" style="width:14px;"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      if (!visibleItems.length) {
+        const emptyRow = document.createElement('tr');
+        emptyRow.innerHTML = '<td colspan="12" style="padding:32px;text-align:center;color:var(--text-muted);">No stock items found.</td>';
+        tbody.appendChild(emptyRow);
+      }
+      const first = data.length ? startIndex + 1 : 0;
+      const last = Math.min(startIndex + stockEntriesPerPage, data.length);
+      document.getElementById('stockEntriesInfo').textContent = `Showing ${first} to ${last} of ${data.length} entries`;
+      renderStockPagination(totalPages);
+      
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderStockPagination(totalPages) {
+      const pagination = document.getElementById('stockPagination');
+      pagination.innerHTML = '';
+      const addButton = (label, page, disabled, ariaLabel) => {
+        const button = document.createElement('button');
+        button.className = `page-btn${page === currentStockPage ? ' active' : ''}`;
+        button.type = 'button';
+        button.textContent = label;
+        button.disabled = disabled;
+        if (ariaLabel) button.setAttribute('aria-label', ariaLabel);
+        if (!disabled) button.addEventListener('click', () => { currentStockPage = page; renderTable(filteredStock); });
+        pagination.appendChild(button);
+      };
+      addButton('<', Math.max(1, currentStockPage - 1), currentStockPage === 1, 'Previous page');
+      for (let page = 1; page <= totalPages; page++) addButton(String(page), page, false, '');
+      addButton('>', Math.min(totalPages, currentStockPage + 1), currentStockPage === totalPages, 'Next page');
+    }
+
+    // Search, category filter, export and navigation actions
+    function applyStockFilters() {
+      const query = document.getElementById('tableSearch').value.toLowerCase();
+      const category = document.getElementById('stockCategoryFilter').value;
+      const filtered = medicines.filter(m =>
+        (m.name.toLowerCase().includes(query) || m.generic.toLowerCase().includes(query) || m.batch.toLowerCase().includes(query)) &&
+        (category === 'Category' || m.category === category)
+      );
+      currentStockPage = 1;
+      renderTable(filtered);
+    }
+
+    document.getElementById('tableSearch').addEventListener('input', applyStockFilters);
+    document.getElementById('stockCategoryFilter').addEventListener('change', applyStockFilters);
+    document.getElementById('stockFilterBtn').addEventListener('click', () => document.getElementById('stockCategoryFilter').focus());
+    document.getElementById('stockEntriesPerPage').addEventListener('change', event => {
+      stockEntriesPerPage = Number(event.target.value);
+      currentStockPage = 1;
+      renderTable(filteredStock);
+    });
+    document.getElementById('stockTopSearch').addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        document.getElementById('tableSearch').value = event.currentTarget.value;
+        document.getElementById('stockCategoryFilter').value = 'Category';
+        applyStockFilters();
+        document.getElementById('tableSearch').focus();
+      }
+    });
+    document.getElementById('stockPrintBtn').addEventListener('click', () => window.print());
+    document.getElementById('stockAlertsBtn').addEventListener('click', () => { window.location.href = 'expiry-alerts.html'; });
+    document.getElementById('stockSettingsBtn').addEventListener('click', () => { window.location.href = 'medical-settings.html'; });
+    document.getElementById('stockUserBtn').addEventListener('click', () => { window.location.href = 'users.html'; });
+    document.getElementById('stockExportBtn').addEventListener('click', () => {
+      const csv = [['Medicine Name', 'Generic Name', 'Category', 'Batch No.', 'Expiry Date', 'MRP', 'Sale Price', 'Stock Qty', 'Stock Value', 'Status'], ...filteredStock.map(item => [item.name, item.generic, item.category, item.batch, item.expiry, item.mrp, item.sale, item.qty, item.value, item.status])]
+        .map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+      link.download = 'stock.csv';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+    document.getElementById('medicineTableBody').addEventListener('click', event => {
+      const action = event.target.closest('[data-action]');
+      if (!action) return;
+      const item = medicines.find(medicine => medicine.id === Number(action.dataset.id));
+      if (!item) return;
+      if (action.dataset.action === 'view') window.location.href = `medicine.html?stock=${item.id}`;
+      if (action.dataset.action === 'edit') window.location.href = `add-medicine.html?edit=${item.id}`;
+    });
+
+    // Donut Chart
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    if (window.Chart) new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['In Stock', 'Low Stock', 'Out of Stock'],
+        datasets: [{
+          data: [1102, 112, 42],
+          backgroundColor: ['#1d61e8', '#f59e0b', '#ef4444'],
+          borderWidth: 0,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        cutout: '75%',
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+    // Load initial table
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.__medicalStoreAccessDenied) return;
+      renderTable(medicines);
+    });
+  </script>
+  <script>
+    (function () {
+      if (!window.MedicalRBAC) return;
+      const route = { module: 'Stock', action: 'view' };
+      const currentUser = window.MedicalRBAC.getCurrentUser();
+      if (!currentUser) {
+        window.location.href = 'merged_medical_store.html';
+        return;
+      }
+      if (!window.MedicalRBAC.hasAccess(route.module, route.action, currentUser)) {
+        window.MedicalRBAC.showAccessDenied({
+          title: 'Access Denied',
+          message: 'You do not have permission to view stock details.'
+        });
+        return;
+      }
+      window.MedicalRBAC.hideUnauthorizedControls();
+    })();
+  </script>
+</body>
+</html>

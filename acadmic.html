@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Academics</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    background:#eef6ff;
+    color:#12345f;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:255px;
+    height:100vh;
+    background:linear-gradient(180deg,#061d3c,#052957);
+    color:white;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo-area{
+    height:105px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#f4b42e,#fff0a2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:29px;
+    color:#092750;
+}
+
+.logo-text h2{
+    font-family:Georgia,serif;
+    font-size:18px;
+    line-height:21px;
+}
+
+.logo-text p{
+    font-size:10px;
+    color:#d7e5f9;
+    margin-top:5px;
+}
+
+.menu{
+    padding:14px 10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#e5efff;
+    text-decoration:none;
+    padding:11px 14px;
+    margin:3px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.09);
+}
+
+.menu a.active{
+    background:linear-gradient(90deg,#0865d8,#147ee8);
+    color:white;
+    font-weight:600;
+}
+
+.menu-icon{
+    width:22px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-bottom{
+    padding:45px 22px 20px;
+}
+
+.quote{
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:20px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:68px;
+    background:white;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    gap:25px;
+    border-bottom:1px solid #dce9f7;
+}
+
+.hamburger{
+    font-size:25px;
+    color:#092e61;
+    cursor:pointer;
+}
+
+.search{
+    width:440px;
+    height:39px;
+    background:#edf5fd;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    color:#7590b1;
+}
+
+.search input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding-left:10px;
+}
+
+.top-space{
+    flex:1;
+}
+
+.notification{
+    position:relative;
+    font-size:21px;
+}
+
+.notification span{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:#e7292f;
+    color:white;
+    font-size:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.profile-img{
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    background:#dce9f7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.profile-info small{
+    color:#7890ad;
+    font-size:9px;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:18px 16px 25px;
+}
+
+.page-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 295px;
+    gap:18px;
+}
+
+/* ================= BANNER ================= */
+
+.banner{
+    height:100px;
+    border-radius:10px;
+    background:
+    linear-gradient(90deg,rgba(4,35,73,.96),rgba(7,59,103,.7)),
+    linear-gradient(135deg,#3d647c,#98b79e);
+    display:flex;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+.banner-icon{
+    width:56px;
+    height:56px;
+    border-radius:13px;
+    background:#e8f3ff;
+    color:#0871dc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    margin-right:15px;
+}
+
+.banner h1{
+    font-family:Georgia,serif;
+    font-size:25px;
+}
+
+.banner p{
+    font-size:12px;
+    margin-top:5px;
+}
+
+.banner-quote{
+    margin-left:auto;
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-size:13px;
+    text-align:center;
+}
+
+/* ================= STAT CARDS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:11px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+}
+
+.stat-card{
+    min-height:115px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.stat-icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.blue{
+    background:#e0f0ff;
+    color:#1478e5;
+}
+
+.green{
+    background:#dcf7eb;
+    color:#07986b;
+}
+
+.orange{
+    background:#fff0d8;
+    color:#dc8c0a;
+}
+
+.purple{
+    background:#eee5ff;
+    color:#6438d5;
+}
+
+.stat-info{
+    flex:1;
+}
+
+.stat-info p{
+    font-size:11px;
+    color:#174680;
+}
+
+.stat-info h2{
+    font-size:23px;
+    color:#092e68;
+    margin:4px 0;
+}
+
+.stat-info small{
+    font-size:9px;
+    color:#617e9f;
+}
+
+/* ================= ACADEMIC CARDS ================= */
+
+.academic-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:15px;
+}
+
+.panel{
+    padding:17px;
+}
+
+.panel-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.panel-title h3{
+    font-size:14px;
+    color:#0b2e62;
+}
+
+.panel-title a{
+    color:#0872df;
+    text-decoration:none;
+    font-size:9px;
+}
+
+/* SUBJECT LIST */
+
+.subject{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.subject:last-child{
+    border-bottom:none;
+}
+
+.subject-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:#e7f2ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+}
+
+.subject-info{
+    flex:1;
+}
+
+.subject-info strong{
+    display:block;
+    font-size:11px;
+    color:#244e80;
+}
+
+.subject-info small{
+    font-size:9px;
+    color:#7890ad;
+}
+
+.subject-status{
+    padding:5px 9px;
+    border-radius:15px;
+    font-size:8px;
+    background:#d9f5eb;
+    color:#078e68;
+}
+
+/* PERFORMANCE */
+
+.performance{
+    margin-bottom:14px;
+}
+
+.performance-head{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    margin-bottom:6px;
+}
+
+.performance-head strong{
+    color:#123e73;
+}
+
+.progress{
+    width:100%;
+    height:9px;
+    border-radius:20px;
+    background:#e7eff7;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    border-radius:20px;
+}
+
+.fill-blue{
+    width:88%;
+    background:#1679dc;
+}
+
+.fill-green{
+    width:94%;
+    background:#159b74;
+}
+
+.fill-orange{
+    width:81%;
+    background:#e39a22;
+}
+
+.fill-purple{
+    width:90%;
+    background:#7040d2;
+}
+
+/* ================= TIMETABLE ================= */
+
+.timetable{
+    margin-top:14px;
+    overflow:hidden;
+}
+
+.table-heading{
+    padding:15px 17px;
+    border-bottom:1px solid #e2edf7;
+    display:flex;
+    align-items:center;
+}
+
+.table-heading h3{
+    font-size:14px;
+    margin-right:auto;
+}
+
+.select{
+    height:32px;
+    border:1px solid #d9e7f5;
+    border-radius:7px;
+    padding:0 10px;
+    color:#385a85;
+    outline:none;
+    font-size:10px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:10px;
+}
+
+th{
+    background:#f7fbff;
+    padding:11px 8px;
+    text-align:left;
+    color:#173f72;
+    font-size:9px;
+}
+
+td{
+    padding:10px 8px;
+    border-top:1px solid #edf3f9;
+    color:#345b89;
+}
+
+.subject-badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:6px;
+    background:#e9f3ff;
+    color:#0872df;
+    font-weight:600;
+}
+
+/* ================= RIGHT SIDEBAR ================= */
+
+.right{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.right-card{
+    background:white;
+    border:1px solid #dfebf8;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(37,91,145,.06);
+    padding:15px;
+}
+
+.right-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:700;
+    color:#0b2e62;
+    margin-bottom:13px;
+}
+
+/* QUICK ACTIONS */
+
+.quick button{
+    width:100%;
+    height:38px;
+    border-radius:7px;
+    border:1px solid #dce9f5;
+    margin-bottom:9px;
+    text-align:left;
+    padding:0 12px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:600;
+}
+
+.blue-btn{
+    background:#328be5;
+    color:white;
+}
+
+.green-btn{
+    background:#d9f5ee;
+    color:#078d6a;
+}
+
+.purple-btn{
+    background:#eee6ff;
+    color:#6033c6;
+}
+
+.orange-btn{
+    background:#fff0dc;
+    color:#b56d08;
+}
+
+/* ACADEMIC CALENDAR */
+
+.calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+    text-align:center;
+    font-size:9px;
+}
+
+.calendar div{
+    padding:5px 0;
+}
+
+.day-name{
+    color:#7890ad;
+    font-weight:bold;
+}
+
+.today{
+    background:#0872df;
+    color:white;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.event-day{
+    background:#e1f2ff;
+    color:#0872df;
+    border-radius:5px;
+}
+
+/* UPCOMING */
+
+.event{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.event-date{
+    width:39px;
+    height:39px;
+    border-radius:8px;
+    background:#e7f2ff;
+    color:#0872df;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.event-date strong{
+    font-size:13px;
+}
+
+.event-date small{
+    font-size:7px;
+}
+
+.event-info{
+    flex:1;
+}
+
+.event-info strong{
+    display:block;
+    font-size:10px;
+}
+
+.event-info small{
+    color:#7890ad;
+    font-size:8px;
+}
+
+/* TEACHER */
+
+.teacher{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid #edf3f9;
+}
+
+.teacher-photo{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:#e5effa;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.teacher-info{
+    flex:1;
+}
+
+.teacher-info strong{
+    display:block;
+    font-size:10px;
+}
+
+.teacher-info small{
+    font-size:8px;
+    color:#7890ad;
+}
+
+.teacher-subject{
+    font-size:9px;
+    color:#0872df;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#082f68;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    font-size:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+    display:none;
+    z-index:9999;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .page-grid{
+        grid-template-columns:1fr;
+    }
+
+    .right{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        left:-255px;
+        transition:.3s;
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .search{
+        width:220px;
+    }
+
+    .stats,
+    .academic-grid,
+    .right{
+        grid-template-columns:1fr;
+    }
+
+    .banner-quote{
+        display:none;
+    }
+
+    .timetable{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:750px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo-area">
+
+        <div class="logo">📖</div>
+
+        <div class="logo-text">
+            <h2>Al-Hidayah<br>Public School</h2>
+            <p>Learn • Grow • Succeed</p>
+        </div>
+
+    </div>
+
+    <nav class="menu">
+
+        <a href="#"><span class="menu-icon">⌂</span>Dashboard</a>
+        <a href="#"><span class="menu-icon">👥</span>Students</a>
+        <a href="#"><span class="menu-icon">👨‍🏫</span>Teachers</a>
+        <a href="#"><span class="menu-icon">📖</span>Classes</a>
+        <a href="#"><span class="menu-icon">☑</span>Attendance</a>
+        <a href="#"><span class="menu-icon">💵</span>Fees & Accounts</a>
+        <a href="#"><span class="menu-icon">📋</span>Exams & Results</a>
+
+        <a href="#" class="active">
+            <span class="menu-icon">🎓</span>
+            Academics
+        </a>
+
+        <a href="#"><span class="menu-icon">🗓</span>Timetable</a>
+        <a href="#"><span class="menu-icon">📚</span>Library</a>
+        <a href="#"><span class="menu-icon">🚌</span>Transport</a>
+        <a href="#"><span class="menu-icon">♥</span>Health</a>
+        <a href="#"><span class="menu-icon">👨‍👩‍👧</span>Parents</a>
+        <a href="#"><span class="menu-icon">💬</span>Communication</a>
+        <a href="#"><span class="menu-icon">📑</span>Reports</a>
+        <a href="#"><span class="menu-icon">⚙</span>Settings</a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="quote">
+            Discipline<br>
+            Builds<br>
+            Bright Futures
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="hamburger" id="hamburger">☰</div>
+
+    <div class="search">
+        🔍
+        <input
+            type="text"
+            id="search"
+            placeholder="Search subjects, teachers, classes..."
+        >
+    </div>
+
+    <div class="top-space"></div>
+
+    <div class="notification">
+        🔔
+        <span>3</span>
+    </div>
+
+    <div class="profile">
+
+        <div class="profile-img">👨🏻</div>
+
+        <div class="profile-info">
+            <strong>Admin</strong>
+            <small>Administrator</small>
+        </div>
+
+        <span>⌄</span>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<div class="page-grid">
+
+<section>
+
+<!-- ================= BANNER ================= -->
+
+<div class="banner">
+
+    <div class="banner-icon">🎓</div>
+
+    <div>
+        <h1>Academics</h1>
+        <p>
+            Manage subjects, curriculum, academic activities and performance.
+        </p>
+    </div>
+
+    <div class="banner-quote">
+        “Education is the key<br>
+        to a brighter future”
+    </div>
+
+</div>
+
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+    <div class="card stat-card">
+
+        <div class="stat-icon blue">📚</div>
+
+        <div class="stat-info">
+            <p>Total Subjects</p>
+            <h2>42</h2>
+            <small>Across all classes</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon green">👨‍🏫</div>
+
+        <div class="stat-info">
+            <p>Subject Teachers</p>
+            <h2>56</h2>
+            <small>Academic staff</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon orange">📖</div>
+
+        <div class="stat-info">
+            <p>Active Classes</p>
+            <h2>24</h2>
+            <small>Current session</small>
+        </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+        <div class="stat-icon purple">📊</div>
+
+        <div class="stat-info">
+            <p>Academic Progress</p>
+            <h2>91%</h2>
+            <small>Overall progress</small>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ACADEMIC PANELS ================= -->
+
+<div class="academic-grid">
+
+
+<!-- SUBJECTS -->
+
+<div class="card panel">
+
+    <div class="panel-title">
+
+        <h3>📚 Core Subjects</h3>
+
+        <a href="#" id="viewSubjects">
+            View All →
+        </a>
+
+    </div>
+
+
+    <div class="subject">
+
+        <div class="subject-icon">📐</div>
+
+        <div class="subject-info">
+            <strong>Mathematics</strong>
+            <small>Classes 6A - 12A • 7 Teachers</small>
+        </div>
+
+        <span class="subject-status">Active</span>
+
+    </div>
+
+
+    <div class="subject">
+
+        <div class="subject-icon">🔬</div>
+
+        <div class="subject-info">
+            <strong>Science</strong>
+            <small>Classes 6A - 10A • 8 Teachers</small>
+        </div>
+
+        <span class="subject-status">Active</span>
+
+    </div>
+
+
+    <div class="subject">
+
+        <div class="subject-icon">📖</div>
+
+        <div class="subject-info">
+            <strong>English</strong>
+            <small>Classes 6A - 12A • 9 Teachers</small>
+        </div>
+
+        <span class="subject-status">Active</span>
+
+    </div>
+
+
+    <div class="subject">
+
+        <div class="subject-icon">💻</div>
+
+        <div class="subject-info">
+            <strong>Computer Science</strong>
+            <small>Classes 9A - 12A • 5 Teachers</small>
+        </div>
+
+        <span class="subject-status">Active</span>
+
+    </div>
+
+
+    <div class="subject">
+
+        <div class="subject-icon">🌍</div>
+
+        <div class="subject-info">
+            <strong>Social Studies</strong>
+            <small>Classes 6A - 8A • 4 Teachers</small>
+        </div>
+
+        <span class="subject-status">Active</span>
+
+    </div>
+
+</div>
+
+
+<!-- ACADEMIC PERFORMANCE -->
+
+<div class="card panel">
+
+    <div class="panel-title">
+
+        <h3>📊 Academic Performance</h3>
+
+        <a href="#" id="performanceReport">
+            View Report →
+        </a>
+
+    </div>
+
+
+    <div class="performance">
+
+        <div class="performance-head">
+            <span>Mathematics</span>
+            <strong>88%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill fill-blue"></div>
+        </div>
+
+    </div>
+
+
+    <div class="performance">
+
+        <div class="performance-head">
+            <span>English</span>
+            <strong>94%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill fill-green"></div>
+        </div>
+
+    </div>
+
+
+    <div class="performance">
+
+        <div class="performance-head">
+            <span>Science</span>
+            <strong>81%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill fill-orange"></div>
+        </div>
+
+    </div>
+
+
+    <div class="performance">
+
+        <div class="performance-head">
+            <span>Computer Science</span>
+            <strong>90%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill fill-purple"></div>
+        </div>
+
+    </div>
+
+
+    <div class="performance">
+
+        <div class="performance-head">
+            <span>Social Studies</span>
+            <strong>86%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill fill-blue"></div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= TIMETABLE ================= -->
+
+<div class="card timetable">
+
+    <div class="table-heading">
+
+        <h3>🗓 Today's Academic Schedule</h3>
+
+        <select class="select" id="classSelect">
+
+            <option>Class 6A</option>
+            <option>Class 7A</option>
+            <option>Class 8A</option>
+            <option>Class 9A</option>
+            <option>Class 10A</option>
+            <option>Class 11A</option>
+            <option>Class 12A</option>
+
+        </select>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Time</th>
+                <th>Subject</th>
+                <th>Teacher</th>
+                <th>Room</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+                <td>08:00 - 08:45</td>
+
+                <td>
+                    <span class="subject-badge">
+                        Mathematics
+                    </span>
+                </td>
+
+                <td>Mr. Ahmed</td>
+                <td>Room 101</td>
+                <td>Completed</td>
+            </tr>
+
+
+            <tr>
+                <td>08:45 - 09:30</td>
+
+                <td>
+                    <span class="subject-badge">
+                        English
+                    </span>
+                </td>
+
+                <td>Ms. Sana</td>
+                <td>Room 101</td>
+                <td>Completed</td>
+            </tr>
+
+
+            <tr>
+                <td>09:45 - 10:30</td>
+
+                <td>
+                    <span class="subject-badge">
+                        Science
+                    </span>
+                </td>
+
+                <td>Mr. Bilal</td>
+                <td>Lab 02</td>
+                <td>Ongoing</td>
+            </tr>
+
+
+            <tr>
+                <td>10:30 - 11:15</td>
+
+                <td>
+                    <span class="subject-badge">
+                        Computer
+                    </span>
+                </td>
+
+                <td>Mr. Hamza</td>
+                <td>Lab 01</td>
+                <td>Upcoming</td>
+            </tr>
+
+
+            <tr>
+                <td>11:15 - 12:00</td>
+
+                <td>
+                    <span class="subject-badge">
+                        Social Studies
+                    </span>
+                </td>
+
+                <td>Ms. Ayesha</td>
+                <td>Room 101</td>
+                <td>Upcoming</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</section>
+
+
+<!-- ================= RIGHT SIDE ================= -->
+
+<aside class="right">
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="right-card quick">
+
+    <div class="right-title">
+        ⚡ Quick Actions
+    </div>
+
+    <button class="blue-btn" id="addSubject">
+        ➕ &nbsp; Add New Subject
+    </button>
+
+    <button class="green-btn" id="curriculum">
+        📚 &nbsp; Manage Curriculum
+    </button>
+
+    <button class="purple-btn" id="academicReport">
+        📊 &nbsp; Academic Report
+    </button>
+
+    <button class="orange-btn" id="lessonPlans">
+        📝 &nbsp; Lesson Plans
+    </button>
+
+</div>
+
+
+<!-- ACADEMIC CALENDAR -->
+
+<div class="right-card">
+
+    <div class="right-title">
+        📅 Academic Calendar
+    </div>
+
+
+    <div class="calendar">
+
+        <div class="day-name">M</div>
+        <div class="day-name">T</div>
+        <div class="day-name">W</div>
+        <div class="day-name">T</div>
+        <div class="day-name">F</div>
+        <div class="day-name">S</div>
+        <div class="day-name">S</div>
+
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+        <div>11</div>
+        <div class="event-day">12</div>
+        <div>13</div>
+        <div>14</div>
+
+        <div>15</div>
+        <div class="today">16</div>
+        <div>17</div>
+        <div>18</div>
+        <div class="event-day">19</div>
+        <div>20</div>
+        <div>21</div>
+
+        <div>22</div>
+        <div>23</div>
+        <div>24</div>
+        <div class="event-day">25</div>
+        <div>26</div>
+        <div>27</div>
+        <div>28</div>
+
+        <div>29</div>
+        <div>30</div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+
+    </div>
+
+</div>
+
+
+<!-- UPCOMING ACADEMIC EVENTS -->
+
+<div class="right-card">
+
+    <div class="right-title">
+        📌 Upcoming Academic Events
+    </div>
+
+
+    <div class="event">
+
+        <div class="event-date">
+            <strong>19</strong>
+            <small>SEP</small>
+        </div>
+
+        <div class="event-info">
+            <strong>Science Exhibition</strong>
+            <small>School Auditorium</small>
+        </div>
+
+    </div>
+
+
+    <div class="event">
+
+        <div class="event-date">
+            <strong>22</strong>
+            <small>SEP</small>
+        </div>
+
+        <div class="event-info">
+            <strong>Math Competition</strong>
+            <small>Hall A • 10:00 AM</small>
+        </div>
+
+    </div>
+
+
+    <div class="event">
+
+        <div class="event-date">
+            <strong>25</strong>
+            <small>SEP</small>
+        </div>
+
+        <div class="event-info">
+            <strong>Parent Teacher Meeting</strong>
+            <small>School Campus</small>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOP TEACHERS -->
+
+<div class="right-card">
+
+    <div class="right-title">
+        👨‍🏫 Academic Teachers
+    </div>
+
+
+    <div class="teacher">
+
+        <div class="teacher-photo">👨🏻</div>
+
+        <div class="teacher-info">
+            <strong>Mr. Ahmed</strong>
+            <small>Senior Teacher</small>
+        </div>
+
+        <div class="teacher-subject">
+            Math
+        </div>
+
+    </div>
+
+
+    <div class="teacher">
+
+        <div class="teacher-photo">👩🏻</div>
+
+        <div class="teacher-info">
+            <strong>Ms. Sana</strong>
+            <small>English Teacher</small>
+        </div>
+
+        <div class="teacher-subject">
+            English
+        </div>
+
+    </div>
+
+
+    <div class="teacher">
+
+        <div class="teacher-photo">👨🏻</div>
+
+        <div class="teacher-info">
+            <strong>Mr. Bilal</strong>
+            <small>Science Teacher</small>
+        </div>
+
+        <div class="teacher-subject">
+            Science
+        </div>
+
+    </div>
+
+
+    <div class="teacher">
+
+        <div class="teacher-photo">👨🏻</div>
+
+        <div class="teacher-info">
+            <strong>Mr. Hamza</strong>
+            <small>Computer Teacher</small>
+        </div>
+
+        <div class="teacher-subject">
+            CS
+        </div>
+
+    </div>
+
+</div>
+
+</aside>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================================
+   TOAST FUNCTION
+========================================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.style.display = "block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(function(){
+
+            toast.style.display = "none";
+
+        },2500);
+}
+
+
+/* =========================================
+   MOBILE SIDEBAR
+========================================= */
+
+document
+.getElementById("hamburger")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("show");
+
+});
+
+
+/* =========================================
+   GLOBAL SEARCH
+========================================= */
+
+document
+.getElementById("search")
+.addEventListener("input",function(){
+
+    const value =
+        this.value.toLowerCase();
+
+    const subjects =
+        document.querySelectorAll(".subject");
+
+    subjects.forEach(function(item){
+
+        const text =
+            item.innerText.toLowerCase();
+
+        if(text.includes(value)){
+            item.style.display = "flex";
+        }
+        else{
+            item.style.display = "none";
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   CLASS SELECTION
+========================================= */
+
+document
+.getElementById("classSelect")
+.addEventListener("change",function(){
+
+    showToast(
+        "Academic schedule updated for " +
+        this.value
+    );
+
+});
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+document
+.getElementById("addSubject")
+.addEventListener("click",function(){
+
+    showToast(
+        "Add New Subject form opened."
+    );
+
+});
+
+
+document
+.getElementById("curriculum")
+.addEventListener("click",function(){
+
+    showToast(
+        "Curriculum management opened."
+    );
+
+});
+
+
+document
+.getElementById("academicReport")
+.addEventListener("click",function(){
+
+    showToast(
+        "Academic report generated."
+    );
+
+});
+
+
+document
+.getElementById("lessonPlans")
+.addEventListener("click",function(){
+
+    showToast(
+        "Lesson Plans section opened."
+    );
+
+});
+
+
+/* =========================================
+   VIEW SUBJECTS
+========================================= */
+
+document
+.getElementById("viewSubjects")
+.addEventListener("click",function(e){
+
+    e.preventDefault();
+
+    showToast(
+        "Showing all academic subjects."
+    );
+
+});
+
+
+/* =========================================
+   PERFORMANCE REPORT
+========================================= */
+
+document
+.getElementById("performanceReport")
+.addEventListener("click",function(e){
+
+    e.preventDefault();
+
+    showToast(
+        "Academic performance report opened."
+    );
+
+});
+
+
+/* =========================================
+   SIDEBAR NAVIGATION
+========================================= */
+
+document
+.querySelectorAll(".menu a")
+.forEach(function(link){
+
+    link.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+        document
+        .querySelectorAll(".menu a")
+        .forEach(function(item){
+
+            item.classList.remove("active");
+
+        });
+
+        this.classList.add("active");
+
+        const section =
+            this.innerText.trim();
+
+        if(section !== "Academics"){
+
+            showToast(
+                section +
+                " section selected."
+            );
+
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

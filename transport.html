@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Transport</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#0b2a5b;
+    color:white;
+    padding:20px 15px;
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 25px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    background:#2563eb;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    font-size:11px;
+    color:#b9c7dd;
+}
+
+.menu-title{
+    font-size:11px;
+    color:#8fa5c5;
+    margin:25px 10px 10px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    color:#c9d5e8;
+    text-decoration:none;
+    padding:12px 13px;
+    margin:4px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    background:#2563eb;
+    color:white;
+}
+
+.menu a span{
+    width:22px;
+    text-align:center;
+}
+
+/* MAIN */
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+    height:70px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    border-bottom:1px solid #e5eaf1;
+}
+
+.search{
+    width:330px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    padding:11px 15px 11px 40px;
+    border:1px solid #dbe3ef;
+    border-radius:8px;
+    outline:none;
+    font-size:13px;
+}
+
+.search-icon{
+    position:absolute;
+    left:14px;
+    top:11px;
+    color:#64748b;
+}
+
+.top-right{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.notification{
+    position:relative;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.notification b{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+    background:#ef4444;
+    color:white;
+    font-size:9px;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profile-img{
+    width:38px;
+    height:38px;
+    background:#dbeafe;
+    color:#2563eb;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.profile small{
+    color:#64748b;
+    font-size:11px;
+}
+
+/* CONTENT */
+.content{
+    padding:30px;
+}
+
+/* BANNER */
+.banner{
+    background:linear-gradient(135deg,#0b2a5b,#2563eb);
+    color:white;
+    padding:28px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.banner h1{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+.banner p{
+    color:#dbeafe;
+    font-size:13px;
+}
+
+.banner-icon{
+    width:75px;
+    height:75px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    border:1px solid #e5eaf1;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-info p{
+    color:#64748b;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.stat-info h2{
+    font-size:25px;
+}
+
+.stat-icon{
+    width:48px;
+    height:48px;
+    border-radius:10px;
+    background:#eff6ff;
+    color:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.stat-card:nth-child(2) .stat-icon{
+    background:#ecfdf5;
+    color:#16a34a;
+}
+
+.stat-card:nth-child(3) .stat-icon{
+    background:#fff7ed;
+    color:#ea580c;
+}
+
+.stat-card:nth-child(4) .stat-icon{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+/* GRID */
+.transport-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:22px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border:1px solid #e5eaf1;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h3{
+    font-size:17px;
+}
+
+.card-header p{
+    color:#64748b;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* BUTTON */
+.btn{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:12px;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.btn.green{
+    background:#16a34a;
+}
+
+.btn.orange{
+    background:#ea580c;
+}
+
+.btn.red{
+    background:#dc2626;
+}
+
+/* TOOLBAR */
+.toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.toolbar input,
+.toolbar select{
+    padding:10px 12px;
+    border:1px solid #dbe3ef;
+    border-radius:7px;
+    outline:none;
+    font-size:12px;
+}
+
+.toolbar input{
+    flex:1;
+}
+
+/* TABLE */
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    background:#f8fafc;
+    color:#64748b;
+    font-size:11px;
+    padding:13px 10px;
+    white-space:nowrap;
+}
+
+td{
+    padding:14px 10px;
+    border-bottom:1px solid #edf1f5;
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.vehicle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.vehicle-icon{
+    width:35px;
+    height:35px;
+    border-radius:7px;
+    background:#eff6ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+}
+
+.status{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.status.active{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status.maintenance{
+    background:#ffedd5;
+    color:#c2410c;
+}
+
+.status.inactive{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+/* ACTION */
+.action-btn{
+    border:none;
+    background:#eff6ff;
+    color:#2563eb;
+    padding:7px 9px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:11px;
+    margin-right:3px;
+}
+
+.action-btn:hover{
+    background:#dbeafe;
+}
+
+/* ROUTES */
+.route{
+    display:flex;
+    gap:13px;
+    padding:14px 0;
+    border-bottom:1px solid #edf1f5;
+}
+
+.route:last-child{
+    border-bottom:none;
+}
+
+.route-icon{
+    width:38px;
+    height:38px;
+    background:#eff6ff;
+    color:#2563eb;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.route h4{
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.route p{
+    font-size:11px;
+    color:#64748b;
+}
+
+/* DRIVER */
+.driver{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid #edf1f5;
+}
+
+.driver:last-child{
+    border-bottom:none;
+}
+
+.driver-img{
+    width:38px;
+    height:38px;
+    background:#dbeafe;
+    color:#2563eb;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.driver h4{
+    font-size:12px;
+}
+
+.driver p{
+    color:#64748b;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.driver-status{
+    margin-left:auto;
+    font-size:10px;
+    color:#16a34a;
+}
+
+/* QUICK ACTIONS */
+.quick-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.quick{
+    padding:15px 10px;
+    border:1px solid #e5eaf1;
+    border-radius:8px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.quick:hover{
+    border-color:#2563eb;
+    background:#f8fbff;
+}
+
+.quick div{
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+.quick span{
+    font-size:11px;
+    color:#475569;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-box{
+    width:450px;
+    max-width:90%;
+    background:white;
+    border-radius:12px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.close{
+    cursor:pointer;
+    font-size:22px;
+    color:#64748b;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:11px;
+    color:#475569;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:10px;
+    border:1px solid #dbe3ef;
+    border-radius:7px;
+    outline:none;
+}
+
+.form-buttons{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#0f172a;
+    color:white;
+    padding:13px 18px;
+    border-radius:8px;
+    font-size:12px;
+    display:none;
+    z-index:2000;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .transport-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span:last-child{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+        padding:5px 0 20px;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .banner{
+        padding:20px;
+    }
+
+    .banner-icon{
+        display:none;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .toolbar input{
+        min-width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">🏫</div>
+        <div>
+            <h2>Al-Hidayah</h2>
+            <span>Public School</span>
+        </div>
+    </div>
+
+    <div class="menu-title">Main Menu</div>
+
+    <div class="menu">
+        <a href="#"><span>📊</span><span>Dashboard</span></a>
+        <a href="#"><span>👨‍🎓</span><span>Students</span></a>
+        <a href="#"><span>👨‍🏫</span><span>Teachers</span></a>
+        <a href="#"><span>🏫</span><span>Classes</span></a>
+        <a href="#"><span>📝</span><span>Attendance</span></a>
+        <a href="#"><span>💰</span><span>Fees & Accounts</span></a>
+        <a href="#"><span>📚</span><span>Exams & Results</span></a>
+        <a href="#"><span>📖</span><span>Academics</span></a>
+        <a href="#"><span>🕐</span><span>Timetable</span></a>
+        <a href="#"><span>📚</span><span>Library</span></a>
+        <a class="active" href="#"><span>🚌</span><span>Transport</span></a>
+        <a href="#"><span>❤️</span><span>Health</span></a>
+        <a href="#"><span>👪</span><span>Parents</span></a>
+        <a href="#"><span>💬</span><span>Communication</span></a>
+        <a href="#"><span>📈</span><span>Reports</span></a>
+    </div>
+
+    <div class="menu-title">System</div>
+
+    <div class="menu">
+        <a href="#"><span>⚙️</span><span>Settings</span></a>
+        <a href="#"><span>🚪</span><span>Logout</span></a>
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div class="search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="globalSearch" placeholder="Search transport...">
+        </div>
+
+        <div class="top-right">
+
+            <div class="notification">
+                🔔
+                <b>4</b>
+            </div>
+
+            <div class="profile">
+                <div class="profile-img">AM</div>
+                <div>
+                    <strong style="font-size:13px;">Admin</strong>
+                    <br>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="content">
+
+        <!-- BANNER -->
+        <div class="banner">
+            <div>
+                <h1>Transport Management</h1>
+                <p>Manage school buses, routes, drivers and student transportation.</p>
+            </div>
+
+            <div class="banner-icon">
+                🚌
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <p>Total Vehicles</p>
+                    <h2>18</h2>
+                </div>
+                <div class="stat-icon">🚌</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <p>Active Vehicles</p>
+                    <h2>15</h2>
+                </div>
+                <div class="stat-icon">✓</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <p>Total Routes</p>
+                    <h2>12</h2>
+                </div>
+                <div class="stat-icon">🛣️</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <p>Students Using Transport</p>
+                    <h2>386</h2>
+                </div>
+                <div class="stat-icon">👨‍🎓</div>
+            </div>
+
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="transport-grid">
+
+            <!-- LEFT -->
+            <div>
+
+                <!-- VEHICLES -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>School Vehicles</h3>
+                            <p>Manage all school transport vehicles</p>
+                        </div>
+
+                        <button class="btn" onclick="openModal()">
+                            + Add Vehicle
+                        </button>
+                    </div>
+
+                    <div class="toolbar">
+                        <input type="text" id="vehicleSearch" placeholder="Search vehicle, driver or route...">
+
+                        <select id="vehicleStatus">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="table-container">
+
+                        <table id="vehicleTable">
+
+                            <thead>
+                                <tr>
+                                    <th>VEHICLE</th>
+                                    <th>NUMBER</th>
+                                    <th>DRIVER</th>
+                                    <th>ROUTE</th>
+                                    <th>STUDENTS</th>
+                                    <th>STATUS</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr data-status="active">
+                                    <td>
+                                        <div class="vehicle">
+                                            <div class="vehicle-icon">🚌</div>
+                                            <strong>School Bus</strong>
+                                        </div>
+                                    </td>
+                                    <td>LEA-1024</td>
+                                    <td>Ahmed Khan</td>
+                                    <td>Route A</td>
+                                    <td>42</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn" onclick="viewVehicle('LEA-1024')">View</button>
+                                        <button class="action-btn" onclick="showToast('Vehicle updated successfully')">Edit</button>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="active">
+                                    <td>
+                                        <div class="vehicle">
+                                            <div class="vehicle-icon">🚌</div>
+                                            <strong>School Bus</strong>
+                                        </div>
+                                    </td>
+                                    <td>LEA-2048</td>
+                                    <td>Bilal Ahmad</td>
+                                    <td>Route B</td>
+                                    <td>36</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn" onclick="viewVehicle('LEA-2048')">View</button>
+                                        <button class="action-btn" onclick="showToast('Vehicle updated successfully')">Edit</button>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="maintenance">
+                                    <td>
+                                        <div class="vehicle">
+                                            <div class="vehicle-icon">🚐</div>
+                                            <strong>Van</strong>
+                                        </div>
+                                    </td>
+                                    <td>LEA-3075</td>
+                                    <td>Usman Ali</td>
+                                    <td>Route C</td>
+                                    <td>18</td>
+                                    <td><span class="status maintenance">Maintenance</span></td>
+                                    <td>
+                                        <button class="action-btn" onclick="viewVehicle('LEA-3075')">View</button>
+                                        <button class="action-btn" onclick="showToast('Maintenance record opened')">Edit</button>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="active">
+                                    <td>
+                                        <div class="vehicle">
+                                            <div class="vehicle-icon">🚌</div>
+                                            <strong>School Bus</strong>
+                                        </div>
+                                    </td>
+                                    <td>LEA-4112</td>
+                                    <td>Imran Raza</td>
+                                    <td>Route D</td>
+                                    <td>39</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn" onclick="viewVehicle('LEA-4112')">View</button>
+                                        <button class="action-btn" onclick="showToast('Vehicle updated successfully')">Edit</button>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="inactive">
+                                    <td>
+                                        <div class="vehicle">
+                                            <div class="vehicle-icon">🚐</div>
+                                            <strong>Van</strong>
+                                        </div>
+                                    </td>
+                                    <td>LEA-5098</td>
+                                    <td>—</td>
+                                    <td>Route E</td>
+                                    <td>0</td>
+                                    <td><span class="status inactive">Inactive</span></td>
+                                    <td>
+                                        <button class="action-btn" onclick="viewVehicle('LEA-5098')">View</button>
+                                        <button class="action-btn" onclick="showToast('Vehicle activated')">Edit</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- ROUTES -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Transport Routes</h3>
+                            <p>Current school bus routes</p>
+                        </div>
+
+                        <button class="btn" onclick="showToast('Add Route form opened')">
+                            + Add Route
+                        </button>
+                    </div>
+
+                    <div class="route">
+                        <div class="route-icon">🛣️</div>
+                        <div>
+                            <h4>Route A — City Center</h4>
+                            <p>Model Town → Satellite Town → School • 42 Students</p>
+                        </div>
+                    </div>
+
+                    <div class="route">
+                        <div class="route-icon">🛣️</div>
+                        <div>
+                            <h4>Route B — Peoples Colony</h4>
+                            <p>Peoples Colony → Main Road → School • 36 Students</p>
+                        </div>
+                    </div>
+
+                    <div class="route">
+                        <div class="route-icon">🛣️</div>
+                        <div>
+                            <h4>Route C — Wapda Town</h4>
+                            <p>Wapda Town → Civil Lines → School • 18 Students</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Quick Actions</h3>
+                            <p>Common transport tasks</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+
+                        <div class="quick" onclick="openModal()">
+                            <div>🚌</div>
+                            <span>Add Vehicle</span>
+                        </div>
+
+                        <div class="quick" onclick="showToast('Route management opened')">
+                            <div>🛣️</div>
+                            <span>Manage Routes</span>
+                        </div>
+
+                        <div class="quick" onclick="showToast('Driver list opened')">
+                            <div>👨‍✈️</div>
+                            <span>Drivers</span>
+                        </div>
+
+                        <div class="quick" onclick="showToast('Transport report generated')">
+                            <div>📊</div>
+                            <span>Reports</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- DRIVERS -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Drivers</h3>
+                            <p>Active transport staff</p>
+                        </div>
+
+                        <button class="btn" onclick="showToast('Driver management opened')">
+                            View All
+                        </button>
+                    </div>
+
+                    <div class="driver">
+                        <div class="driver-img">AK</div>
+                        <div>
+                            <h4>Ahmed Khan</h4>
+                            <p>Route A • LEA-1024</p>
+                        </div>
+                        <div class="driver-status">● Active</div>
+                    </div>
+
+                    <div class="driver">
+                        <div class="driver-img">BA</div>
+                        <div>
+                            <h4>Bilal Ahmad</h4>
+                            <p>Route B • LEA-2048</p>
+                        </div>
+                        <div class="driver-status">● Active</div>
+                    </div>
+
+                    <div class="driver">
+                        <div class="driver-img">IR</div>
+                        <div>
+                            <h4>Imran Raza</h4>
+                            <p>Route D • LEA-4112</p>
+                        </div>
+                        <div class="driver-status">● Active</div>
+                    </div>
+
+                </div>
+
+                <!-- TRANSPORT SUMMARY -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Transport Summary</h3>
+                            <p>Today's overview</p>
+                        </div>
+                    </div>
+
+                    <p style="font-size:12px;margin-bottom:12px;">
+                        Morning Trips
+                        <strong style="float:right;">12 / 12</strong>
+                    </p>
+
+                    <div style="height:7px;background:#e5e7eb;border-radius:10px;margin-bottom:18px;">
+                        <div style="width:100%;height:100%;background:#2563eb;border-radius:10px;"></div>
+                    </div>
+
+                    <p style="font-size:12px;margin-bottom:12px;">
+                        Students Picked
+                        <strong style="float:right;">368 / 386</strong>
+                    </p>
+
+                    <div style="height:7px;background:#e5e7eb;border-radius:10px;margin-bottom:18px;">
+                        <div style="width:95%;height:100%;background:#16a34a;border-radius:10px;"></div>
+                    </div>
+
+                    <p style="font-size:12px;margin-bottom:12px;">
+                        Vehicles Available
+                        <strong style="float:right;">15 / 18</strong>
+                    </p>
+
+                    <div style="height:7px;background:#e5e7eb;border-radius:10px;">
+                        <div style="width:83%;height:100%;background:#ea580c;border-radius:10px;"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- ADD VEHICLE MODAL -->
+<div class="modal" id="vehicleModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h3>Add New Vehicle</h3>
+            <span class="close" onclick="closeModal()">×</span>
+        </div>
+
+        <div class="form-group">
+            <label>Vehicle Type</label>
+            <select id="vehicleType">
+                <option>School Bus</option>
+                <option>Van</option>
+                <option>Coaster</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Vehicle Number</label>
+            <input type="text" id="vehicleNumber" placeholder="e.g. LEA-6001">
+        </div>
+
+        <div class="form-group">
+            <label>Driver Name</label>
+            <input type="text" id="driverName" placeholder="Enter driver name">
+        </div>
+
+        <div class="form-group">
+            <label>Route</label>
+            <select id="routeName">
+                <option>Route A</option>
+                <option>Route B</option>
+                <option>Route C</option>
+                <option>Route D</option>
+                <option>Route E</option>
+            </select>
+        </div>
+
+        <div class="form-buttons">
+            <button class="btn" style="background:#64748b;" onclick="closeModal()">
+                Cancel
+            </button>
+
+            <button class="btn" onclick="addVehicle()">
+                Add Vehicle
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* TOAST */
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    toast.innerText = message;
+    toast.style.display = "block";
+
+    setTimeout(function(){
+        toast.style.display = "none";
+    },2500);
+}
+
+
+/* MODAL */
+function openModal(){
+
+    document.getElementById("vehicleModal").style.display = "flex";
+
+}
+
+function closeModal(){
+
+    document.getElementById("vehicleModal").style.display = "none";
+
+}
+
+
+/* ADD VEHICLE */
+function addVehicle(){
+
+    const number = document.getElementById("vehicleNumber").value;
+    const driver = document.getElementById("driverName").value;
+    const type = document.getElementById("vehicleType").value;
+    const route = document.getElementById("routeName").value;
+
+    if(number === "" || driver === ""){
+
+        showToast("Please fill all required fields");
+
+        return;
+    }
+
+    const table = document.querySelector("#vehicleTable tbody");
+
+    const row = document.createElement("tr");
+
+    row.setAttribute("data-status","active");
+
+    row.innerHTML = `
+        <td>
+            <div class="vehicle">
+                <div class="vehicle-icon">🚌</div>
+                <strong>${type}</strong>
+            </div>
+        </td>
+
+        <td>${number}</td>
+
+        <td>${driver}</td>
+
+        <td>${route}</td>
+
+        <td>0</td>
+
+        <td>
+            <span class="status active">Active</span>
+        </td>
+
+        <td>
+            <button class="action-btn"
+            onclick="viewVehicle('${number}')">
+            View
+            </button>
+
+            <button class="action-btn"
+            onclick="showToast('Vehicle updated successfully')">
+            Edit
+            </button>
+        </td>
+    `;
+
+    table.appendChild(row);
+
+    document.getElementById("vehicleNumber").value = "";
+    document.getElementById("driverName").value = "";
+
+    closeModal();
+
+    showToast("New vehicle added successfully");
+
+}
+
+
+/* VIEW VEHICLE */
+function viewVehicle(number){
+
+    showToast("Vehicle details: " + number);
+
+}
+
+
+/* VEHICLE SEARCH */
+document.getElementById("vehicleSearch").addEventListener("input",filterVehicles);
+document.getElementById("vehicleStatus").addEventListener("change",filterVehicles);
+
+function filterVehicles(){
+
+    const search =
+        document.getElementById("vehicleSearch")
+        .value
+        .toLowerCase();
+
+    const status =
+        document.getElementById("vehicleStatus")
+        .value;
+
+    const rows =
+        document.querySelectorAll("#vehicleTable tbody tr");
+
+    rows.forEach(function(row){
+
+        const text =
+            row.innerText.toLowerCase();
+
+        const rowStatus =
+            row.getAttribute("data-status");
+
+        const matchSearch =
+            text.includes(search);
+
+        const matchStatus =
+            status === "all" ||
+            rowStatus === status;
+
+        if(matchSearch && matchStatus){
+
+            row.style.display = "";
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* GLOBAL SEARCH */
+document.getElementById("globalSearch").addEventListener("input",function(){
+
+    document.getElementById("vehicleSearch").value =
+        this.value;
+
+    filterVehicles();
+
+});
+
+
+/* SIDEBAR */
+document.querySelectorAll(".menu a").forEach(function(item){
+
+    item.addEventListener("click",function(){
+
+        document.querySelectorAll(".menu a")
+        .forEach(function(link){
+            link.classList.remove("active");
+        });
+
+        this.classList.add("active");
+
+    });
+
+});
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+window.addEventListener("click",function(event){
+
+    const modal =
+        document.getElementById("vehicleModal");
+
+    if(event.target === modal){
+
+        closeModal();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

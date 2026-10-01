@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Store - Customers Management</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --sidebar-bg: #0d1e32;
+            --sidebar-hover: #172b43;
+            --primary-blue: #2563eb;
+            --primary-green: #10b981;
+            --warning-orange: #f59e0b;
+            --danger-red: #ef4444;
+            --purple: #8b5cf6;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 15px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+        }
+
+        .brand-icon {
+            background-color: var(--primary-green);
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .brand-text h2 { font-size: 15px; font-weight: 700; }
+        .brand-text p { font-size: 11px; color: #9ca3af; }
+
+        .nav-list { list-style: none; margin-top: 5px; }
+        .nav-item { margin-bottom: 3px; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            color: #9ca3af;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link-content { display: flex; align-items: center; gap: 12px; }
+        .nav-link:hover { color: #ffffff; background-color: var(--sidebar-hover); }
+        .nav-link.active { background-color: var(--primary-blue); color: #ffffff; }
+
+        .sub-menu { list-style: none; padding-left: 36px; margin-top: 4px; }
+        .sub-menu li a {
+            display: block;
+            padding: 6px 0;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .sub-menu li a.active, .sub-menu li a:hover { color: #ffffff; }
+
+        .quick-add {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .quick-add h4 { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin-bottom: 10px; }
+
+        .btn-sidebar {
+            width: 100%;
+            padding: 9px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .btn-green { background-color: var(--primary-green); }
+        .btn-blue { background-color: var(--primary-blue); }
+
+        /* --- Main Wrapper --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Top Header */
+        header {
+            background-color: var(--card-bg);
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title-container h1 { font-size: 18px; font-weight: 700; }
+        .breadcrumb { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        .top-search-box {
+            position: relative;
+            width: 380px;
+        }
+        .top-search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #f9fafb;
+            font-size: 13px;
+            outline: none;
+        }
+        .top-search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .header-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f9fafb;
+            border: 1px solid var(--border-color);
+            padding: 7px 12px;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .notification-icon-box {
+            position: relative;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -6px;
+            background: var(--danger-red);
+            color: white;
+            font-size: 9px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 1px solid var(--border-color);
+            padding-left: 18px;
+        }
+        .user-info { text-align: right; }
+        .user-info h4 { font-size: 13px; font-weight: 600; }
+        .user-info p { font-size: 11px; color: var(--text-muted); }
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* --- Content Layout --- */
+        .content-area {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 20px;
+        }
+
+        /* Top Metrics Row */
+        .metrics-bar {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .metric-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .metric-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 2px; }
+        .metric-info h3 { font-size: 20px; font-weight: 700; }
+        .metric-info span { font-size: 11px; }
+        .metric-info span.green { color: var(--primary-green); font-weight: 600; }
+
+        /* Left Table Section */
+        .card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 18px;
+        }
+
+        .table-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            gap: 10px;
+        }
+
+        .table-title { font-size: 16px; font-weight: 700; }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-input-sm {
+            position: relative;
+            width: 260px;
+        }
+        .search-input-sm input {
+            width: 100%;
+            padding: 8px 10px 8px 32px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            outline: none;
+        }
+        .search-input-sm i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .btn-filter {
+            background: #f9fafb;
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-main);
+        }
+
+        .btn-add-primary {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Table Design */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 12px 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        td {
+            padding: 12px 8px;
+            font-size: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        tr.active-row {
+            background-color: #f0fdf4;
+        }
+
+        .action-btns { display: flex; gap: 8px; }
+        .btn-icon-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .btn-icon-action.view { color: var(--primary-blue); }
+        .btn-icon-action.edit { color: var(--primary-blue); }
+        .btn-icon-action.delete { color: var(--danger-red); }
+
+        /* Pagination */
+        .pagination-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .pagination-pages { display: flex; gap: 4px; }
+        .page-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .page-btn.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+
+        /* --- Right Panel Customer Details --- */
+        .details-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .details-header h3 { font-size: 15px; font-weight: 700; }
+        .close-icon { cursor: pointer; color: var(--text-muted); font-size: 14px; }
+
+        .customer-profile-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cust-avatar-large {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .cust-main-info {
+            flex: 1;
+        }
+
+        .cust-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .cust-title-row h2 { font-size: 16px; font-weight: 700; }
+        .badge-type {
+            background: #ecfdf5;
+            color: #047857;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .contact-info-list {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .contact-info-list i { width: 14px; color: var(--primary-blue); }
+
+        /* Detail Small Cards */
+        .detail-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .stat-box {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 10px 8px;
+            border: 1px solid var(--border-color);
+        }
+        .stat-box p { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+        .stat-box h4 { font-size: 13px; font-weight: 700; }
+
+        /* Detail Tabs */
+        .details-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .tab-btn {
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        /* Invoice Mini Table */
+        .mini-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .mini-table th { font-size: 10px; text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--border-color); color: var(--text-muted); }
+        .mini-table td { font-size: 11px; padding: 8px 4px; border-bottom: 1px solid #f3f4f6; }
+        .link-inv { color: var(--primary-blue); text-decoration: none; font-weight: 500; }
+
+        /* Summary Footer */
+        .summary-list {
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-bottom: 15px;
+        }
+        .summary-row { display: flex; justify-content: space-between; }
+        .summary-row span:last-child { font-weight: 700; color: var(--text-main); }
+
+        /* Bottom Buttons */
+        .details-action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-side-action {
+            flex: 1;
+            padding: 9px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-edit-cust { background: var(--primary-blue); color: white; }
+        .btn-del-cust { background: var(--danger-red); color: white; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <div class="brand-icon">+</div>
+                <div class="brand-text">
+                    <h2>Medical Store</h2>
+                    <p>Management System</p>
+                </div>
+            </div>
+
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-chart-pie"></i> Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-capsules"></i> Medicine</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-cart-shopping"></i> Sales</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active"><span class="nav-link-content"><i class="fa-solid fa-user-group"></i> Customers</span> <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i></a>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="active">• All Customers</a></li>
+                        <li><a href="#">• Add Customer</a></li>
+                        <li><a href="#">• Customer Groups</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-truck"></i> Suppliers</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-bag-shopping"></i> Purchases</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-boxes-stacked"></i> Stock</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-chart-line"></i> Reports</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-receipt"></i> Expenses</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-users"></i> Users</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-link-content"><i class="fa-solid fa-gear"></i> Settings</span></a></li>
+            </ul>
+        </div>
+
+        <div class="quick-add">
+            <h4>Quick Add</h4>
+            <button class="btn-sidebar btn-green"><i class="fa-solid fa-plus"></i> Add Medicine</button>
+            <button class="btn-sidebar btn-blue"><i class="fa-solid fa-plus"></i> New Sale</button>
+        </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header>
+            <div class="header-title-container">
+                <h1>Customers</h1>
+                <div class="breadcrumb">Dashboard &gt; Customers &gt; All Customers</div>
+            </div>
+
+            <div class="top-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search medicines, customers, invoices...">
+            </div>
+
+            <div class="header-actions">
+                <button class="header-btn"><i class="fa-solid fa-print"></i> Print</button>
+                
+                <div class="notification-icon-box">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+
+                <i class="fa-solid fa-gear" style="color: var(--text-muted); cursor: pointer;"></i>
+
+                <div class="user-profile">
+                    <div class="user-info">
+                        <h4>Admin</h4>
+                        <p>Owner</p>
+                    </div>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            
+            <!-- Top Summary Stat Cards -->
+            <div class="metrics-bar">
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #2563eb;"><i class="fa-solid fa-users"></i></div>
+                    <div class="metric-info">
+                        <p>Total Customers</p>
+                        <h3>842</h3>
+                        <span class="green">+ 12 <span style="color:var(--text-muted); font-weight:normal;">this month</span></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #10b981;"><i class="fa-solid fa-user-plus"></i></div>
+                    <div class="metric-info">
+                        <p>New Customers</p>
+                        <h3>32</h3>
+                        <span class="green">+ 5 <span style="color:var(--text-muted); font-weight:normal;">this month</span></span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #8b5cf6;"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <div class="metric-info">
+                        <p>Repeat Customers</p>
+                        <h3>610</h3>
+                        <span style="color:var(--text-muted);">72.4% of total</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon" style="background-color: #f59e0b;"><i class="fa-solid fa-dollar-sign"></i></div>
+                    <div class="metric-info">
+                        <p>Total Sales (This Month)</p>
+                        <h3>Rs. 245,680</h3>
+                        <span class="green">+ 15.3% <span style="color:var(--text-muted); font-weight:normal;">vs last month</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left Main Table Section -->
+            <div class="main-section">
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="table-title">All Customers</div>
+                        <div class="filter-group">
+                            <div class="search-input-sm">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="custSearch" placeholder="Search customers by name, phone, email...">
+                            </div>
+
+                            <button class="btn-filter"><i class="fa-solid fa-filter"></i> Filter</button>
+                            <button class="btn-add-primary"><i class="fa-solid fa-plus"></i> Add Customer</button>
+                        </div>
+                    </div>
+
+                    <!-- Customer Table -->
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer Name</th>
+                                    <th>Phone</th>
+                                    <th>Total Purchases</th>
+                                    <th>Total Spent</th>
+                                    <th>Last Purchase</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerTableBody">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-bar">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            Show 
+                            <select style="padding: 2px 5px; border-radius:4px; border:1px solid var(--border-color);">
+                                <option>10</option>
+                                <option>25</option>
+                            </select>
+                            entries
+                        </div>
+                        <div>Showing 1 to 10 of 842 entries</div>
+                        <div class="pagination-pages">
+                            <button class="page-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <span style="padding: 0 4px;">...</span>
+                            <button class="page-btn">85</button>
+                            <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Selected Customer Details -->
+            <div class="details-card">
+                <div class="details-header">
+                    <h3>Customer Details</h3>
+                    <i class="fa-solid fa-xmark close-icon"></i>
+                </div>
+
+                <div class="customer-profile-box">
+                    <div class="cust-avatar-large"><i class="fa-solid fa-user"></i></div>
+                    <div class="cust-main-info">
+                        <div class="cust-title-row">
+                            <h2 id="detailName">Ali Raza</h2>
+                            <span class="badge-type">Regular Customer</span>
+                        </div>
+                        <div class="contact-info-list">
+                            <div><i class="fa-solid fa-phone"></i> <span id="detailPhone">0300-1234567</span></div>
+                            <div><i class="fa-regular fa-envelope"></i> <span id="detailEmail">aliraza@gmail.com</span></div>
+                            <div><i class="fa-solid fa-location-dot"></i> <span id="detailAddress">House # 25, Street 4, Main Market, Your City</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Top Cards in Right Panel -->
+                <div class="detail-stats-grid">
+                    <div class="stat-box">
+                        <p><i class="fa-solid fa-bag-shopping" style="color:var(--primary-blue);"></i> Total Purchases</p>
+                        <h4 id="detailPurchases">25</h4>
+                    </div>
+                    <div class="stat-box">
+                        <p><i class="fa-regular fa-calendar-check" style="color:var(--primary-green);"></i> Total Spent</p>
+                        <h4 id="detailSpent" style="color:var(--primary-green);">Rs. 18,450</h4>
+                    </div>
+                    <div class="stat-box">
+                        <p><i class="fa-solid fa-box-archive" style="color:var(--purple);"></i> Last Purchase</p>
+                        <h4 id="detailLast" style="color:var(--purple); font-size:11px;">17 May 2025</h4>
+                    </div>
+                </div>
+
+                <!-- History Tabs -->
+                <div class="details-tabs">
+                    <button class="tab-btn active">Purchase History</button>
+                    <button class="tab-btn">Profile</button>
+                    <button class="tab-btn">Notes</button>
+                </div>
+
+                <!-- Purchase History Mini Table -->
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice No.</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoiceTableBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+
+                <!-- Summary Footer -->
+                <div class="summary-list">
+                    <div class="summary-row">
+                        <span style="color:var(--text-muted);">Total Invoices</span>
+                        <span id="sumInvoices">25</span>
+                    </div>
+                    <div class="summary-row">
+                        <span style="color:var(--text-muted);">Total Items Purchased</span>
+                        <span id="sumItems">86</span>
+                    </div>
+                    <div class="summary-row">
+                        <span style="color:var(--text-muted);">Total Amount Spent</span>
+                        <span id="sumSpent">Rs. 18,450</span>
+                    </div>
+                    <div class="summary-row">
+                        <span style="color:var(--text-muted);">Average Per Invoice</span>
+                        <span id="sumAvg">Rs. 738</span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="details-action-btns">
+                    <button class="btn-side-action btn-edit-cust"><i class="fa-solid fa-pen"></i> Edit Customer</button>
+                    <button class="btn-side-action btn-del-cust"><i class="fa-regular fa-trash-can"></i> Delete Customer</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Data & Interactivity -->
+    <script>
+        // Customers Dataset
+        const customers = [
+            { id: 1, name: "Ali Raza", phone: "0300-1234567", email: "aliraza@gmail.com", address: "House # 25, Street 4, Main Market, Your City", purchases: 25, spent: 18450, last: "17 May 2025", type: "Regular Customer" },
+            { id: 2, name: "Fatima Khan", phone: "0311-2345678", email: "fatima@gmail.com", address: "Flat 12-B, Royal Apartments, Your City", purchases: 18, spent: 12300, last: "16 May 2025", type: "Regular Customer" },
+            { id: 3, name: "M. Usman", phone: "0321-3456789", email: "usman@gmail.com", address: "Sector G-9/1, Street 12, Your City", purchases: 32, spent: 24780, last: "17 May 2025", type: "VIP Customer" },
+            { id: 4, name: "Ayesha Malik", phone: "0302-4567890", email: "ayesha@gmail.com", address: "House 90, Block C, Model Town, Your City", purchases: 15, spent: 9860, last: "15 May 2025", type: "Regular Customer" },
+            { id: 5, name: "Hassan Ali", phone: "0315-5678901", email: "hassan@gmail.com", address: "Plaza 4, Commercial Zone, Your City", purchases: 28, spent: 20150, last: "17 May 2025", type: "VIP Customer" },
+            { id: 6, name: "Sana Javed", phone: "0307-6789012", email: "sana@gmail.com", address: "Street 5, Officers Colony, Your City", purchases: 12, spent: 7450, last: "14 May 2025", type: "New Customer" },
+            { id: 7, name: "Bilal Ahmed", phone: "0322-7890123", email: "bilal@gmail.com", address: "House 45, DHA Phase 2, Your City", purchases: 22, spent: 16230, last: "16 May 2025", type: "Regular Customer" },
+            { id: 8, name: "Zainab Noor", phone: "0318-8901234", email: "zainab@gmail.com", address: "Main Road, Satellite Town, Your City", purchases: 9, spent: 5320, last: "13 May 2025", type: "New Customer" },
+            { id: 9, name: "Imran Khan", phone: "0309-9012345", email: "imran@gmail.com", address: "Street 8, Garden Town, Your City", purchases: 31, spent: 22640, last: "17 May 2025", type: "VIP Customer" },
+            { id: 10, name: "Nida Farooq", phone: "0320-1122334", email: "nida@gmail.com", address: "House 102, Gulberg III, Your City", purchases: 16, spent: 10200, last: "15 May 2025", type: "Regular Customer" }
+        ];
+
+        // Sample Invoices for selected Customer
+        const customerInvoices = [
+            { inv: "INV-2025-0018", date: "17 May 2025", items: 5, amount: "850", payment: "Cash" },
+            { inv: "INV-2025-0016", date: "16 May 2025", items: 6, amount: "1,450", payment: "Card" },
+            { inv: "INV-2025-0012", date: "15 May 2025", items: 4, amount: "760", payment: "Cash" },
+            { inv: "INV-2025-0009", date: "14 May 2025", items: 3, amount: "320", payment: "Cash" },
+            { inv: "INV-2025-0005", date: "12 May 2025", items: 7, amount: "2,150", payment: "Card" }
+        ];
+
+        let selectedId = 1;
+
+        // Populate Main Table
+        function renderCustomerTable(data) {
+            const tbody = document.getElementById('customerTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach((cust, index) => {
+                const tr = document.createElement('tr');
+                if(cust.id === selectedId) tr.classList.add('active-row');
+
+                tr.onclick = () => selectCustomer(cust);
+
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td style="font-weight: 600; color: var(--text-main);">${cust.name}</td>
+                    <td style="color: var(--text-muted);">${cust.phone}</td>
+                    <td>${cust.purchases}</td>
+                    <td>Rs. ${cust.spent.toLocaleString()}</td>
+                    <td style="color: var(--text-muted);">${cust.last}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon-action view"><i class="fa-regular fa-eye"></i></button>
+                            <button class="btn-icon-action edit"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <button class="btn-icon-action delete"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Render Invoices Table in Right Side Panel
+        function renderInvoices() {
+            const tbody = document.getElementById('invoiceTableBody');
+            tbody.innerHTML = '';
+
+            customerInvoices.forEach(inv => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><a href="#" class="link-inv">${inv.inv}</a></td>
+                    <td style="color:var(--text-muted);">${inv.date}</td>
+                    <td>${inv.items}</td>
+                    <td>Rs. ${inv.amount}</td>
+                    <td>${inv.payment}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Select Customer Logic
+        function selectCustomer(cust) {
+            selectedId = cust.id;
+            renderCustomerTable(customers);
+
+            document.getElementById('detailName').innerText = cust.name;
+            document.getElementById('detailPhone').innerText = cust.phone;
+            document.getElementById('detailEmail').innerText = cust.email;
+            document.getElementById('detailAddress').innerText = cust.address;
+            document.getElementById('detailPurchases').innerText = cust.purchases;
+            document.getElementById('detailSpent').innerText = `Rs. ${cust.spent.toLocaleString()}`;
+            document.getElementById('detailLast').innerText = cust.last;
+
+            document.getElementById('sumInvoices').innerText = cust.purchases;
+            document.getElementById('sumSpent').innerText = `Rs. ${cust.spent.toLocaleString()}`;
+            document.getElementById('sumAvg').innerText = `Rs. ${Math.round(cust.spent / cust.purchases)}`;
+        }
+
+        // Search Interactivity
+        document.getElementById('custSearch').addEventListener('input', function(e) {
+            const q = e.target.value.toLowerCase();
+            const filtered = customers.filter(c => 
+                c.name.toLowerCase().includes(q) || 
+                c.phone.toLowerCase().includes(q) || 
+                c.email.toLowerCase().includes(q)
+            );
+            renderCustomerTable(filtered);
+        });
+
+        // Initialize Page
+        renderCustomerTable(customers);
+        renderInvoices();
+    </script>
+</body>
+</html>

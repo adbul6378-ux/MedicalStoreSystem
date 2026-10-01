@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="medical-theme.css"><script src="medical-theme.js"></script><script src="rbac.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Medical Store - Users Management</title>
+  
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --sidebar-bg: #071931;
+      --primary-blue: #1d61e8;
+      --primary-green: #10b981;
+      --light-green-bg: #d1fae5;
+      --light-green-text: #047857;
+      --red: #ef4444;
+      --light-red-bg: #fee2e2;
+      --light-red-text: #b91c1c;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-size: 12px;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 210px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 10px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 10px 20px 10px;
+    }
+
+    .logo-icon {
+      background: var(--primary-green);
+      border-radius: 6px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text h2 { font-size: 13px; font-weight: 700; }
+    .logo-text p { font-size: 9px; color: #9ca3af; }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      color: #9ca3af;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .nav-item i { width: 15px; height: 15px; }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: var(--primary-blue);
+      color: #fff;
+    }
+
+    .quick-add {
+      margin-top: 15px;
+      border-top: 1px solid #1f2937;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-add span { font-size: 10px; color: #6b7280; }
+
+    .btn {
+      border: none;
+      padding: 7px 10px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .btn-green { background-color: #059669; }
+    .btn-blue { background-color: var(--primary-blue); }
+
+    /* Main Content */
+    .main-content {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 15px 20px;
+      overflow-x: auto;
+      overflow-y: auto;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .page-title h1 { font-size: 18px; font-weight: 700; }
+    .breadcrumb { font-size: 11px; color: var(--text-muted); }
+
+    .header-search {
+      position: relative;
+      width: 350px;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      color: var(--text-muted);
+    }
+
+    .header-search input {
+      width: 100%;
+      padding: 6px 12px 6px 34px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      outline: none;
+      background: #fff;
+      font-size: 11px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .notification-badge { position: relative; }
+
+    .badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: var(--red);
+      color: #fff;
+      font-size: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 12px;
+    }
+
+    .user-info { text-align: right; }
+    .user-info .name { font-weight: 700; font-size: 11px; display: block; }
+    .user-info .role { font-size: 9px; color: var(--text-muted); display: block; }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      background: #e5e7eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Top Stats Grid */
+    .top-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      border: 1px solid #f0f0f0;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bg-light-blue { background-color: #e0f2fe; color: #0284c7; }
+    .bg-light-green { background-color: #d1fae5; color: #059669; }
+    .bg-light-orange { background-color: #ffedd5; color: #ea580c; }
+    .bg-light-purple { background-color: #f3e8ff; color: #9333ea; }
+    .bg-light-teal { background-color: #ccfbf1; color: #0d9488; }
+
+    .stat-info p { color: var(--text-muted); font-size: 10px; }
+    .stat-info h3 { font-size: 15px; font-weight: 700; margin: 2px 0; }
+    .stat-info .subtext { font-size: 9px; color: var(--text-muted); }
+
+    /* Layout Grid */
+    .users-grid {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 15px;
+    }
+
+    /* Table Header Controls */
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .table-header h3 { font-size: 13px; font-weight: 700; }
+
+    .header-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .header-controls select {
+      padding: 5px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 11px;
+      background: #fff;
+      outline: none;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-primary {
+      background: var(--primary-blue);
+      color: #fff;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 10px;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      background-color: #fafafa;
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .user-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Role Badges */
+    .role-badge {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .role-administrator { background: #f3e8ff; color: #7e22ce; }
+    .role-manager { background: #e0f2fe; color: #0369a1; }
+    .role-pharmacist { background: #ccfbf1; color: #0f766e; }
+    .role-sales { background: #fef3c7; color: #b45309; }
+    .role-keeper { background: #e0e7ff; color: #4338ca; }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 9px;
+      display: inline-block;
+    }
+
+    .status-active { background: var(--light-green-bg); color: var(--light-green-text); }
+    .status-inactive { background: var(--light-red-bg); color: var(--light-red-text); }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+      color: var(--primary-blue);
+      cursor: pointer;
+    }
+
+    .action-btns i { width: 13px; height: 13px; }
+    .action-btns i.delete-icon { color: var(--red); }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .pagination {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+    }
+
+    .page-btn {
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 2px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    .page-btn.active {
+      background: var(--primary-blue);
+      color: #fff;
+      border-color: var(--primary-blue);
+    }
+
+    /* Right Side Panel Card */
+    .side-card h3 {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .roles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .role-item {
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .role-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .role-info h4 { font-size: 11px; font-weight: 600; }
+    .role-info p { font-size: 8px; color: var(--text-muted); }
+
+    .role-count {
+      text-align: right;
+    }
+
+    .role-count b { font-size: 11px; display: block; }
+    .role-count span { font-size: 8px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"><i data-lucide="plus"></i></div>
+        <div class="logo-text">
+          <h2>Medical Store</h2>
+          <p>Management System</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="merged_medical_store.html" class="nav-item"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="medicine.html" class="nav-item"><i data-lucide="pill"></i> Medicine</a>
+        <a href="sales.html" class="nav-item"><i data-lucide="shopping-cart"></i> Sales</a>
+        <a href="customer.html" class="nav-item"><i data-lucide="user"></i> Customers</a>
+        <a href="suppliers.html" class="nav-item"><i data-lucide="truck"></i> Suppliers</a>
+        <a href="purchases.html" class="nav-item"><i data-lucide="shopping-bag"></i> Purchases</a>
+        <a href="stock.html" class="nav-item"><i data-lucide="package"></i> Stock</a>
+        <a href="medical-reports.html" class="nav-item"><i data-lucide="file-text"></i> Reports</a>
+        <a href="expenses.html" class="nav-item"><i data-lucide="wallet"></i> Expenses</a>
+        <a href="users.html" class="nav-item active"><i data-lucide="users"></i> Users</a>
+        <a href="medical-settings.html" class="nav-item"><i data-lucide="settings"></i> Settings</a>
+      </nav>
+
+      <div class="quick-add">
+        <span>Quick Add</span>
+        <button class="btn btn-green"><i data-lucide="plus"></i> Add Medicine</button>
+        <button class="btn btn-blue"><i data-lucide="plus"></i> New Sale</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="page-title">
+          <h1>Users</h1>
+          <p class="breadcrumb">Dashboard &gt; <span>Users</span></p>
+        </div>
+
+        <div class="header-search">
+          <i data-lucide="search"></i>
+          <input type="text" id="userSearch" placeholder="Search by name, email or role...">
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn"><i data-lucide="printer"></i> <span>Print</span></button>
+          <div class="notification-badge">
+            <button class="icon-btn"><i data-lucide="bell"></i></button>
+            <span class="badge">3</span>
+          </div>
+          <button class="icon-btn"><i data-lucide="settings"></i></button>
+          <div class="user-profile">
+            <div class="user-info">
+              <span class="name">Admin</span>
+              <span class="role">Owner</span>
+            </div>
+            <div class="avatar"><i data-lucide="user"></i></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Top Stat Cards -->
+      <div class="top-stats">
+        <div class="card stat-card">
+          <div class="stat-icon bg-light-blue"><i data-lucide="user"></i></div>
+          <div class="stat-info">
+            <p>Total Users</p>
+            <h3>12</h3>
+            <span class="subtext">All registered users</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon bg-light-green"><i data-lucide="user-check"></i></div>
+          <div class="stat-info">
+            <p>Active Users</p>
+            <h3>9</h3>
+            <span class="subtext">Currently active</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon bg-light-orange"><i data-lucide="user-x"></i></div>
+          <div class="stat-info">
+            <p>Inactive Users</p>
+            <h3>3</h3>
+            <span class="subtext">Currently inactive</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon bg-light-purple"><i data-lucide="shield"></i></div>
+          <div class="stat-info">
+            <p>Admins</p>
+            <h3>2</h3>
+            <span class="subtext">System administrators</span>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-icon bg-light-teal"><i data-lucide="users"></i></div>
+          <div class="stat-info">
+            <p>Staff</p>
+            <h3>10</h3>
+            <span class="subtext">Staff members</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="users-grid">
+        <div class="card" style="grid-column:1/-1;">
+          <div class="table-header">
+            <h3>Role Permission Matrix</h3>
+            <button class="btn-primary" id="savePermissionMatrix" type="button"><i data-lucide="shield-check" style="width: 12px;"></i> Save Permissions</button>
+          </div>
+          <div id="permissionMatrix"></div>
+        </div>
+
+        <div class="card" style="grid-column:1/-1;">
+          <div class="table-header">
+            <h3>Permission Request Approval</h3>
+          </div>
+          <form id="permissionRequestForm" style="display:flex;align-items:end;gap:12px;flex-wrap:wrap;">
+            <label for="permissionRequestCode">Request code</label>
+            <input id="permissionRequestCode" name="code" required autocomplete="off" placeholder="PR-XXXXXX" style="min-width:220px;padding:10px;border:1px solid var(--border-color);border-radius:6px;">
+            <button class="btn-primary" type="submit">Approve Request</button>
+            <button class="btn-outline" id="rejectPermissionRequest" type="button">Reject Request</button>
+          </form>
+          <p id="permissionRequestStatus" role="status" style="min-height:20px;margin:10px 0 0;color:var(--text-muted);"></p>
+        </div>
+
+        <!-- User List Card -->
+        <div class="card">
+          <div class="table-header">
+            <h3>User List</h3>
+            <div class="header-controls">
+              <select id="roleFilter">
+                <option value="All">All Roles</option>
+              </select>
+              <button class="btn-outline"><i data-lucide="filter" style="width: 12px;"></i> Filter</button>
+              <button class="btn-primary" id="addUserButton" type="button"><i data-lucide="plus" style="width: 12px;"></i> Add User</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Last Login</th>
+                  <th>Joined Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody">
+                <!-- Data populated via Javascript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <div>Showing 1 to 8 of 12 entries</div>
+            <div class="pagination">
+              <button class="page-btn">&lt;</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">&gt;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Panel: User Roles -->
+        <div class="card side-card">
+          <h3>User Roles</h3>
+          <div class="roles-list">
+            <div class="role-item">
+              <div class="role-item-left">
+                <div class="role-icon-box bg-light-purple"><i data-lucide="shield" style="width: 14px;"></i></div>
+                <div class="role-info">
+                  <h4>Administrator</h4>
+                  <p>Full access to all features</p>
+                </div>
+              </div>
+              <div class="role-count">
+                <b>2</b>
+                <span>Users</span>
+              </div>
+            </div>
+
+            <div class="role-item">
+              <div class="role-item-left">
+                <div class="role-icon-box bg-light-blue"><i data-lucide="user-check" style="width: 14px;"></i></div>
+                <div class="role-info">
+                  <h4>Manager</h4>
+                  <p>Manage store operations and reports</p>
+                </div>
+              </div>
+              <div class="role-count">
+                <b>2</b>
+                <span>Users</span>
+              </div>
+            </div>
+
+            <div class="role-item">
+              <div class="role-item-left">
+                <div class="role-icon-box bg-light-teal"><i data-lucide="pill" style="width: 14px;"></i></div>
+                <div class="role-info">
+                  <h4>Pharmacist</h4>
+                  <p>Manage medicines and prescriptions</p>
+                </div>
+              </div>
+              <div class="role-count">
+                <b>3</b>
+                <span>Users</span>
+              </div>
+            </div>
+
+            <div class="role-item">
+              <div class="role-item-left">
+                <div class="role-icon-box bg-light-orange"><i data-lucide="shopping-cart" style="width: 14px;"></i></div>
+                <div class="role-info">
+                  <h4>Sales Staff</h4>
+                  <p>Handle sales and customers</p>
+                </div>
+              </div>
+              <div class="role-count">
+                <b>3</b>
+                <span>Users</span>
+              </div>
+            </div>
+
+            <div class="role-item">
+              <div class="role-item-left">
+                <div class="role-icon-box bg-light-blue"><i data-lucide="package" style="width: 14px;"></i></div>
+                <div class="role-info">
+                  <h4>Store Keeper</h4>
+                  <p>Manage stock and inventory</p>
+                </div>
+              </div>
+              <div class="role-count">
+                <b>2</b>
+                <span>Users</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+    function renderPermissionMatrix() {
+      const matrixContainer = document.getElementById('permissionMatrix');
+      const rbac = window.MedicalRBAC;
+      if (!rbac) return;
+
+      const roles = rbac.getRoleMetadata();
+      const modules = Object.keys(rbac.ROLE_PERMISSIONS.super_admin);
+      const actions = ['view', 'add', 'edit', 'delete', 'print', 'export', 'approve', 'manage'];
+      let roleSelect = document.getElementById('permissionRole');
+      if (!roleSelect) {
+        roleSelect = document.createElement('select');
+        roleSelect.id = 'permissionRole';
+        roleSelect.setAttribute('aria-label', 'Choose role to configure');
+        const toolbar = document.createElement('div');
+        toolbar.style.cssText = 'display:flex;align-items:center;gap:10px;margin:0 0 14px;';
+        const label = document.createElement('label');
+        label.htmlFor = roleSelect.id;
+        label.textContent = 'Role';
+        toolbar.append(label, roleSelect);
+        matrixContainer.before(toolbar);
+        roles.forEach((role) => {
+          const option = document.createElement('option');
+          option.value = role.key;
+          option.textContent = role.label;
+          roleSelect.appendChild(option);
+        });
+        const activeRole = rbac.getCurrentUser()?.role;
+        roleSelect.value = activeRole === 'super_admin' ? 'admin' : (activeRole || 'admin');
+        roleSelect.addEventListener('change', renderPermissionMatrix);
+      }
+
+      const selectedRole = roleSelect.value || roles[0]?.key;
+      const permissions = rbac.getRolePermissions(selectedRole);
+
+      const table = document.createElement('table');
+      table.style.cssText = 'width:100%;border-collapse:collapse;min-width:900px;';
+      table.innerHTML = `<thead><tr><th scope="col">Section</th>${actions.map((action) => `<th scope="col">${action[0].toUpperCase()}${action.slice(1)}</th>`).join('')}</tr></thead>`;
+
+      const tbody = document.createElement('tbody');
+      modules.forEach((module) => {
+        const row = document.createElement('tr');
+        const moduleCell = document.createElement('th');
+        moduleCell.scope = 'row';
+        moduleCell.textContent = module;
+        row.appendChild(moduleCell);
+        actions.forEach((action) => {
+          const cell = document.createElement('td');
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = Boolean(permissions[module]?.[action]);
+          checkbox.disabled = selectedRole === 'super_admin';
+          checkbox.dataset.module = module;
+          checkbox.dataset.permissionAction = action;
+          checkbox.setAttribute('aria-label', `${rbac.ROLE_LABELS[selectedRole]}: ${module} ${action}`);
+          cell.appendChild(checkbox);
+          row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      matrixContainer.innerHTML = '';
+      matrixContainer.appendChild(table);
+      const saveButton = document.getElementById('savePermissionMatrix');
+      saveButton.disabled = selectedRole === 'super_admin';
+      saveButton.title = selectedRole === 'super_admin' ? 'Super Admin always has full access.' : '';
+    }
+
+    // Lucide Icons Render
+    if (window.lucide) lucide.createIcons();
+
+    const rbac = window.MedicalRBAC;
+    const allRoles = rbac.getRoleMetadata();
+    const assignableRoles = allRoles.filter((role) => role.key !== 'super_admin');
+    let usersData = rbac.readAccounts();
+    const roleFilter = document.getElementById('roleFilter');
+    allRoles.forEach((role) => {
+      const option = document.createElement('option');
+      option.value = role.key;
+      option.textContent = role.label;
+      roleFilter.appendChild(option);
+    });
+
+    function persistUsers() {
+      localStorage.setItem(rbac.APP_STORAGE.accounts, JSON.stringify(usersData));
+      usersData = rbac.readAccounts();
+      renderUserSummary();
+    }
+
+    function renderUserSummary() {
+      const [totalCard, activeCard, inactiveCard, adminCard, staffCard] = document.querySelectorAll('.stat-card');
+      const adminCount = usersData.filter((user) => ['super_admin', 'admin'].includes(user.role)).length;
+      const summaryCounts = [
+        usersData.length,
+        usersData.filter((user) => user.status === 'Active').length,
+        usersData.filter((user) => user.status !== 'Active').length,
+        adminCount,
+        usersData.length - adminCount
+      ];
+      [totalCard, activeCard, inactiveCard, adminCard, staffCard].forEach((card, index) => {
+        const value = card?.querySelector('h3');
+        if (value) value.textContent = String(summaryCounts[index]);
+      });
+
+      const roleList = document.querySelector('.side-card .roles-list');
+      roleList.innerHTML = '';
+      rbac.getRoleMetadata().forEach((role) => {
+        const item = document.createElement('div');
+        item.className = 'role-item';
+        const info = document.createElement('div');
+        info.className = 'role-info';
+        const name = document.createElement('h4');
+        name.textContent = role.label;
+        const description = document.createElement('p');
+        description.textContent = 'Assigned permissions apply to every user with this role.';
+        info.append(name, description);
+        const count = document.createElement('div');
+        count.className = 'role-count';
+        const number = document.createElement('b');
+        number.textContent = String(usersData.filter((user) => user.role === role.key).length);
+        const label = document.createElement('span');
+        label.textContent = 'Users';
+        count.append(number, label);
+        item.append(info, count);
+        roleList.appendChild(item);
+      });
+    }
+
+    // Render Table
+    function renderUsersTable(data = usersData) {
+      const tbody = document.getElementById('userTableBody');
+      tbody.innerHTML = '';
+
+      data.forEach((user, index) => {
+        const row = document.createElement('tr');
+        const addCell = (value) => {
+          const cell = document.createElement('td');
+          cell.textContent = value;
+          row.appendChild(cell);
+          return cell;
+        };
+        addCell(String(index + 1));
+
+        const nameCell = addCell('');
+        const userCell = document.createElement('div');
+        userCell.className = 'user-cell';
+        const avatar = document.createElement('span');
+        avatar.className = 'user-avatar';
+        avatar.textContent = String(user.name || 'U').slice(0, 1).toUpperCase();
+        avatar.style.cssText = 'display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:700;';
+        const userName = document.createElement('span');
+        userName.textContent = user.name || 'Unnamed user';
+        userCell.append(avatar, userName);
+        nameCell.appendChild(userCell);
+
+        addCell(user.username || user.email);
+        addCell(user.email);
+        addCell(user.phone || 'Not provided');
+
+        const roleCell = document.createElement('td');
+        if (user.role === 'super_admin') {
+          roleCell.textContent = rbac.ROLE_LABELS.super_admin;
+        } else {
+          const roleSelect = document.createElement('select');
+          roleSelect.dataset.action = 'role';
+          roleSelect.dataset.email = user.email;
+          roleSelect.setAttribute('aria-label', `Role for ${user.name}`);
+          assignableRoles.forEach((role) => {
+            const option = document.createElement('option');
+            option.value = role.key;
+            option.textContent = role.label;
+            roleSelect.appendChild(option);
+          });
+          roleSelect.value = rbac.ROLE_LABELS[user.role] ? user.role : 'viewer';
+          roleCell.appendChild(roleSelect);
+        }
+        row.appendChild(roleCell);
+
+        const statusCell = addCell('');
+        const statusBadge = document.createElement('span');
+        statusBadge.className = `status-badge ${user.status === 'Active' ? 'status-active' : 'status-inactive'}`;
+        statusBadge.textContent = user.status || 'Active';
+        statusCell.appendChild(statusBadge);
+        addCell(user.lastLogin || 'Never');
+        addCell(user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—');
+
+        const actionCell = document.createElement('td');
+        const actions = document.createElement('div');
+        actions.className = 'action-btns';
+        if (!['admin', 'super_admin'].includes(user.role) && rbac.getCurrentUser()?.role === 'admin') {
+          const permissionButton = document.createElement('button');
+          permissionButton.type = 'button';
+          permissionButton.dataset.action = 'manage-permissions';
+          permissionButton.dataset.email = user.email;
+          permissionButton.textContent = 'Permissions';
+          permissionButton.setAttribute('aria-label', `Manage permissions for ${user.name}`);
+          actions.appendChild(permissionButton);
+        }
+        if (user.role !== 'super_admin') {
+          const statusButton = document.createElement('button');
+          statusButton.type = 'button';
+          statusButton.dataset.action = 'toggle-status';
+          statusButton.dataset.email = user.email;
+          statusButton.textContent = user.status === 'Active' ? 'Deactivate' : 'Activate';
+          statusButton.setAttribute('aria-label', `${statusButton.textContent} ${user.name}`);
+          actions.appendChild(statusButton);
+
+          const deleteButton = document.createElement('button');
+          deleteButton.type = 'button';
+          deleteButton.dataset.action = 'delete';
+          deleteButton.dataset.email = user.email;
+          deleteButton.textContent = 'Delete';
+          deleteButton.setAttribute('aria-label', `Delete ${user.name}`);
+          actions.appendChild(deleteButton);
+        }
+        actionCell.appendChild(actions);
+        row.appendChild(actionCell);
+        tbody.appendChild(row);
+      });
+    }
+
+    function openUserPermissionsDialog(account) {
+      if (rbac.getCurrentUser()?.role !== 'admin' || !rbac.requirePermission('Users', 'manage')) return;
+
+      const overlay = document.createElement('div');
+      overlay.setAttribute('role', 'presentation');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.55);';
+      const dialog = document.createElement('section');
+      dialog.setAttribute('role', 'dialog');
+      dialog.setAttribute('aria-modal', 'true');
+      dialog.setAttribute('aria-labelledby', 'userPermissionTitle');
+      dialog.style.cssText = 'width:min(620px,100%);max-height:min(760px,90vh);overflow:auto;background:#fff;border:1px solid var(--border-color);border-radius:8px;padding:22px;box-shadow:0 20px 60px rgba(15,23,42,.25);';
+
+      const heading = document.createElement('div');
+      heading.style.cssText = 'display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;';
+      const titleGroup = document.createElement('div');
+      const title = document.createElement('h2');
+      title.id = 'userPermissionTitle';
+      title.textContent = `Permissions for ${account.name || account.email}`;
+      title.style.cssText = 'font-size:18px;margin:0 0 5px;color:var(--text-main);';
+      const subtitle = document.createElement('p');
+      subtitle.textContent = 'Choose which sections this account can access.';
+      subtitle.style.cssText = 'margin:0;color:var(--text-muted);font-size:11px;';
+      titleGroup.append(title, subtitle);
+      const closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.textContent = 'Close';
+      closeButton.className = 'btn-outline';
+      heading.append(titleGroup, closeButton);
+
+      const list = document.createElement('div');
+      list.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-bottom:18px;';
+      const controls = [];
+      rbac.USER_PERMISSION_SECTIONS.forEach((section) => {
+        const label = document.createElement('label');
+        label.style.cssText = 'display:flex;align-items:center;gap:9px;min-height:38px;padding:8px 10px;border:1px solid var(--border-color);border-radius:6px;color:var(--text-main);font-size:12px;cursor:pointer;';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        const savedPermissions = rbac.getUserPermissions(account);
+        checkbox.checked = section.permissions.every(([module, action]) => Boolean(savedPermissions[module]?.[action]));
+        checkbox.setAttribute('aria-label', `${section.label} access for ${account.name || account.email}`);
+        controls.push({ checkbox, section });
+        label.append(checkbox, document.createTextNode(section.label));
+        list.appendChild(label);
+      });
+
+      const footer = document.createElement('div');
+      footer.style.cssText = 'display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid var(--border-color);';
+      const cancelButton = document.createElement('button');
+      cancelButton.type = 'button';
+      cancelButton.textContent = 'Cancel';
+      cancelButton.className = 'btn-outline';
+      const saveButton = document.createElement('button');
+      saveButton.type = 'button';
+      saveButton.textContent = 'Save Permissions';
+      saveButton.className = 'btn-primary';
+      footer.append(cancelButton, saveButton);
+      dialog.append(heading, list, footer);
+      overlay.appendChild(dialog);
+
+      const close = () => {
+        document.removeEventListener('keydown', onKeyDown);
+        overlay.remove();
+      };
+      const onKeyDown = (event) => {
+        if (event.key === 'Escape') close();
+      };
+      closeButton.addEventListener('click', close);
+      cancelButton.addEventListener('click', close);
+      overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) close();
+      });
+      saveButton.addEventListener('click', () => {
+        if (rbac.getCurrentUser()?.role !== 'admin' || !rbac.requirePermission('Users', 'manage')) return;
+        const accounts = rbac.readAccounts();
+        const storedAccount = accounts.find((user) => user.email.toLowerCase() === account.email.toLowerCase());
+        if (!storedAccount || ['admin', 'super_admin'].includes(storedAccount.role)) return;
+        storedAccount.permissions = storedAccount.permissions && typeof storedAccount.permissions === 'object' ? storedAccount.permissions : {};
+        controls.forEach(({ checkbox, section }) => {
+          section.permissions.forEach(([module, action]) => {
+            storedAccount.permissions[module] = storedAccount.permissions[module] || {};
+            storedAccount.permissions[module][action] = checkbox.checked;
+            if (!checkbox.checked) rbac.clearTemporaryAccess(module, account.email);
+          });
+        });
+        localStorage.setItem(rbac.APP_STORAGE.accounts, JSON.stringify(accounts));
+        rbac.logAudit('Update User Permissions', 'Users', 'Success', { reference: account.email });
+        usersData = rbac.readAccounts();
+        renderUserSummary();
+        renderUsersTable();
+        close();
+      });
+      document.addEventListener('keydown', onKeyDown);
+      document.body.appendChild(overlay);
+      closeButton.focus();
+    }
+
+    // Filter Logic
+    function filterUsers() {
+      const selectedRole = document.getElementById('roleFilter').value;
+      const searchVal = document.getElementById('userSearch').value.toLowerCase();
+
+      const filtered = usersData.filter((user) => {
+        const roleLabel = rbac.ROLE_LABELS[user.role] || user.role;
+        const matchesRole = selectedRole === 'All' || user.role === selectedRole;
+        const matchesSearch = String(user.name || '').toLowerCase().includes(searchVal) ||
+                              user.email.toLowerCase().includes(searchVal) ||
+                              roleLabel.toLowerCase().includes(searchVal);
+
+        return matchesRole && matchesSearch;
+      });
+
+      renderUsersTable(filtered);
+    }
+
+    if (window.MedicalRBAC && !window.MedicalRBAC.requirePermission('Users', 'view')) {
+      return;
+    }
+
+    // Event Listeners
+    document.getElementById('roleFilter').addEventListener('change', filterUsers);
+    document.getElementById('userSearch').addEventListener('input', filterUsers);
+
+    function reviewRequest(decision) {
+      if (!rbac.requirePermission('Users', 'manage')) return;
+      const codeInput = document.getElementById('permissionRequestCode');
+      const status = document.getElementById('permissionRequestStatus');
+      const result = rbac.reviewPermissionRequest(codeInput.value, decision);
+      status.textContent = result.success
+        ? decision === 'approve'
+          ? `Approved for ${result.request.userEmail}: ${result.request.action} ${result.request.module}. Give them this one-time code: ${result.approvalCode}`
+          : `Request ${result.request.code} rejected for ${result.request.userEmail}.`
+        : result.message;
+      status.style.color = result.success ? '#047857' : '#b91c1c';
+      if (result.success) codeInput.value = '';
+      renderUsersTable();
+    }
+
+    document.getElementById('permissionRequestForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      reviewRequest('approve');
+    });
+    document.getElementById('rejectPermissionRequest').addEventListener('click', () => reviewRequest('reject'));
+
+    function openCreateUserDialog() {
+      if (!rbac.requirePermission('Users', 'add')) return;
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.55);';
+      const dialog = document.createElement('section');
+      dialog.setAttribute('role', 'dialog');
+      dialog.setAttribute('aria-modal', 'true');
+      dialog.setAttribute('aria-labelledby', 'createUserTitle');
+      dialog.style.cssText = 'width:min(420px,100%);background:#fff;border:1px solid var(--border-color);border-radius:8px;padding:22px;box-shadow:0 20px 60px rgba(15,23,42,.25);';
+      const title = document.createElement('h2');
+      title.id = 'createUserTitle';
+      title.textContent = 'Create User';
+      title.style.cssText = 'font-size:18px;margin:0 0 16px;color:var(--text-main);';
+      const form = document.createElement('form');
+      form.id = 'createUserForm';
+      form.style.cssText = 'display:grid;gap:12px;';
+      const fields = [
+        ['Name', 'text', 'name', 'Enter full name'],
+        ['Username', 'text', 'username', 'Choose a username'],
+        ['Email', 'email', 'email', 'user@example.com'],
+        ['Temporary password', 'password', 'password', 'At least 6 characters']
+      ];
+      fields.forEach(([caption, type, name, placeholder]) => {
+        const label = document.createElement('label');
+        label.textContent = caption;
+        label.style.cssText = 'display:grid;gap:5px;color:var(--text-main);font-size:11px;font-weight:600;';
+        const input = document.createElement('input');
+        input.type = type;
+        input.name = name;
+        input.required = true;
+        input.placeholder = placeholder;
+        input.autocomplete = name === 'password' ? 'new-password' : name;
+        input.style.cssText = 'width:100%;padding:9px 10px;border:1px solid var(--border-color);border-radius:5px;font:inherit;';
+        if (name === 'password') input.minLength = 6;
+        label.appendChild(input);
+        form.appendChild(label);
+      });
+      const status = document.createElement('p');
+      status.setAttribute('role', 'alert');
+      status.style.cssText = 'min-height:16px;margin:0;color:#b91c1c;font-size:11px;';
+      const buttons = document.createElement('div');
+      buttons.style.cssText = 'display:flex;justify-content:flex-end;gap:8px;';
+      const cancel = document.createElement('button');
+      cancel.type = 'button';
+      cancel.className = 'btn-outline';
+      cancel.textContent = 'Cancel';
+      const submit = document.createElement('button');
+      submit.type = 'submit';
+      submit.className = 'btn-primary';
+      submit.textContent = 'Create User';
+      buttons.append(cancel, submit);
+      form.append(status, buttons);
+      dialog.append(title, form);
+      overlay.appendChild(dialog);
+      const close = () => overlay.remove();
+      cancel.addEventListener('click', close);
+      overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) close();
+      });
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!rbac.requirePermission('Users', 'add')) return;
+        const values = new FormData(form);
+        const name = String(values.get('name') || '').trim();
+        const username = String(values.get('username') || '').trim().toLowerCase();
+        const email = String(values.get('email') || '').trim().toLowerCase();
+        const password = String(values.get('password') || '');
+        if (usersData.some((user) => String(user.username || '').trim().toLowerCase() === username || String(user.email || '').trim().toLowerCase() === username)) {
+          status.textContent = 'That username is already in use.';
+          return;
+        }
+        if (usersData.some((user) => String(user.email || '').trim().toLowerCase() === email)) {
+          status.textContent = 'An account with this email already exists.';
+          return;
+        }
+        usersData.push({
+          id: crypto.randomUUID ? crypto.randomUUID() : `user-${Date.now()}`,
+          name,
+          username,
+          email,
+          passwordHash: await rbac.hashPassword(password),
+          role: 'user',
+          status: 'Active',
+          permissions: { Sales: { ...rbac.ROLE_PERMISSIONS.user.Sales } },
+          createdAt: new Date().toISOString()
+        });
+        persistUsers();
+        rbac.logAudit('Create User', 'Users', 'Success', { reference: email });
+        renderUsersTable();
+        close();
+      });
+      document.body.appendChild(overlay);
+      form.elements.namedItem('name').focus();
+    }
+
+    document.getElementById('addUserButton').addEventListener('click', openCreateUserDialog);
+
+    document.getElementById('userTableBody').addEventListener('change', (event) => {
+      const roleSelect = event.target.closest('[data-action="role"]');
+      if (!roleSelect) return;
+      if (!rbac.requirePermission('Users', 'edit')) {
+        renderUsersTable();
+        return;
+      }
+      const email = roleSelect.dataset.email;
+      const currentUser = rbac.getCurrentUser();
+      const account = usersData.find((user) => user.email === email);
+      if (!account || currentUser.email === email) {
+        window.alert('You cannot change your own role.');
+        renderUsersTable();
+        return;
+      }
+      account.role = roleSelect.value;
+      persistUsers();
+      rbac.logAudit('Change User Role', 'Users', 'Success', { reference: email });
+      renderUsersTable();
+    });
+
+    document.getElementById('userTableBody').addEventListener('click', (event) => {
+      const action = event.target.closest('[data-action]');
+      if (!action) return;
+      const email = action.dataset.email;
+      const user = usersData.find((item) => item.email === email);
+      if (!user) return;
+      if (action.dataset.action === 'manage-permissions') {
+        openUserPermissionsDialog(user);
+      } else if (action.dataset.action === 'delete') {
+        if (!rbac.requirePermission('Users', 'delete')) return;
+        if (email === rbac.getCurrentUser().email) {
+          window.alert('You cannot delete your own account.');
+          return;
+        }
+        if (!window.confirm(`Delete ${user.name}'s account?`)) return;
+        usersData = usersData.filter((item) => item.email !== email);
+        persistUsers();
+        rbac.logAudit('Delete User', 'Users', 'Success', { reference: email });
+      } else if (action.dataset.action === 'toggle-status') {
+        if (!rbac.requirePermission('Users', 'edit')) return;
+        if (email === rbac.getCurrentUser().email) {
+          window.alert('You cannot deactivate your own account.');
+          return;
+        }
+        user.status = user.status === 'Active' ? 'Inactive' : 'Active';
+        persistUsers();
+        rbac.logAudit('Change User Status', 'Users', 'Success', { reference: email });
+      }
+      renderUsersTable();
+    });
+
+    document.querySelector('.quick-add .btn-green').addEventListener('click', () => { window.location.href = 'add-medicine.html'; });
+    document.querySelector('.quick-add .btn-blue').addEventListener('click', () => { window.location.href = 'new-sale.html'; });
+
+    document.getElementById('savePermissionMatrix').addEventListener('click', () => {
+      const rbac = window.MedicalRBAC;
+      if (!rbac || !rbac.requirePermission('Users', 'manage')) return;
+      const role = document.getElementById('permissionRole').value;
+      if (role === 'super_admin') return;
+
+      const nextPermissions = {};
+      document.querySelectorAll('#permissionMatrix input[type="checkbox"]').forEach((checkbox) => {
+        const module = checkbox.dataset.module;
+        const action = checkbox.dataset.permissionAction;
+        if (!nextPermissions[module]) nextPermissions[module] = {};
+        nextPermissions[module][action] = checkbox.checked;
+      });
+
+      const currentUser = rbac.getCurrentUser();
+      if (currentUser.role === role && (!nextPermissions.Dashboard?.view || !nextPermissions.Users?.view || !nextPermissions.Users?.manage)) {
+        window.alert('Keep Dashboard view and Users view/manage enabled for your current role to avoid locking yourself out.');
+        return;
+      }
+
+      rbac.setRolePermissions(role, nextPermissions);
+      rbac.logAudit('Update Role Permissions', 'Users', 'Success', { reference: role });
+      renderPermissionMatrix();
+      window.alert('Permission matrix saved successfully.');
+    });
+
+    // Initial Load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderUsersTable(usersData);
+      renderUserSummary();
+      renderPermissionMatrix();
+    });
+    })();
+  </script>
+</body>
+</html>

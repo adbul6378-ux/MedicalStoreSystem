@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Reports</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#0b2a5b;
+    color:white;
+    padding:20px 15px;
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 25px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    background:#2563eb;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    font-size:11px;
+    color:#b9c7dd;
+}
+
+.menu-title{
+    font-size:11px;
+    color:#8fa5c5;
+    margin:25px 10px 10px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    color:#c9d5e8;
+    text-decoration:none;
+    padding:12px 13px;
+    margin:4px 0;
+    border-radius:8px;
+    font-size:14px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    background:#2563eb;
+    color:white;
+}
+
+.menu a span:first-child{
+    width:22px;
+    text-align:center;
+}
+
+/* MAIN */
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+    height:70px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    border-bottom:1px solid #e5eaf1;
+}
+
+.search{
+    width:330px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    padding:11px 15px 11px 40px;
+    border:1px solid #dbe3ef;
+    border-radius:8px;
+    outline:none;
+    font-size:13px;
+}
+
+.search-icon{
+    position:absolute;
+    left:14px;
+    top:11px;
+    color:#64748b;
+}
+
+.top-right{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.notification{
+    position:relative;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.notification b{
+    position:absolute;
+    right:-7px;
+    top:-7px;
+    width:16px;
+    height:16px;
+    background:#ef4444;
+    color:white;
+    font-size:9px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profile-img{
+    width:38px;
+    height:38px;
+    background:#dbeafe;
+    color:#2563eb;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.profile small{
+    color:#64748b;
+    font-size:11px;
+}
+
+/* CONTENT */
+.content{
+    padding:30px;
+}
+
+/* BANNER */
+.banner{
+    background:linear-gradient(135deg,#0b2a5b,#2563eb);
+    color:white;
+    padding:28px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.banner h1{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+.banner p{
+    color:#dbeafe;
+    font-size:13px;
+}
+
+.banner-icon{
+    width:75px;
+    height:75px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:38px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid #e5eaf1;
+    border-radius:12px;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-info p{
+    color:#64748b;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.stat-info h2{
+    font-size:25px;
+}
+
+.stat-icon{
+    width:48px;
+    height:48px;
+    border-radius:10px;
+    background:#eff6ff;
+    color:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.stat-card:nth-child(2) .stat-icon{
+    background:#ecfdf5;
+    color:#16a34a;
+}
+
+.stat-card:nth-child(3) .stat-icon{
+    background:#fff7ed;
+    color:#ea580c;
+}
+
+.stat-card:nth-child(4) .stat-icon{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+/* GRID */
+.report-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:22px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border:1px solid #e5eaf1;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h3{
+    font-size:17px;
+}
+
+.card-header p{
+    color:#64748b;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* BUTTON */
+.btn{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:12px;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.btn.green{
+    background:#16a34a;
+}
+
+.btn.gray{
+    background:#64748b;
+}
+
+.btn.red{
+    background:#dc2626;
+}
+
+/* FILTER AREA */
+.filters{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr auto;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.filters select,
+.filters input{
+    padding:11px 12px;
+    border:1px solid #dbe3ef;
+    border-radius:7px;
+    outline:none;
+    font-size:12px;
+}
+
+/* REPORT LIST */
+.report-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.report-item{
+    border:1px solid #e5eaf1;
+    border-radius:9px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    transition:.3s;
+}
+
+.report-item:hover{
+    border-color:#2563eb;
+    background:#f8fbff;
+}
+
+.report-icon{
+    width:45px;
+    height:45px;
+    background:#eff6ff;
+    color:#2563eb;
+    border-radius:9px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.report-info{
+    flex:1;
+}
+
+.report-info h4{
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.report-info p{
+    color:#64748b;
+    font-size:10px;
+}
+
+.report-actions{
+    display:flex;
+    gap:6px;
+}
+
+.action-btn{
+    border:none;
+    background:#eff6ff;
+    color:#2563eb;
+    padding:7px 10px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:10px;
+}
+
+.action-btn:hover{
+    background:#dbeafe;
+}
+
+/* SUMMARY */
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:13px 0;
+    border-bottom:1px solid #edf1f5;
+}
+
+.summary-row:last-child{
+    border-bottom:none;
+}
+
+.summary-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.summary-icon{
+    width:34px;
+    height:34px;
+    background:#eff6ff;
+    color:#2563eb;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.summary-left span{
+    font-size:12px;
+    color:#475569;
+}
+
+/* QUICK ACTIONS */
+.quick-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.quick{
+    border:1px solid #e5eaf1;
+    border-radius:8px;
+    padding:16px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.quick:hover{
+    border-color:#2563eb;
+    background:#f8fbff;
+}
+
+.quick div{
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+.quick span{
+    color:#475569;
+    font-size:11px;
+}
+
+/* BAR CHART */
+.chart-row{
+    margin-bottom:17px;
+}
+
+.chart-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+}
+
+.chart-label span{
+    font-size:11px;
+    color:#475569;
+}
+
+.bar{
+    width:100%;
+    height:8px;
+    background:#e5e7eb;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:100%;
+    background:#2563eb;
+    border-radius:10px;
+}
+
+/* TABLE */
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    background:#f8fafc;
+    color:#64748b;
+    font-size:10px;
+    padding:13px 10px;
+}
+
+td{
+    padding:13px 10px;
+    border-bottom:1px solid #edf1f5;
+    font-size:11px;
+}
+
+.status{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.status.ready{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status.processing{
+    background:#fef3c7;
+    color:#b45309;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-box{
+    width:460px;
+    max-width:92%;
+    background:white;
+    border-radius:12px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-header h3{
+    font-size:18px;
+}
+
+.close{
+    font-size:24px;
+    color:#64748b;
+    cursor:pointer;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:11px;
+    color:#475569;
+    margin-bottom:6px;
+}
+
+.form-group select,
+.form-group input{
+    width:100%;
+    padding:10px;
+    border:1px solid #dbe3ef;
+    border-radius:7px;
+    outline:none;
+}
+
+.form-buttons{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#0f172a;
+    color:white;
+    padding:13px 18px;
+    border-radius:8px;
+    font-size:12px;
+    display:none;
+    z-index:2000;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .report-grid{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span:last-child{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .banner{
+        padding:20px;
+    }
+
+    .banner-icon{
+        display:none;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .report-item{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    .report-actions{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">🏫</div>
+
+        <div>
+            <h2>Al-Hidayah</h2>
+            <span>Public School</span>
+        </div>
+    </div>
+
+    <div class="menu-title">Main Menu</div>
+
+    <div class="menu">
+
+        <a href="#">
+            <span>📊</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#">
+            <span>👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+        <a href="#">
+            <span>👨‍🏫</span>
+            <span>Teachers</span>
+        </a>
+
+        <a href="#">
+            <span>🏫</span>
+            <span>Classes</span>
+        </a>
+
+        <a href="#">
+            <span>📝</span>
+            <span>Attendance</span>
+        </a>
+
+        <a href="#">
+            <span>💰</span>
+            <span>Fees & Accounts</span>
+        </a>
+
+        <a href="#">
+            <span>📚</span>
+            <span>Exams & Results</span>
+        </a>
+
+        <a href="#">
+            <span>📖</span>
+            <span>Academics</span>
+        </a>
+
+        <a href="#">
+            <span>🕐</span>
+            <span>Timetable</span>
+        </a>
+
+        <a href="#">
+            <span>📚</span>
+            <span>Library</span>
+        </a>
+
+        <a href="#">
+            <span>🚌</span>
+            <span>Transport</span>
+        </a>
+
+        <a href="#">
+            <span>❤️</span>
+            <span>Health</span>
+        </a>
+
+        <a href="#">
+            <span>👪</span>
+            <span>Parents</span>
+        </a>
+
+        <a href="#">
+            <span>💬</span>
+            <span>Communication</span>
+        </a>
+
+        <a class="active" href="#">
+            <span>📈</span>
+            <span>Reports</span>
+        </a>
+
+    </div>
+
+    <div class="menu-title">System</div>
+
+    <div class="menu">
+
+        <a href="#">
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <a href="#">
+            <span>🚪</span>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div class="search">
+
+            <span class="search-icon">🔍</span>
+
+            <input
+                type="text"
+                id="globalSearch"
+                placeholder="Search reports..."
+            >
+
+        </div>
+
+        <div class="top-right">
+
+            <div class="notification">
+                🔔
+                <b>4</b>
+            </div>
+
+            <div class="profile">
+
+                <div class="profile-img">
+                    AM
+                </div>
+
+                <div>
+                    <strong style="font-size:13px;">
+                        Admin
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        Administrator
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+    <section class="content">
+
+        <!-- BANNER -->
+        <div class="banner">
+
+            <div>
+
+                <h1>
+                    Reports & Analytics
+                </h1>
+
+                <p>
+                    Generate, view and manage school performance reports.
+                </p>
+
+            </div>
+
+            <div class="banner-icon">
+                📊
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+                    <p>Total Reports</p>
+                    <h2>128</h2>
+                </div>
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+                    <p>Generated Today</p>
+                    <h2>24</h2>
+                </div>
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+                    <p>Students Reports</p>
+                    <h2>68</h2>
+                </div>
+
+                <div class="stat-icon">
+                    👨‍🎓
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+                    <p>Pending Reports</p>
+                    <h2>7</h2>
+                </div>
+
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GRID -->
+        <div class="report-grid">
+
+
+            <!-- LEFT -->
+            <div>
+
+
+                <!-- REPORT GENERATOR -->
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Generate Report</h3>
+
+                            <p>
+                                Select report type and required filters
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="filters">
+
+                        <select id="reportType">
+
+                            <option value="">
+                                Select Report Type
+                            </option>
+
+                            <option>
+                                Student Report
+                            </option>
+
+                            <option>
+                                Attendance Report
+                            </option>
+
+                            <option>
+                                Fees Report
+                            </option>
+
+                            <option>
+                                Exam & Result Report
+                            </option>
+
+                            <option>
+                                Teacher Report
+                            </option>
+
+                            <option>
+                                Library Report
+                            </option>
+
+                            <option>
+                                Transport Report
+                            </option>
+
+                            <option>
+                                Parent Report
+                            </option>
+
+                        </select>
+
+
+                        <select id="reportClass">
+
+                            <option>
+                                All Classes
+                            </option>
+
+                            <option>
+                                Class 9
+                            </option>
+
+                            <option>
+                                Class 10
+                            </option>
+
+                            <option>
+                                Class 11
+                            </option>
+
+                            <option>
+                                Class 12
+                            </option>
+
+                        </select>
+
+
+                        <input
+                            type="date"
+                            id="reportDate"
+                        >
+
+
+                        <button
+                            class="btn"
+                            onclick="generateReport()"
+                        >
+                            Generate
+                        </button>
+
+                    </div>
+
+
+                    <div class="report-list"
+                         id="reportList">
+
+
+                        <!-- REPORT 1 -->
+
+                        <div
+                            class="report-item"
+                            data-name="student performance report"
+                        >
+
+                            <div class="report-icon">
+                                🎓
+                            </div>
+
+                            <div class="report-info">
+
+                                <h4>
+                                    Student Performance Report
+                                </h4>
+
+                                <p>
+                                    Academic performance and student progress
+                                </p>
+
+                            </div>
+
+                            <div class="report-actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewReport('Student Performance Report')"
+                                >
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="downloadReport('Student Performance Report')"
+                                >
+                                    Download
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- REPORT 2 -->
+
+                        <div
+                            class="report-item"
+                            data-name="attendance report"
+                        >
+
+                            <div class="report-icon">
+                                📝
+                            </div>
+
+                            <div class="report-info">
+
+                                <h4>
+                                    Monthly Attendance Report
+                                </h4>
+
+                                <p>
+                                    Student attendance summary for the month
+                                </p>
+
+                            </div>
+
+                            <div class="report-actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewReport('Monthly Attendance Report')"
+                                >
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="downloadReport('Monthly Attendance Report')"
+                                >
+                                    Download
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- REPORT 3 -->
+
+                        <div
+                            class="report-item"
+                            data-name="fees report"
+                        >
+
+                            <div class="report-icon">
+                                💰
+                            </div>
+
+                            <div class="report-info">
+
+                                <h4>
+                                    Fees Collection Report
+                                </h4>
+
+                                <p>
+                                    Monthly fee collection and pending dues
+                                </p>
+
+                            </div>
+
+                            <div class="report-actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewReport('Fees Collection Report')"
+                                >
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="downloadReport('Fees Collection Report')"
+                                >
+                                    Download
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- REPORT 4 -->
+
+                        <div
+                            class="report-item"
+                            data-name="exam result report"
+                        >
+
+                            <div class="report-icon">
+                                📚
+                            </div>
+
+                            <div class="report-info">
+
+                                <h4>
+                                    Exam & Result Report
+                                </h4>
+
+                                <p>
+                                    Examination results and class performance
+                                </p>
+
+                            </div>
+
+                            <div class="report-actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewReport('Exam & Result Report')"
+                                >
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="downloadReport('Exam & Result Report')"
+                                >
+                                    Download
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- REPORT 5 -->
+
+                        <div
+                            class="report-item"
+                            data-name="teacher report"
+                        >
+
+                            <div class="report-icon">
+                                👨‍🏫
+                            </div>
+
+                            <div class="report-info">
+
+                                <h4>
+                                    Teacher Performance Report
+                                </h4>
+
+                                <p>
+                                    Teacher attendance and performance overview
+                                </p>
+
+                            </div>
+
+                            <div class="report-actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewReport('Teacher Performance Report')"
+                                >
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="downloadReport('Teacher Performance Report')"
+                                >
+                                    Download
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT REPORTS -->
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Recent Generated Reports
+                            </h3>
+
+                            <p>
+                                Latest reports generated by administrator
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="btn"
+                            onclick="showToast('All reports opened')"
+                        >
+                            View All
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        REPORT
+                                    </th>
+
+                                    <th>
+                                        TYPE
+                                    </th>
+
+                                    <th>
+                                        DATE
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                    <th>
+                                        ACTION
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        Class 10 Result Report
+                                    </td>
+
+                                    <td>
+                                        Academic
+                                    </td>
+
+                                    <td>
+                                        18 Sep 2026
+                                    </td>
+
+                                    <td>
+                                        <span class="status ready">
+                                            Ready
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="action-btn"
+                                            onclick="downloadReport('Class 10 Result Report')"
+                                        >
+                                            Download
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Monthly Fees Report
+                                    </td>
+
+                                    <td>
+                                        Finance
+                                    </td>
+
+                                    <td>
+                                        17 Sep 2026
+                                    </td>
+
+                                    <td>
+                                        <span class="status ready">
+                                            Ready
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="action-btn"
+                                            onclick="downloadReport('Monthly Fees Report')"
+                                        >
+                                            Download
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Attendance Summary
+                                    </td>
+
+                                    <td>
+                                        Attendance
+                                    </td>
+
+                                    <td>
+                                        17 Sep 2026
+                                    </td>
+
+                                    <td>
+                                        <span class="status processing">
+                                            Processing
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="action-btn"
+                                            onclick="showToast('Report is still processing')"
+                                        >
+                                            Check
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RIGHT -->
+            <div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Quick Reports
+                            </h3>
+
+                            <p>
+                                Generate common reports
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+                        <div
+                            class="quick"
+                            onclick="quickReport('Student Report')"
+                        >
+
+                            <div>
+                                👨‍🎓
+                            </div>
+
+                            <span>
+                                Students
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick"
+                            onclick="quickReport('Attendance Report')"
+                        >
+
+                            <div>
+                                📝
+                            </div>
+
+                            <span>
+                                Attendance
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick"
+                            onclick="quickReport('Fees Report')"
+                        >
+
+                            <div>
+                                💰
+                            </div>
+
+                            <span>
+                                Fees
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="quick"
+                            onclick="quickReport('Results Report')"
+                        >
+
+                            <div>
+                                🏆
+                            </div>
+
+                            <span>
+                                Results
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REPORT SUMMARY -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Report Summary
+                            </h3>
+
+                            <p>
+                                Current report statistics
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-left">
+
+                            <div class="summary-icon">
+                                📊
+                            </div>
+
+                            <span>
+                                Academic Reports
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            42
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-left">
+
+                            <div class="summary-icon">
+                                📝
+                            </div>
+
+                            <span>
+                                Attendance Reports
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            31
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-left">
+
+                            <div class="summary-icon">
+                                💰
+                            </div>
+
+                            <span>
+                                Finance Reports
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            27
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-left">
+
+                            <div class="summary-icon">
+                                👨‍🏫
+                            </div>
+
+                            <span>
+                                Staff Reports
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            18
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <div class="summary-left">
+
+                            <div class="summary-icon">
+                                🚌
+                            </div>
+
+                            <span>
+                                Other Reports
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            10
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PERFORMANCE -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                School Performance
+                            </h3>
+
+                            <p>
+                                Overall report indicators
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-row">
+
+                        <div class="chart-label">
+
+                            <span>
+                                Attendance
+                            </span>
+
+                            <span>
+                                92%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+
+                            <div
+                                class="bar-fill"
+                                style="width:92%"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-row">
+
+                        <div class="chart-label">
+
+                            <span>
+                                Academic
+                            </span>
+
+                            <span>
+                                86%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+
+                            <div
+                                class="bar-fill"
+                                style="width:86%"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-row">
+
+                        <div class="chart-label">
+
+                            <span>
+                                Fee Collection
+                            </span>
+
+                            <span>
+                                78%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+
+                            <div
+                                class="bar-fill"
+                                style="width:78%"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-row">
+
+                        <div class="chart-label">
+
+                            <span>
+                                Parent Engagement
+                            </span>
+
+                            <span>
+                                81%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+
+                            <div
+                                class="bar-fill"
+                                style="width:81%"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- GENERATE REPORT MODAL -->
+
+<div
+    class="modal"
+    id="reportModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Report Generated
+            </h3>
+
+            <span
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </span>
+
+        </div>
+
+
+        <p
+            id="modalMessage"
+            style="
+                color:#64748b;
+                font-size:13px;
+                line-height:1.6;
+            "
+        ></p>
+
+
+        <div class="form-buttons">
+
+            <button
+                class="btn gray"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+
+            <button
+                class="btn"
+                onclick="downloadCurrentReport()"
+            >
+                Download
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =========================
+   VARIABLES
+========================= */
+
+let currentReport = "";
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.style.display = "block";
+
+    setTimeout(function(){
+
+        toast.style.display = "none";
+
+    },2500);
+
+}
+
+
+/* =========================
+   GENERATE REPORT
+========================= */
+
+function generateReport(){
+
+    const type =
+        document.getElementById("reportType").value;
+
+    const className =
+        document.getElementById("reportClass").value;
+
+    const date =
+        document.getElementById("reportDate").value;
+
+
+    if(type === ""){
+
+        showToast(
+            "Please select a report type"
+        );
+
+        return;
+    }
+
+
+    currentReport =
+        type +
+        " - " +
+        className;
+
+
+    document.getElementById("modalMessage")
+        .innerText =
+        "Your " +
+        type +
+        " for " +
+        className +
+        " has been generated successfully.";
+
+
+    document.getElementById("reportModal")
+        .style.display = "flex";
+
+
+    if(date !== ""){
+
+        console.log(
+            "Report Date:",
+            date
+        );
+
+    }
+
+}
+
+
+/* =========================
+   QUICK REPORT
+========================= */
+
+function quickReport(type){
+
+    document.getElementById("reportType")
+        .value = type;
+
+    if(
+        !document.getElementById("reportType").value
+    ){
+
+        const options =
+            document.getElementById("reportType")
+            .options;
+
+        for(let i=0;i<options.length;i++){
+
+            if(
+                options[i].text
+                .includes(type.replace(" Report",""))
+            ){
+
+                document.getElementById("reportType")
+                    .selectedIndex = i;
+
+                break;
+            }
+
+        }
+
+    }
+
+    showToast(
+        type + " selected"
+    );
+
+}
+
+
+/* =========================
+   VIEW REPORT
+========================= */
+
+function viewReport(name){
+
+    currentReport = name;
+
+    document.getElementById("modalMessage")
+        .innerText =
+        "Opening " +
+        name +
+        ". The report preview is ready to view.";
+
+
+    document.getElementById("reportModal")
+        .style.display = "flex";
+
+}
+
+
+/* =========================
+   DOWNLOAD REPORT
+========================= */
+
+function downloadReport(name){
+
+    showToast(
+        "Preparing " +
+        name +
+        " for download..."
+    );
+
+
+    setTimeout(function(){
+
+        showToast(
+            name +
+            " downloaded successfully"
+        );
+
+    },1200);
+
+}
+
+
+/* =========================
+   DOWNLOAD CURRENT REPORT
+========================= */
+
+function downloadCurrentReport(){
+
+    if(currentReport === ""){
+
+        showToast(
+            "No report selected"
+        );
+
+        return;
+    }
+
+
+    closeModal();
+
+
+    downloadReport(
+        currentReport
+    );
+
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeModal(){
+
+    document.getElementById("reportModal")
+        .style.display = "none";
+
+}
+
+
+/* =========================
+   SEARCH REPORTS
+========================= */
+
+document
+    .getElementById("globalSearch")
+    .addEventListener(
+        "input",
+        function(){
+
+            const search =
+                this.value.toLowerCase();
+
+
+            const reports =
+                document.querySelectorAll(
+                    ".report-item"
+                );
+
+
+            reports.forEach(function(report){
+
+                const text =
+                    report.innerText
+                    .toLowerCase();
+
+
+                if(
+                    text.includes(search)
+                ){
+
+                    report.style.display =
+                        "flex";
+
+                }else{
+
+                    report.style.display =
+                        "none";
+
+                }
+
+            });
+
+        }
+    );
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+document
+    .querySelectorAll(".menu a")
+    .forEach(function(item){
+
+        item.addEventListener(
+            "click",
+            function(){
+
+                document
+                    .querySelectorAll(".menu a")
+                    .forEach(function(link){
+
+                        link.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                this.classList.add(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   CLOSE MODAL OUTSIDE
+========================= */
+
+window.addEventListener(
+    "click",
+    function(event){
+
+        const modal =
+            document.getElementById(
+                "reportModal"
+            );
+
+
+        if(
+            event.target === modal
+        ){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

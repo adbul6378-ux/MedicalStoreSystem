@@ -1,0 +1,228 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Hidayah Public School - Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#062047;--navy2:#0b2c59;--blue:#1769e8;--light:#f4f8ff;
+  --card:#fff;--text:#102a55;--muted:#6680a5;--border:#dce8f7;
+  --green:#16a66a;--red:#ef4444;--orange:#f59e0b;--purple:#7651d9;
+}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#eef5fd;color:var(--text);min-height:100vh}
+button,input{font:inherit}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:260px;background:linear-gradient(180deg,#061d3b,#092952);
+  color:white;position:fixed;left:0;top:0;bottom:0;z-index:20;
+  padding:18px 14px;overflow-y:auto
+}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 20px}
+.logo{width:54px;height:54px;border:2px solid #d7b34c;border-radius:50%;
+  display:grid;place-items:center;font-size:28px;background:#fff;color:#0a2b55}
+.brand h2{font-family:Georgia,serif;font-size:20px;line-height:1.05}
+.brand small{font-size:10px;color:#c7d8ef}
+.nav{display:flex;flex-direction:column;gap:5px}
+.nav button{
+  width:100%;border:0;background:transparent;color:#e5eefb;text-align:left;
+  padding:12px 12px;border-radius:9px;cursor:pointer;display:flex;align-items:center;
+  gap:13px;font-size:14px;transition:.2s
+}
+.nav button:hover,.nav button.active{background:linear-gradient(90deg,#1665e8,#2b74ee);color:#fff}
+.nav .icon{width:24px;text-align:center;font-size:19px}
+.side-bottom{margin-top:30px;border:1px solid #31547c;border-radius:10px;padding:18px 12px;
+  text-align:center;background:linear-gradient(135deg,#12375f,#092344)}
+.side-bottom b{font-family:Georgia,serif;display:block;font-size:15px}
+.side-bottom span{font-size:12px;color:#cbd8e9}
+
+.main{margin-left:260px;width:calc(100% - 260px);min-width:0}
+.topbar{
+  height:72px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:18px;padding:0 22px;position:sticky;top:0;z-index:10
+}
+.menu{border:0;background:transparent;font-size:25px;color:var(--navy);cursor:pointer}
+.search{flex:1;max-width:610px;position:relative}
+.search span{position:absolute;left:15px;top:10px;font-size:19px;color:#56769e}
+.search input{width:100%;height:42px;border:0;border-radius:25px;background:#edf4fc;
+  padding:0 18px 0 45px;outline:none;color:var(--text)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:15px}
+.circle-btn{border:0;background:#edf4fc;width:40px;height:40px;border-radius:50%;cursor:pointer}
+.user{display:flex;align-items:center;gap:9px;border-left:1px solid var(--border);padding-left:15px}
+.avatar{width:40px;height:40px;border-radius:50%;background:#d7e6f8;display:grid;place-items:center;font-size:22px}
+.user strong{display:block;font-family:Georgia,serif;font-size:14px}.user small{color:var(--muted);font-size:10px}
+
+.content{padding:18px 20px 30px}
+.hero{
+  min-height:190px;border-radius:12px;overflow:hidden;position:relative;color:#fff;
+  padding:27px 25px;background:
+  linear-gradient(90deg,rgba(3,29,61,.96),rgba(5,45,87,.70),rgba(5,45,87,.35)),
+  url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1400&q=80") center/cover
+}
+.hero h1{font:42px Georgia,serif;margin:3px 0 7px}.hero h3{font:23px Georgia,serif;font-weight:400}
+.hero p{font-size:14px;margin-bottom:20px}.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:rgba(7,43,83,.82);border:1px solid #5379a6;border-radius:22px;padding:10px 15px;font-size:12px}
+.hero-quote{position:absolute;right:30px;top:38px;width:210px;text-align:right;font:italic 21px Georgia,serif}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:16px;margin-top:16px}
+.left{min-width:0}.right{min-width:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:11px;box-shadow:0 3px 14px rgba(18,56,99,.05)}
+.stat{padding:17px;min-height:145px;position:relative;overflow:hidden}
+.stat-top{display:flex;align-items:center;gap:12px}.stat-icon{width:47px;height:47px;border-radius:50%;
+  display:grid;place-items:center;font-size:22px;background:#e7f1ff}
+.stat:nth-child(2) .stat-icon{background:#def8ee}.stat:nth-child(3) .stat-icon{background:#eee6ff}.stat:nth-child(4) .stat-icon{background:#fff0d8}
+.stat label{font-size:12px;color:#345780}.stat h2{font:27px Georgia,serif;margin-top:8px;color:#092b60}
+.change{font-size:10px;margin-top:10px}.up{color:#10a16b}.down{color:#e84b4b}
+.spark{height:30px;position:absolute;bottom:10px;right:12px;left:75px}
+.spark svg{width:100%;height:100%}
+
+.section-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-top:14px}
+.panel{padding:17px;min-height:285px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.panel-head h3{font:16px Georgia,serif}.panel-head button,.select{border:1px solid var(--border);
+  background:#fff;border-radius:8px;padding:8px 11px;font-size:11px;color:#41638b;cursor:pointer}
+.legend{display:flex;gap:17px;font-size:11px;color:#537197;margin-bottom:5px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.chart{height:205px;position:relative;border-bottom:1px solid #cbd9ea;border-left:1px solid #cbd9ea;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 39px,#eaf1f9 40px)}
+.line-svg{width:100%;height:100%}
+.donut-wrap{display:flex;align-items:center;justify-content:space-around;height:220px}
+.donut{width:145px;height:145px;border-radius:50%;
+  background:conic-gradient(#18aa71 0 78%,#f6a623 78% 93%,#ef4444 93% 100%);
+  display:grid;place-items:center}
+.donut:after{content:"";width:92px;height:92px;background:white;border-radius:50%}
+.donut-text{position:absolute;text-align:center;font:27px Georgia,serif;z-index:1}
+.donut-box{position:relative}.donut-text small{display:block;font:10px Segoe UI;color:var(--muted)}
+.key-list{font-size:12px;line-height:2.5}.key-list b{float:right}.key-list span{margin-right:7px}
+
+.bottom-grid{display:grid;grid-template-columns:1.15fr .8fr 1fr;gap:14px;margin-top:14px}
+.bar-chart{height:190px;display:flex;align-items:flex-end;gap:10px;padding:12px 8px 22px;border-bottom:1px solid #cbd9ea}
+.bar{flex:1;background:linear-gradient(#1b74ee,#45a4df);border-radius:5px 5px 0 0;position:relative;min-width:18px}
+.bar:nth-child(2){height:88%}.bar:nth-child(1){height:78%}.bar:nth-child(3){height:69%}
+.bar:nth-child(4){height:63%}.bar:nth-child(5){height:58%}.bar:nth-child(6){height:48%}.bar:nth-child(7){height:54%}
+.bar i{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-style:normal;font-size:9px}
+.bar em{position:absolute;bottom:-19px;left:50%;transform:translateX(-50%);font-style:normal;font-size:10px}
+.gender{display:flex;align-items:center;justify-content:center;gap:22px;height:190px}
+.gender-donut{width:135px;height:135px;border-radius:50%;background:conic-gradient(#1975ed 0 57%,#7b4bd8 57% 100%);display:grid;place-items:center;position:relative}
+.gender-donut:after{content:"";width:86px;height:86px;background:#fff;border-radius:50%}
+.gender-center{position:absolute;text-align:center;font:22px Georgia,serif}.gender-center small{display:block;font:10px Segoe UI;color:#6680a5}
+.rank{width:100%;border-collapse:collapse;font-size:11px}.rank th{text-align:left;background:#f0f5fc;padding:9px}.rank td{padding:10px;border-bottom:1px solid #edf2f8}.badge{background:#d8f7ea;color:#0c9661;border-radius:12px;padding:4px 7px}
+
+.right .card{margin-bottom:14px;padding:17px}.schedule-date{display:flex;gap:12px;margin-bottom:12px}
+.date-box{width:70px;background:#edf4fc;border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center}
+.date-box b{font:23px Georgia,serif;display:block}.schedule-list{flex:1}.schedule-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #edf2f8;font-size:11px}
+.schedule-item:last-child{border:0}.time{color:#145fcf;width:83px}.subject{margin-left:auto;color:#597494}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick button{border:1px solid var(--border);background:#f7fbff;border-radius:8px;padding:14px 8px;cursor:pointer;color:#123a69}
+.quick button:hover{transform:translateY(-1px);box-shadow:0 3px 10px #dce8f7}
+.activity{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid #edf2f8}.activity:last-child{border:0}
+.act-icon{width:34px;height:34px;border-radius:50%;background:#e8f2ff;display:grid;place-items:center}
+.activity b{font-size:11px;display:block}.activity small{color:#6a82a3;font-size:9px}
+.footer{background:#09264d;color:#c8d8eb;padding:17px 25px;font-size:11px;display:flex;justify-content:space-between}
+
+.toast{position:fixed;right:20px;bottom:20px;background:#09264d;color:#fff;padding:13px 17px;border-radius:9px;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);display:none;z-index:100}
+.mobile-open .sidebar{transform:translateX(0)}
+@media(max-width:1200px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.right{display:grid;grid-template-columns:1fr 1fr;gap:14px}.right .card{margin:0}.bottom-grid{grid-template-columns:1fr 1fr}.bottom-grid .rank-card{grid-column:1/-1}}
+@media(max-width:850px){
+  .sidebar{transform:translateX(-100%);transition:.25s;width:250px}.main{margin-left:0;width:100%}
+  .grid,.section-grid,.bottom-grid,.right{grid-template-columns:1fr}.hero-quote{display:none}.hero h1{font-size:34px}
+  .topbar{padding:0 12px}.user div{display:none}.content{padding:12px}
+}
+@media(max-width:520px){.stats{grid-template-columns:1fr}.top-actions{gap:5px}.search{max-width:none}.hero{padding:22px 18px}.hero h1{font-size:29px}.quick{grid-template-columns:1fr 1fr}}
+.dark{--light:#07172e;--card:#0d2442;--text:#e8f1ff;--muted:#9db2cd;--border:#244263;background:#06152a}
+.dark .topbar{background:#0a1d36}.dark .search input,.dark .panel-head button,.dark .select{background:#112b4c;color:#dceaff}
+.dark .donut:after,.dark .gender-donut:after{background:#0d2442}.dark .date-box,.dark .quick button{background:#112b4c;color:#dceaff}
+.dark .rank th{background:#112b4c}.dark .hero{background:linear-gradient(90deg,rgba(2,18,39,.97),rgba(5,35,70,.8)),url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1400&q=80") center/cover}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">📖</div><div><h2>Al-Hidayah<br>Public School</h2><small>Knowledge • Character • Success</small></div></div>
+  <nav class="nav">
+    <button class="active" data-page="Dashboard"><span class="icon">⌂</span>Dashboard</button>
+    <button data-page="Students"><span class="icon">👥</span>Students</button>
+    <button data-page="Teachers"><span class="icon">♟</span>Teachers</button>
+    <button data-page="Classes"><span class="icon">📚</span>Classes</button>
+    <button data-page="Attendance"><span class="icon">☑</span>Attendance</button>
+    <button data-page="Fees & Accounts"><span class="icon">💵</span>Fees & Accounts</button>
+    <button data-page="Exams & Results"><span class="icon">📋</span>Exams & Results</button>
+    <button data-page="Academics"><span class="icon">🎓</span>Academics</button>
+    <button data-page="Timetable"><span class="icon">🗓</span>Timetable</button>
+    <button data-page="Library"><span class="icon">📕</span>Library</button>
+    <button data-page="Transport"><span class="icon">🚌</span>Transport</button>
+    <button data-page="Health"><span class="icon">♥</span>Health</button>
+    <button data-page="Parents"><span class="icon">👨‍👩‍👧</span>Parents</button>
+    <button data-page="Communication"><span class="icon">💬</span>Communication</button>
+    <button data-page="Reports"><span class="icon">📄</span>Reports</button>
+    <button data-page="Settings"><span class="icon">⚙</span>Settings</button>
+  </nav>
+  <div class="side-bottom"><b>🎓 Better Education</b><span>Brighter Future</span></div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <button class="menu" id="menu">☰</button>
+  <div class="search"><span>⌕</span><input id="search" placeholder="Search students, teachers, classes, fee records..."></div>
+  <div class="top-actions">
+    <button class="circle-btn" id="dark">◐</button><button class="circle-btn" id="bell">🔔</button>
+    <div class="user"><div class="avatar">👨🏻</div><div><strong>Admin</strong><small>Administrator</small></div><b>⌄</b></div>
+  </div>
+</header>
+
+<section class="content">
+  <div class="hero">
+    <h3>Welcome Back,</h3><h1>Admin 👋</h1>
+    <p>Here's what's happening at Al-Hidayah Public School today.</p>
+    <div class="pills"><span class="pill">▣ &nbsp; Monday, 15 September 2025</span><span class="pill">Academic Session: 2025 - 2026</span></div>
+    <div class="hero-quote">“Education<br>Builds a Better<br>Tomorrow.”</div>
+  </div>
+
+  <div class="grid">
+    <div class="left">
+      <div class="stats">
+        <div class="card stat"><div class="stat-top"><div class="stat-icon">👥</div><label>Total Students<h2>1,248</h2></label></div><div class="change up">▲ 5% &nbsp; from last month</div><div class="spark"><svg viewBox="0 0 180 40"><polyline points="0,33 20,20 38,27 56,12 73,22 94,17 112,25 130,13 150,19 170,4 180,8" fill="none" stroke="#1680ef" stroke-width="2"/></svg></div></div>
+        <div class="card stat"><div class="stat-top"><div class="stat-icon">🎓</div><label>Total Teachers<h2>68</h2></label></div><div class="change up">▲ 2% &nbsp; from last month</div><div class="spark"><svg viewBox="0 0 180 40"><polyline points="0,31 20,17 39,23 58,10 78,18 95,11 115,22 132,12 151,18 168,4 180,10" fill="none" stroke="#8a4fe8" stroke-width="2"/></svg></div></div>
+        <div class="card stat"><div class="stat-top"><div class="stat-icon">🏫</div><label>Total Classes<h2>32</h2></label></div><div class="change up">▲ 0% &nbsp; from last month</div><div class="spark"><svg viewBox="0 0 180 40"><polyline points="0,30 20,21 38,24 55,12 74,17 92,8 111,19 130,10 148,20 167,8 180,14" fill="none" stroke="#11b79a" stroke-width="2"/></svg></div></div>
+        <div class="card stat"><div class="stat-top"><div class="stat-icon">💰</div><label>Fee Collection<h2>Rs. 452,600</h2></label></div><div class="change up">▲ 12% &nbsp; from last month</div><div class="spark"><svg viewBox="0 0 180 40"><polyline points="0,31 20,14 37,24 55,17 74,22 94,8 113,17 131,3 150,14 167,2 180,5" fill="none" stroke="#f59e0b" stroke-width="2"/></svg></div></div>
+      </div>
+
+      <div class="section-grid">
+        <div class="card panel">
+          <div class="panel-head"><h3>▣ &nbsp; Attendance Overview</h3><button>Last 7 Days⌄</button></div>
+          <div class="legend"><span><i class="dot" style="background:#159b6b"></i>Present</span><span><i class="dot" style="background:#ef4444"></i>Absent</span><span><i class="dot" style="background:#f5ad24"></i>Late</span></div>
+          <div class="chart"><svg class="line-svg" viewBox="0 0 600 210" preserveAspectRatio="none">
+            <polyline points="0,45 100,85 200,62 300,86 400,61 500,86 600,62" fill="none" stroke="#159b6b" stroke-width="3"/>
+            <polyline points="0,155 100,168 200,179 300,169 400,161 500,176 600,168" fill="none" stroke="#ef4444" stroke-width="3"/>
+            <polyline points="0,185 100,184 200,190 300,187 400,184 500,189 600,181" fill="none" stroke="#f5ad24" stroke-width="3"/>
+          </svg></div>
+        </div>
+        <div class="card panel">
+          <div class="panel-head"><h3>💵 &nbsp; Fee Collection</h3><button>This Month⌄</button></div>
+          <div class="donut-wrap"><div class="donut-box"><div class="donut"></div><div class="donut-text">78%<small>Collected</small></div></div><div class="key-list"><div><span class="dot" style="background:#18aa71"></span>Collected <b>Rs. 452,600</b></div><div><span class="dot" style="background:#f6a623"></span>Pending <b>Rs. 87,400</b></div><div><span class="dot" style="background:#ef4444"></span>Overdue <b>Rs. 40,000</b></div></div></div>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="card panel"><div class="panel-head"><h3>👥 &nbsp; Students by Class</h3><small>Total Students: <b>1,248</b></small></div><div class="bar-chart"><div class="bar"><i>198</i><em>6</em></div><div class="bar"><i>210</i><em>7</em></div><div class="bar"><i>176</i><em>8</em></div><div class="bar"><i>160</i><em>9</em></div><div class="bar"><i>154</i><em>10</em></div><div class="bar"><i>120</i><em>11</em></div><div class="bar"><i>130</i><em>12</em></div></div></div>
+        <div class="card panel"><div class="panel-head"><h3>◉ &nbsp; Gender Ratio</h3></div><div class="gender"><div class="gender-donut"><div class="gender-center">1,248<small>Total Students</small></div></div><div class="key-list"><div>🔵 Boys &nbsp; <b>712</b> &nbsp;57%</div><div>🟣 Girls &nbsp; <b>536</b> &nbsp;43%</div></div></div></div>
+        <div class="card panel rank-card"><div class="panel-head"><h3>🏆 &nbsp; Top Performing Students</h3><a href="#" onclick="toast('Opening all students');return false">View All →</a></div><table class="rank"><thead><tr><th>#</th><th>Name</th><th>Class</th><th>Percentage</th></tr></thead><tbody><tr><td>1</td><td>Ayesha Khan</td><td>10</td><td><span class="badge">98.6%</span></td></tr><tr><td>2</td><td>Muhammad Ali</td><td>9</td><td><span class="badge">96.4%</span></td></tr><tr><td>3</td><td>Fatima Noor</td><td>8</td><td><span class="badge">95.8%</span></td></tr><tr><td>4</td><td>Usman Raza</td><td>10</td><td><span class="badge">94.2%</span></td></tr><tr><td>5</td><td>Sara Ahmed</td><td>7</td><td><span class="badge">92.7%</span></td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <aside class="right">
+      <div class="card">
+        <div class="panel-head"><h3>▣ &nbsp; Today's Schedule</h3><a href="#" onclick="toast('Opening timetable');return false">View All →</a></div>
+        <div class="schedule-date"><div class="date-box"><small>Mon</small><b>15</b><small>Sep 2025</small></div><div class="schedule-list">
+          <div class="schedule-item"><span class="time">● 08:00 - 09:00</span><b>Class 6A</b><span class="subject">(Math)</span></div>
+          <div class="schedule-item"><span class="time">● 09:00 - 10:00</span><b>Class 7B</b><span class="subject">(English)</span></div>
+          <div class="schedule-item"><span class="time">● 10:15 - 11:15</span><b>Class 8A</b><span class="subject">(Science)</span></div>
+          <div class="schedule-item"><span class="time">● 11:15 - 12:15</span><b>Class 9C</b><span class="subject">(Urdu)</span></div>
+          <div class="schedule-item"><span class="time">● 12:15 - 01:00</span><b>Class 10A</b><span class="subject">(Computer)</span></div>
+        </div></div>
+      </div>
+      <div class="card"><div class="panel-head"><h3>⚡ &nbsp; Quick Actions</h3></div><div class="quick
